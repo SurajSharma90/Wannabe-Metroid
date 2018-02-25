@@ -1,5 +1,8 @@
 #pragma once
+
 #include"libs.h"
+
+#include"TextureHandler.h"
 
 class Game
 {
@@ -26,6 +29,9 @@ private:
 	Vector2i mousePosWindow;
 	Vector2f mousePosView;
 	
+	//Textures
+	TextureHandler textures;
+
 	//TESTING
 	RectangleShape testBone;
 	RectangleShape testJoint;
@@ -37,6 +43,9 @@ private:
 
 	//Cleanup
 	void cleanup();
+
+	//Private functions
+	void loadWindowSettingsFile();
 
 public:
 	//Constructors / Destructors

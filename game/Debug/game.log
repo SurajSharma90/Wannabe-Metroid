@@ -1,2 +1,3 @@
 ﻿  Game.cpp
+f:\game projects\game\game\texturehandler.h(77): warning C4018: '>=': signed/unsigned mismatch
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

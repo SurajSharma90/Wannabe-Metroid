@@ -36,38 +36,7 @@ void Game::initVariables()
 void Game::initWindow()
 {
 	//Load from file
-	std::string fileName = "settings.ini";
-
-	//Open settings file
-	std::ifstream in_file(fileName.c_str());
-
-	//If file is open
-	if (in_file.is_open())
-	{
-		std::cout << "SETTINGS_FILE_LOADED" << "\n";
-	}
-	else //Error in opening
-	{
-		std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_OPEN_INI_FILE" << "\n";
-
-		//Create file if not found
-		std::ofstream out_file(fileName.c_str());
-
-		if (out_file.is_open()) //If file is created
-		{
-			std::cout << "SETTINGS_FILE_CREATED" << "\n";
-		}
-		else //Error in creating settings file
-		{
-			std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_CREATE_INI_FILE" << "\n";
-		}
-
-		//Close file
-		out_file.close();
-	}
-
-	//Close file
-	in_file.close();
+	this->loadWindowSettingsFile();
 
 	//Context Settings
 	this->window_context_settings.antialiasingLevel = 4;
@@ -95,12 +64,56 @@ void Game::initialize()
 
 	//Window
 	this->initWindow();
+
+	//Complete
+	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
 }
 
 //Cleanup
 void Game::cleanup()
 {
 	delete this->window;
+}
+
+//Private functions
+void Game::loadWindowSettingsFile()
+{
+	//Load from file
+	std::string fileName = "Initialization/window_settings.ini";
+
+	//Open settings file
+	std::ifstream in_file(fileName.c_str());
+
+	//Temp variables
+
+
+	//If file is open
+	if (in_file.is_open())
+	{
+		std::cout << "GAME::SETTINGS_FILE_LOADED" << "\n";
+	}
+	else //Error in opening
+	{
+		std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_OPEN_INI_FILE" << "\n";
+
+		//Create file if not found
+		std::ofstream out_file(fileName.c_str());
+
+		if (out_file.is_open()) //If file is created
+		{
+			std::cout << "SETTINGS_FILE_CREATED" << "\n";
+		}
+		else //Error in creating settings file
+		{
+			std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_CREATE_INI_FILE" << "\n";
+		}
+
+		//Close file
+		out_file.close();
+	}
+
+	//Close file
+	in_file.close();
 }
 
 //Constructors / Destructors
