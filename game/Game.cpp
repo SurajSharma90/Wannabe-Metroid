@@ -21,16 +21,50 @@ void Game::initVariables()
 
 void Game::initWindow()
 {
+	//Load from file
+	std::string fileName = "settings.ini";
+
+	//Open settings file
+	std::ifstream in_file(fileName.c_str());
+
+	//If file is open
+	if (in_file.is_open())
+	{
+		std::cout << "SETTINGS_FILE_LOADED" << "\n";
+	}
+	else //Error in opening
+	{
+		std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_OPEN_INI_FILE" << "\n";
+
+		//Create file if not found
+		std::ofstream out_file(fileName.c_str());
+
+		if (out_file.is_open()) //If file is created
+		{
+			std::cout << "SETTINGS_FILE_CREATED" << "\n";
+		}
+		else //Error in creating settings file
+		{
+			std::cout << "ERROR::GAME::INITWINDOW::COULD_NOT_CREATE_INI_FILE" << "\n";
+		}
+
+		//Close file
+		out_file.close();
+	}
+
+	//Close file
+	in_file.close();
+
 	//Context Settings
 	this->window_context_settings.antialiasingLevel = 4;
 	this->window_context_settings.majorVersion = 4;
 	this->window_context_settings.minorVersion = 5;
 
 	//Create window
-	this->window = new sf::RenderWindow(
-		sf::VideoMode(this->WINDOW_WIDTH, this->WINDOW_HEIGHT),
+	this->window = new RenderWindow(
+		VideoMode(this->WINDOW_WIDTH, this->WINDOW_HEIGHT),
 		"WANNABE_METROID", 
-		sf::Style::Default, 
+		Style::Default, 
 		this->window_context_settings
 	);
 
@@ -78,14 +112,31 @@ bool Game::windowIsOpen()
 	return this->window->isOpen();
 }
 
+void Game::updateDebugPrint()
+{
+#ifdef DEBUG
+	
+	//Mouse Positions
+	std::cout << "Mouse Position Screen: " << this->mousePosScreen.x << " " << this->mousePosScreen.y << "\n";
+	std::cout << "Mouse Position Window: " << this->mousePosWindow.x << " " << this->mousePosWindow.y << "\n";
+	std::cout << "Mouse Position View: " << this->mousePosView.x << " " << this->mousePosView.y << "\n";
+	
+	std::cout << "---" << "\n";
+
+	//Delta Time
+	std::cout << "Delta Time: " << this->dt << "\n";
+
+	std::cout << "---" << "\n";
+
+	system("CLS");
+
+#endif
+}
+
 //Update
 void Game::updateDT()
 {
 	this->dt = this->dtClock.restart().asSeconds();
-	
-#ifdef DEBUG
-	std::cout << this->dt << "\n";
-#endif
 }
 
 void Game::updateKeyTime()
@@ -98,7 +149,7 @@ void Game::updateEvents()
 {
 	while (this->window->pollEvent(this->windowEvent))
 	{
-		if (this->windowEvent.type == sf::Event::Closed)
+		if (this->windowEvent.type == Event::Closed)
 		{
 			this->window->close();
 		}
@@ -111,8 +162,22 @@ void Game::updateKeyboardInput()
 		this->window->close();
 }
 
+void Game::updateMousePositions()
+{
+	/*
+	Updated mouse positions.
+	*/
+
+	this->mousePosScreen = Mouse::getPosition();
+	this->mousePosWindow = Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+}
+
 void Game::update()
 {
+	//Debug
+	this->updateDebugPrint();
+
 	//Delta Time
 	this->updateDT();
 
@@ -121,12 +186,15 @@ void Game::update()
 
 	//Input
 	this->updateKeyboardInput();
+
+	//Mouse positions
+	this->updateMousePositions();
 }
 
 //Render
 void Game::render()
 {
-	this->window->clear(sf::Color(0.f, 0.f, 0.f, 0.f));
+	this->window->clear(Color(0, 0, 0, 0));
 
 	this->window->display();
 }

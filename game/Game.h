@@ -21,6 +21,11 @@ private:
 	unsigned int frameLimit;
 	RenderWindow* window;
 
+	//Inputs
+	Vector2i mousePosScreen;
+	Vector2i mousePosWindow;
+	Vector2f mousePosView;
+	
 	//Initializers
 	void initVariables();
 	void initWindow();
@@ -42,10 +47,12 @@ public:
 	bool windowIsOpen();
 
 	//Uodate
+	void updateDebugPrint();
 	void updateDT();
 	void updateKeyTime();
 	void updateEvents();
 	void updateKeyboardInput();
+	void updateMousePositions();
 
 	void update();
 
