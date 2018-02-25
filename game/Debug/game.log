@@ -1,6 +1,8 @@
-﻿  Game.cpp
+﻿  main.cpp
+  Game.cpp
 f:\game projects\game\game\game.cpp(129): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
   Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
+  Compiling...
+  Entity.cpp
+  Generating Code...
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

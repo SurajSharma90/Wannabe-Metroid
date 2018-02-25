@@ -1,7 +1,6 @@
 ﻿  main.cpp
-f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
   Game.cpp
-f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+f:\game projects\game\game\game.cpp(129): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
   Entity.cpp
-f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
   Generating Code...
+sfml-window-d.lib(sfml-window-d-2.dll) : fatal error LNK1112: module machine type 'x86' conflicts with target machine type 'x64'
