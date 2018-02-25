@@ -1,0 +1,7 @@
+﻿  main.cpp
+f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  Game.cpp
+f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  Entity.cpp
+f:\game projects\game\game\libs.h(8): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  Generating Code...
