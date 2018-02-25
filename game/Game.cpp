@@ -17,6 +17,20 @@ void Game::initVariables()
 	//Window
 	this->window = nullptr;
 	this->frameLimit = 120;
+
+	//Inputs
+
+	//TESTING
+	testBone.setSize(Vector2f(400.f, 100.f));
+	testBone.setPosition(400.f, 200.f);
+	testBone.setOrigin(testBone.getGlobalBounds().width, testBone.getGlobalBounds().height / 2);
+	testBone.setPosition(400.f + testBone.getGlobalBounds().width, 200.f);
+
+	testJoint.setSize(Vector2f(10.f, 10.f));
+	testJoint.setFillColor(Color::Green);
+	testJoint.setPosition(testBone.getGlobalBounds().left, testBone.getGlobalBounds().top + testBone.getGlobalBounds().height / 2.f);
+	testJoint.setOrigin(Vector2f(testBone.getGlobalBounds().width, 0.f));
+	testJoint.setPosition(testBone.getGlobalBounds().left + testBone.getGlobalBounds().width, testBone.getGlobalBounds().top + testBone.getGlobalBounds().height / 2.f);
 }
 
 void Game::initWindow()
@@ -195,6 +209,22 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
+
+	RectangleShape originBox;
+	originBox.setSize(Vector2f(5.f, 5.f));
+	originBox.setFillColor(Color::Red);
+
+	testBone.rotate(10.f * dt);
+	testJoint.rotate(10.f * dt);
+
+	this->window->draw(testBone);
+	this->window->draw(testJoint);
+
+	originBox.setPosition(testBone.getPosition());
+	this->window->draw(originBox);
+
+	originBox.setPosition(testJoint.getPosition());
+	this->window->draw(originBox);
 
 	this->window->display();
 }

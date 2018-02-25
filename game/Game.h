@@ -26,6 +26,10 @@ private:
 	Vector2i mousePosWindow;
 	Vector2f mousePosView;
 	
+	//TESTING
+	RectangleShape testBone;
+	RectangleShape testJoint;
+
 	//Initializers
 	void initVariables();
 	void initWindow();
