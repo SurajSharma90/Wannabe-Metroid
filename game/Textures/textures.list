@@ -1,3 +1,9 @@
-*test
-*lol
+*this is a comment
+*spaces & new-lines are skipped
+
+*Blank Textures
 Textures/blank_transparent.png
+
+*Character Textures
+
+*Enemy Textures

@@ -11,6 +11,7 @@ enum texture_names //Keep this updated (hardcoded) with main list of textures
 class TextureHandler
 {
 private:
+	//Variables
 	std::vector<Texture> textures;
 
 	//Initializers
@@ -39,7 +40,7 @@ private:
 		{
 			while (std::getline(in_file, path)) //Load one line at a time
 			{
-				if (path.find("*") == std::string::npos) //Skip comment lines
+				if (path.find("*") == std::string::npos && path.length() > 0 && path.find(" ") == std::string::npos) //Skip comment lines and empty lines
 				{
 					if (texture.loadFromFile(path)) //Load the texture
 						this->textures.push_back(texture); //Insert texture
@@ -65,7 +66,7 @@ public:
 		this->initialize();
 	}
 
-	~TextureHandler() {}
+	virtual ~TextureHandler() {}
 
 	//Accessors
 	inline const Texture* getTexture(const enum texture_names TEX_NAME) const

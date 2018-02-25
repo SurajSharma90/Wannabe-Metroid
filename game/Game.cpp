@@ -57,6 +57,11 @@ void Game::initWindow()
 	this->window->setVerticalSyncEnabled(false);
 }
 
+void Game::initTextures()
+{
+	this->textureHandler = new TextureHandler();
+}
+
 void Game::initialize()
 {
 	//Variables
@@ -65,6 +70,9 @@ void Game::initialize()
 	//Window
 	this->initWindow();
 
+	//Textures
+	this->initTextures();
+
 	//Complete
 	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
 }
@@ -72,7 +80,11 @@ void Game::initialize()
 //Cleanup
 void Game::cleanup()
 {
+	//Window
 	delete this->window;
+
+	//Textures
+	delete this->textureHandler;
 }
 
 //Private functions

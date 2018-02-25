@@ -30,7 +30,7 @@ private:
 	Vector2f mousePosView;
 	
 	//Textures
-	TextureHandler textures;
+	TextureHandler* textureHandler;
 
 	//TESTING
 	RectangleShape testBone;
@@ -39,6 +39,7 @@ private:
 	//Initializers
 	void initVariables();
 	void initWindow();
+	void initTextures();
 	void initialize();
 
 	//Cleanup
