@@ -5,7 +5,7 @@
 //Enums
 enum texture_names //Keep this updated (hardcoded) with main list of textures
 { 
-	BLANK_TRANSPARENT
+	BLANK_TRANSPARENT = 0, PLAYER_TEXTURE
 };
 
 class TextureHandler

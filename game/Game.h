@@ -17,12 +17,12 @@ private:
 	float keyTimeIncrement;
 
 	//Window
+	RenderWindow* window;
 	const unsigned WINDOW_WIDTH;
 	const unsigned WINDOW_HEIGHT;
 	ContextSettings window_context_settings;
 	Event windowEvent;
 	unsigned int frameLimit;
-	RenderWindow* window;
 
 	//Inputs
 	Vector2i mousePosScreen;
@@ -31,10 +31,6 @@ private:
 	
 	//Textures
 	TextureHandler* textureHandler;
-
-	//TESTING
-	RectangleShape testBone;
-	RectangleShape testJoint;
 
 	//Initializers
 	void initVariables();
@@ -47,6 +43,7 @@ private:
 
 	//Private functions
 	void loadWindowSettingsFile();
+	bool checkKeyTime();
 
 public:
 	//Constructors / Destructors
