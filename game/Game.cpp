@@ -29,7 +29,7 @@ void Game::initWindow()
 	//Context Settings
 	this->window_context_settings.antialiasingLevel = 4;
 	this->window_context_settings.majorVersion = 4;
-	this->window_context_settings.minorVersion = 5;
+	this->window_context_settings.minorVersion = 3;
 
 	//Create window
 	this->window = new RenderWindow(
