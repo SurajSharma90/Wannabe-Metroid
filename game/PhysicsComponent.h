@@ -5,8 +5,8 @@ class PhysicsComponent
 {
 private:
 	Vector2f velocity;
-	float maxSpeed;
-	float acceleration;
+	Vector2f maxSpeed;
+	Vector2f acceleration;
 	Vector2f degeneration;
 
 	void calculateDegeneration(const float& dt)
@@ -32,14 +32,14 @@ private:
 		}
 
 		//Y degeneration
-		if (velocity.y > 0.f) //Moving Right
+		if (velocity.y > 0.f) //Moving Down
 		{
 			this->velocity.y -= this->degeneration.y * dt;
 
 			if (velocity.y <= 0.f)
 				this->velocity.y = 0.f;
 		}
-		else if (velocity.y < 0.f) //Moving Left
+		else if (velocity.y < 0.f) //Moving Up
 		{
 			this->velocity.y += this->degeneration.y * dt;
 
@@ -67,8 +67,8 @@ public:
 	//Constructors / Destructors
 	PhysicsComponent(
 		const Vector2f& velocity = Vector2f(0.f, 0.f),
-		const float& maxSpeed = 0.f,
-		const float& acceleration = 0.f,
+		const Vector2f& maxSpeed = Vector2f(0.f, 0.f),
+		const Vector2f& acceleration = Vector2f(0.f, 0.f),
 		const Vector2f& degeneration = Vector2f(0.f, 0.f))
 	{
 		this->velocity = velocity;
@@ -83,12 +83,12 @@ public:
 		return this->velocity;
 	}
 
-	inline const float& getMaxSpeed() const
+	inline const Vector2f& getMaxSpeed() const
 	{
 		return this->maxSpeed;
 	}
 
-	inline const float& getAcceleration() const
+	inline const Vector2f& getAcceleration() const
 	{
 		return this->acceleration;
 	}
@@ -114,15 +114,38 @@ public:
 	inline void incrementVelocity(const float& dirX, const float& dirY, const float& dt)
 	{
 		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
-		this->velocity += this->acceleration * Vector2f(dirX, dirY) * dt;
+		
+		//Velocity X increment and clamp
+		this->velocity.x += this->acceleration.x * dirX * dt;
+
+		if (this->velocity.x > this->maxSpeed.x)
+		{
+			this->velocity.x = this->maxSpeed.x;
+		}
+		else if (this->velocity.x < -this->maxSpeed.x)
+		{
+			this->velocity.x = -this->maxSpeed.x;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += this->acceleration.y * dirY * dt;
+
+		if (this->velocity.y > this->maxSpeed.y)
+		{
+			this->velocity.y = this->maxSpeed.y;
+		}
+		else if (this->velocity.y < -this->maxSpeed.y)
+		{
+			this->velocity.y = -this->maxSpeed.y;
+		}
 	}
 
-	inline void setMaxSpeed(const float& maxSpeed)
+	inline void setMaxSpeed(const Vector2f& maxSpeed)
 	{
 		this->maxSpeed = maxSpeed;
 	}
 
-	inline void setAcceleration(const float& acceleration)
+	inline void setAcceleration(const Vector2f& acceleration)
 	{
 		this->acceleration = acceleration;
 	}
