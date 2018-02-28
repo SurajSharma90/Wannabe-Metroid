@@ -4,8 +4,5 @@ e:\wannabe metroid\wannabe-metroid\game\texturehandler.h(74): warning C4018: '>=
   game.vcxproj -> E:\Wannabe Metroid\Wannabe-Metroid\Debug\game.exe
 =======
 f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe
 >>>>>>> origin/master

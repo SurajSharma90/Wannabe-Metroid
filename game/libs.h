@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<fstream>
+#include<math.h>
 
 #include"SFML\System.hpp"
 #include"SFML\Window.hpp"
