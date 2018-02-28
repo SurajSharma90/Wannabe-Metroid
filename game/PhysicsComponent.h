@@ -137,7 +137,10 @@ public:
 		this->velocity.y = y;
 	}
 
-	inline void incrementVelocity(const float& dirX, const float& dirY, const float& dt)
+	inline void incrementVelocity(
+		const float& dirX, 
+		const float& dirY, 
+		const float& dt)
 	{
 		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
 		

@@ -27,10 +27,10 @@ void Game::initVariables()
 	this->phys = new PhysicsComponent
 	(
 		Vector2f(0.f, 0.f),		//Velocity
-		Vector2f(20.f, 20.f),	//Max speed
-		Vector2f(30.f, 60.f),	//Acceleration
-		10.f,	//Degen Left
-		10.f,	//Degen Right
+		Vector2f(2000.f, 2000.f),	//Max speed
+		Vector2f(3000.f, 8000.f),	//Acceleration
+		1000.f,	//Degen Left
+		1000.f,	//Degen Right
 		0.f,	//Degen Up
 		0.f	//Degen Down
 	);
@@ -257,7 +257,7 @@ void Game::update()
 	//Testing =========================== TO BE REMOVED
 	//Gravity testing
 	if(shape.getPosition().y + shape.getGlobalBounds().height < this->window->getSize().y)
-		this->phys->incrementVelocityOuterForce(0.f, 20.f, dt);
+		this->phys->incrementVelocityOuterForce(0.f, 2000.f, this->dt);
 	else //Collision with bottom of screen
 	{
 		this->phys->stopVelocityY();
@@ -274,7 +274,7 @@ void Game::update()
 		phys->incrementVelocity(0.f, -1.f, dt);
 
 	this->phys->update(this->dt);
-	shape.move(this->phys->getVelocity());
+	shape.move(this->phys->getVelocity() * this->dt);
 }
 
 //Render
