@@ -23,13 +23,19 @@ void Game::initVariables()
 	//Textures
 
 	//Player
-	this->phys = new PhysicsComponent(
-		Vector2f(0.f, 0.f),
-		Vector2f(20.f, 20.f),
-		Vector2f(20.f, 20.f),
-		Vector2f(10.f, 10.f)
-		);
+	// TO BE REMOVED ===================== TO BE REMOVED
+	this->phys = new PhysicsComponent
+	(
+		Vector2f(0.f, 0.f),		//Velocity
+		Vector2f(20.f, 20.f),	//Max speed
+		Vector2f(30.f, 60.f),	//Acceleration
+		10.f,	//Degen Left
+		10.f,	//Degen Right
+		0.f,	//Degen Up
+		0.f	//Degen Down
+	);
 
+	// TO BE REMOVED ===================== TO BE REMOVED
 	shape.setFillColor(Color::Red);
 	shape.setSize(Vector2f(50.f, 50.f));
 }
@@ -244,7 +250,16 @@ void Game::update()
 	//Mouse positions
 	this->updateMousePositions();
 
-	//Testing
+	//Testing =========================== TO BE REMOVED
+	//Gravity testing
+	if(shape.getPosition().y + shape.getGlobalBounds().height < this->window->getSize().y)
+		this->phys->incrementVelocityOuterForce(0.f, 20.f, dt);
+	else //Collision with bottom of screen
+	{
+		this->phys->stopVelocityY();
+		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
+	}
+	
 	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity());
 }
@@ -254,7 +269,7 @@ void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
 
-	this->window->draw(shape);
+	this->window->draw(shape); // TO BE REMOVED ===================== TO BE REMOVED
 
 	this->window->display();
 }

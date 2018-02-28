@@ -7,21 +7,24 @@ private:
 	Vector2f velocity;
 	Vector2f maxSpeed;
 	Vector2f acceleration;
-	Vector2f degeneration;
+	float degenerationLeft;
+	float degenerationRight;
+	float degenerationUp;
+	float degenerationDown;
 
 	void calculateDegeneration(const float& dt)
 	{
 		//X degeneration
 		if (velocity.x > 0.f) //Moving Right
 		{
-			this->velocity.x -= this->degeneration.x * dt;
+			this->velocity.x -= this->degenerationRight * dt;
 
 			if (velocity.x <= 0.f)
 				this->velocity.x = 0.f;
 		}
 		else if (velocity.x < 0.f) //Moving Left
 		{
-			this->velocity.x += this->degeneration.x * dt;
+			this->velocity.x += this->degenerationLeft * dt;
 
 			if (velocity.x >= 0.f)
 				this->velocity.x = 0.f;
@@ -34,14 +37,14 @@ private:
 		//Y degeneration
 		if (velocity.y > 0.f) //Moving Down
 		{
-			this->velocity.y -= this->degeneration.y * dt;
+			this->velocity.y -= this->degenerationDown * dt;
 
 			if (velocity.y <= 0.f)
 				this->velocity.y = 0.f;
 		}
 		else if (velocity.y < 0.f) //Moving Up
 		{
-			this->velocity.y += this->degeneration.y * dt;
+			this->velocity.y += this->degenerationUp * dt;
 
 			if (velocity.y >= 0.f)
 				this->velocity.y = 0.f;
@@ -69,12 +72,18 @@ public:
 		const Vector2f& velocity = Vector2f(0.f, 0.f),
 		const Vector2f& maxSpeed = Vector2f(0.f, 0.f),
 		const Vector2f& acceleration = Vector2f(0.f, 0.f),
-		const Vector2f& degeneration = Vector2f(0.f, 0.f))
+		const float& degenerationLeft = 0.f,
+		const float& degenerationRight = 0.f, 
+		const float& degenerationUp = 0.f, 
+		const float& degenerationDown = 0.f)
 	{
 		this->velocity = velocity;
 		this->maxSpeed = maxSpeed;
 		this->acceleration = acceleration;
-		this->degeneration = degeneration;
+		this->degenerationLeft = degenerationLeft;
+		this->degenerationRight = degenerationRight;
+		this->degenerationUp = degenerationUp;
+		this->degenerationDown = degenerationDown;
 	}
 
 	//Accessors
@@ -93,9 +102,21 @@ public:
 		return this->acceleration;
 	}
 
-	inline const Vector2f& getDegeneration() const
+	inline const float& getDegenerationLeft() const
 	{
-		return this->degeneration;
+		return this->degenerationLeft;
+	}
+	inline const float& getDegenerationRight() const
+	{
+		return this->degenerationRight;
+	}
+	inline const float& getDegenerationUp() const
+	{
+		return this->degenerationUp;
+	}
+	inline const float& getDegenerationDown() const
+	{
+		return this->degenerationDown;
 	}
 
 	inline const Vector2f& getDirectionVector()
@@ -140,6 +161,38 @@ public:
 		}
 	}
 
+	inline void incrementVelocityOuterForce(
+		const float& outerAccelerationX, 
+		const float& outerAccelerationY, 
+		const float& dt)
+	{
+		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+
+		//Velocity X increment and clamp
+		this->velocity.x += outerAccelerationX * dt;
+
+		if (this->velocity.x > this->maxSpeed.x)
+		{
+			this->velocity.x = this->maxSpeed.x;
+		}
+		else if (this->velocity.x < -this->maxSpeed.x)
+		{
+			this->velocity.x = -this->maxSpeed.x;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += outerAccelerationY * dt;
+
+		if (this->velocity.y > this->maxSpeed.y)
+		{
+			this->velocity.y = this->maxSpeed.y;
+		}
+		else if (this->velocity.y < -this->maxSpeed.y)
+		{
+			this->velocity.y = -this->maxSpeed.y;
+		}
+	}
+
 	inline void setMaxSpeed(const Vector2f& maxSpeed)
 	{
 		this->maxSpeed = maxSpeed;
@@ -150,29 +203,54 @@ public:
 		this->acceleration = acceleration;
 	}
 
-	inline void setDegeneration(const Vector2f& degeneration)
+	inline void setDegenerationLeft(const float& degeneration)
 	{
-		this->degeneration = degeneration;
+		this->degenerationLeft = degeneration;
+	}
+
+	inline void setDegenerationRight(const float& degeneration)
+	{
+		this->degenerationRight= degeneration;
+	}
+
+	inline void setDegenerationUp(const float& degeneration)
+	{
+		this->degenerationUp= degeneration;
 	}
 	
+	inline void setDegenerationDown(const float& degeneration)
+	{
+		this->degenerationDown = degeneration;
+	}
+
 	//Functions
+	void stopVelocityY()
+	{
+		this->velocity.y = 0.f;
+	}
+	void stopVelocityX()
+	{
+		this->velocity.x = 0.f;
+	}
+
 	void update(const float& dt)
 	{
 		//Move
+		// TO BE REMOVED ===================== TO BE REMOVED
 		if (Keyboard::isKeyPressed(Keyboard::D))
 			this->incrementVelocity(1.f, 0.f, dt);
 		if (Keyboard::isKeyPressed(Keyboard::A))
 			this->incrementVelocity(-1.f, 0.f, dt);
-		if (Keyboard::isKeyPressed(Keyboard::W))
+		if (Keyboard::isKeyPressed(Keyboard::Space))
 			this->incrementVelocity(0.f, -1.f, dt);
-		if (Keyboard::isKeyPressed(Keyboard::S))
-			this->incrementVelocity(0.f, 1.f, dt);
 
 		//Slow the entity down
 		this->calculateDegeneration(dt);
 
+		// TO BE REMOVED ===================== TO BE REMOVED
 		system("CLS");
 		std::cout << "VelocityX: " << this->velocity.x << " " << "VelocityY: " << this->velocity.y << "\n";
 		std::cout << "DirectionX: " << this->getDirectionVector().x << " " << "DirectionY: " << this->getDirectionVector().y << "\n";
 	}
+
 };
