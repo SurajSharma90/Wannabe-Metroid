@@ -24,9 +24,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libs.h">
@@ -41,11 +38,16 @@
     <ClInclude Include="TextureHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+=======
     <ClInclude Include="InputComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsComponent.h">
       <Filter>Components</Filter>
+>>>>>>> origin/master
     </ClInclude>
   </ItemGroup>
 </Project>

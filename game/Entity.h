@@ -9,12 +9,23 @@ private:
 
 public:
 	//Constructor / Destructor
-	Entity(float xPos, float yPos, Texture* texture = nullptr);
-	~Entity();
+	Entity(float xPos, float yPos, Texture* texture = nullptr) {
+		this->sprite.setPosition(xPos, yPos);
+		this->texture = texture;
+	}
+	virtual ~Entity() {
+		delete this->texture;
+	}
 
 	//Accessors
-	inline Vector2f getPosition() const { return this->sprite.getPosition(); };
+	virtual Vector2f getPosition() const {
+		return this->sprite.getPosition();
+	}
 
 	//Modifiers
-	void setPosition(const float& xPos, const float& yPos) { this->sprite.setPosition(xPos, yPos); };
+	virtual void setPosition(const float& xPos, const float& yPos) {
+		this->sprite.setPosition(xPos, yPos);
+	}
+
+	//Functions
 };
