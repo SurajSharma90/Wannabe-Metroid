@@ -1,0 +1,107 @@
+[33mcommit c7db9a57522967e3000967714e3833c5b6461df1[m
+Merge: f2fd145 84e86bd
+Author: Medo Osman <medoosman@outlook.com>
+Date:   Wed Feb 28 01:07:51 2018 +0100
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       .vs/game/v15/.suo
+    #       .vs/game/v15/Browse.VC.db
+    #       Debug/game.exe
+    #       Debug/game.ilk
+    #       Debug/game.pdb
+    #       game/Debug/Game.obj
+    #       game/Debug/game.log
+    #       game/Debug/vc141.idb
+    #       game/Debug/vc141.pdb
+    #       game/game.vcxproj.filters
+
+[33mcommit f2fd1459a710d6a384db95792bed6d9c3ec9db39[m
+Author: Medo Osman <medoosman@outlook.com>
+Date:   Wed Feb 28 01:04:33 2018 +0100
+
+    Character class, Entity updated
+
+[33mcommit 84e86bde77793ed4f46acf2744297f1cd64af48d[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Wed Feb 28 00:59:51 2018 +0100
+
+    added physics and input components
+
+[33mcommit 101360b3c1a8d26fe2333a96c91026fb48970d5b[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Wed Feb 28 00:50:33 2018 +0100
+
+    Added component
+
+[33mcommit becd24348d627e63c5584538a81aa2b50f0923da[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Tue Feb 27 18:57:48 2018 +0100
+
+    updated Game and TextureHandler
+    
+    Added keytime check
+    Removed animation test
+
+[33mcommit 4505a42481f875f7dfb942ded8e5a82e690b0154[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Mon Feb 26 00:58:29 2018 +0100
+
+    Added comment in libs.h for help
+
+[33mcommit 49bc2ef4e711af3b1bf88e77c87452006816133c[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Mon Feb 26 00:19:21 2018 +0100
+
+    -Updated TextureHandler. -Added readability.
+    
+    - TextureHandler file now supports comments, whitespace-skipping and
+    new-line-skipping.
+    - Added readability comments and functions.
+
+[33mcommit 09ed792b4549f614c50d6ce290cd5280ba4f2680[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 23:50:55 2018 +0100
+
+    Added TextureHandler class and loading from file.
+    
+    Textures are loaded from a file which can handle comment lines.
+    Texture folder added.
+    Entity needs const Texture*;
+
+[33mcommit a4cd8415ab1d99c419981fabaffab2d1355125f9[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 19:22:16 2018 +0100
+
+    Maeeen testing skeletal animation
+    
+    Code to be removed later
+
+[33mcommit c3cc0592b6d8dd5d29e8ac4eb88155bc9abb72de[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 02:00:24 2018 +0100
+
+    Added settings file and changed game
+    
+    Added a settings file that can be loaded.
+    Game::Added updateMousePositions.
+    Game::Added mouse position vatiables
+
+[33mcommit b5031c8920207328d1e93c4fa70b9198dd4d8c6f[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 01:31:56 2018 +0100
+
+    second
+
+[33mcommit 2b7a11323e96c1c9557c714f389ac2ff4492897e[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 01:29:11 2018 +0100
+
+    xzcxzc
+
+[33mcommit f17ce898aa9560955edaecb487ae13a8acbdd469[m
+Author: Headturna <suraj-sharma@live.com>
+Date:   Sun Feb 25 01:24:08 2018 +0100
+
+    :octocat: Added .gitattributes
