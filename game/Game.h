@@ -3,6 +3,7 @@
 #include"libs.h"
 
 #include"TextureHandler.h"
+#include"FontHandler.h"
 #include"PhysicsComponent.h"
 #include"InputComponent.h"
 
@@ -34,15 +35,20 @@ private:
 	//Textures
 	TextureHandler* textureHandler;
 
+	//Donts and Text
+	FontHandler* fontHandler;
+	Text text; // TO BE REMOVED ===================== TO BE REMOVED
+
 	//Player
-	RectangleShape shape;
-	PhysicsComponent* phys;
-	InputComponent* input;
+	RectangleShape shape; // TO BE REMOVED ===================== TO BE REMOVED
+	PhysicsComponent* phys; // TO BE REMOVED ===================== TO BE REMOVED
+	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
 
 	//Initializers
 	void initVariables();
 	void initWindow();
 	void initTextures();
+	void initFonts();
 	void initialize();
 
 	//Cleanup

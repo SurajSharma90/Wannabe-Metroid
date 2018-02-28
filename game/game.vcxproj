@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FontHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="libs.h" />

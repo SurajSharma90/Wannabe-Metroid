@@ -1,3 +1,7 @@
 ﻿  Game.cpp
 f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

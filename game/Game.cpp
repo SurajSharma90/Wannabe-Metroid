@@ -19,8 +19,13 @@ void Game::initVariables()
 	this->frameLimit = 144;
 
 	//Inputs
+	
 
 	//Textures
+	this->textureHandler = nullptr;
+
+	//Fonts and Text
+	this->fontHandler = nullptr;
 
 	//Player
 	// TO BE REMOVED ===================== TO BE REMOVED
@@ -28,9 +33,10 @@ void Game::initVariables()
 	(
 		Vector2f(0.f, 0.f),		//Velocity
 		Vector2f(2000.f, 2000.f),	//Max speed
-		Vector2f(3000.f, 8000.f),	//Acceleration
-		1000.f,	//Degen Left
-		1000.f,	//Degen Right
+		Vector2f(3000.f, 9000.f),	//Acceleration
+		Vector2f(1.f, 1.f), //AccelerationMultiplier
+		1500.f,	//Degen Left
+		1500.f,	//Degen Right
 		0.f,	//Degen Up
 		0.f	//Degen Down
 	);
@@ -71,6 +77,17 @@ void Game::initTextures()
 	this->textureHandler = new TextureHandler();
 }
 
+void Game::initFonts()
+{
+	this->fontHandler = new FontHandler();
+
+	//TO BE REMOVED ======================= TO BE REMOVED
+	this->text.setCharacterSize(20);
+	this->text.setFillColor(Color::White);
+	this->text.setFont(*this->fontHandler->getFont(font_list::PRIME_REGULAR));
+	this->text.setString("TEST TEXT TO BE REMOVED!");
+}
+
 void Game::initialize()
 {
 	//Variables
@@ -81,6 +98,9 @@ void Game::initialize()
 
 	//Textures
 	this->initTextures();
+
+	//Fonts and Text
+	this->initFonts();
 
 	//Complete
 	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
@@ -94,6 +114,9 @@ void Game::cleanup()
 
 	//Textures
 	delete this->textureHandler;
+
+	//Fonts and Text
+	delete this->fontHandler;
 
 	//Player
 	//TO BE REMOVED ===================== TO BE REMOVED
@@ -255,13 +278,39 @@ void Game::update()
 	this->updateMousePositions();
 
 	//Testing =========================== TO BE REMOVED
+	this->text.move(Vector2f(100.f * dt, 0.f));
+	if (this->text.getPosition().x >= this->window->getSize().x)
+	{
+		this->text.setPosition(Vector2f(-this->text.getGlobalBounds().width, 0.f));
+	}
+
 	//Gravity testing
-	if(shape.getPosition().y + shape.getGlobalBounds().height < this->window->getSize().y)
-		this->phys->incrementVelocityOuterForce(0.f, 2000.f, this->dt);
+	if (shape.getPosition().y + shape.getGlobalBounds().height < this->window->getSize().y)
+	{
+		this->phys->incrementVelocityOuterForce(0.f, 2500.f, this->dt);
+	}
 	else //Collision with bottom of screen
 	{
 		this->phys->stopVelocityY();
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
+	}
+
+	if(shape.getPosition().y < 0.f) //Collision top of screen
+	{
+		this->phys->stopVelocityY();
+		shape.setPosition(Vector2f(shape.getPosition().x, 0.f));
+	}
+
+	if (shape.getPosition().x < 0.f) //Collision left of screen
+	{
+		this->phys->stopVelocityX();
+		shape.setPosition(Vector2f(0.f, shape.getPosition().y));		
+	}
+	
+	if (shape.getPosition().x + shape.getGlobalBounds().width > this->window->getSize().x) //Collision right of screen
+	{
+		this->phys->stopVelocityX();
+		shape.setPosition(Vector2f(this->window->getSize().x - shape.getGlobalBounds().width, shape.getPosition().y));
 	}
 	
 	//Move
@@ -272,6 +321,11 @@ void Game::update()
 		phys->incrementVelocity(-1.f, 0.f, dt);
 	if (this->input->isKeyPressed(JUMP_KEY))
 		phys->incrementVelocity(0.f, -1.f, dt);
+	
+	if (this->input->isKeyPressed(SPRINT_KEY))
+		this->phys->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
+	else
+		this->phys->setAccelerationMultiplier(Vector2f(1.f, 1.f));
 
 	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity() * this->dt);
@@ -283,6 +337,8 @@ void Game::render()
 	this->window->clear(Color(0, 0, 0, 0));
 
 	this->window->draw(shape); // TO BE REMOVED ===================== TO BE REMOVED
+
+	this->window->draw(text); // TO BE REMOVED ===================== TO BE REMOVED
 
 	this->window->display();
 }

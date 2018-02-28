@@ -1,0 +1,8 @@
+﻿  Game.cpp
+f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+  main.cpp
+f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+  Generating code
+  All 266 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  game.vcxproj -> F:\Game Projects\game\Release\game.exe

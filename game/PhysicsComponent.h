@@ -8,6 +8,7 @@ private:
 	Vector2f velocity;
 	Vector2f maxSpeed;
 	Vector2f acceleration;
+	Vector2f accelerationMultiplier;
 	float degenerationLeft;
 	float degenerationRight;
 	float degenerationUp;
@@ -57,11 +58,12 @@ private:
 		}
 
 	}
+
 	Vector2f normalize(const Vector2f& vector)
 	{
 		float vectorLength = sqrt((pow(vector.x, 2) + pow(vector.y, 2)));
 		Vector2f normalizedVector = vector / vectorLength;
-		
+
 		if (vectorLength <= 0.f)
 			return Vector2f(0.f, 0.f);
 		else
@@ -74,14 +76,16 @@ public:
 		const Vector2f& velocity = Vector2f(0.f, 0.f),
 		const Vector2f& maxSpeed = Vector2f(0.f, 0.f),
 		const Vector2f& acceleration = Vector2f(0.f, 0.f),
+		const Vector2f& accelerationMultiplier = Vector2f(0.f, 0.f),
 		const float& degenerationLeft = 0.f,
-		const float& degenerationRight = 0.f, 
-		const float& degenerationUp = 0.f, 
+		const float& degenerationRight = 0.f,
+		const float& degenerationUp = 0.f,
 		const float& degenerationDown = 0.f)
 	{
 		this->velocity = velocity;
 		this->maxSpeed = maxSpeed;
 		this->acceleration = acceleration;
+		this->accelerationMultiplier = accelerationMultiplier;
 		this->degenerationLeft = degenerationLeft;
 		this->degenerationRight = degenerationRight;
 		this->degenerationUp = degenerationUp;
@@ -104,21 +108,26 @@ public:
 		return this->acceleration;
 	}
 
+	inline const Vector2f& getAccelerationMultiplier() const
+	{
+		return this->accelerationMultiplier;
+	}
+
 	inline const float& getDegenerationLeft() const
 	{
 		return this->degenerationLeft;
 	}
-	
+
 	inline const float& getDegenerationRight() const
 	{
 		return this->degenerationRight;
 	}
-	
+
 	inline const float& getDegenerationUp() const
 	{
 		return this->degenerationUp;
 	}
-	
+
 	inline const float& getDegenerationDown() const
 	{
 		return this->degenerationDown;
@@ -138,14 +147,14 @@ public:
 	}
 
 	inline void incrementVelocity(
-		const float& dirX, 
-		const float& dirY, 
+		const float& dirX,
+		const float& dirY,
 		const float& dt)
 	{
 		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
-		
+
 		//Velocity X increment and clamp
-		this->velocity.x += this->acceleration.x * dirX * dt;
+		this->velocity.x += this->acceleration.x * this->accelerationMultiplier.x * dirX * dt;
 
 		if (this->velocity.x > this->maxSpeed.x)
 		{
@@ -157,7 +166,7 @@ public:
 		}
 
 		//Velocity Y increment and clamp
-		this->velocity.y += this->acceleration.y * dirY * dt;
+		this->velocity.y += this->acceleration.y * this->accelerationMultiplier.y * dirY * dt;
 
 		if (this->velocity.y > this->maxSpeed.y)
 		{
@@ -170,8 +179,8 @@ public:
 	}
 
 	inline void incrementVelocityOuterForce(
-		const float& outerAccelerationX, 
-		const float& outerAccelerationY, 
+		const float& outerAccelerationX,
+		const float& outerAccelerationY,
 		const float& dt)
 	{
 		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
@@ -211,6 +220,11 @@ public:
 		this->acceleration = acceleration;
 	}
 
+	inline void setAccelerationMultiplier(const Vector2f& accelerationMultiplier)
+	{
+		this->accelerationMultiplier = accelerationMultiplier;
+	}
+
 	inline void setDegenerationLeft(const float& degeneration)
 	{
 		this->degenerationLeft = degeneration;
@@ -218,14 +232,14 @@ public:
 
 	inline void setDegenerationRight(const float& degeneration)
 	{
-		this->degenerationRight= degeneration;
+		this->degenerationRight = degeneration;
 	}
 
 	inline void setDegenerationUp(const float& degeneration)
 	{
-		this->degenerationUp= degeneration;
+		this->degenerationUp = degeneration;
 	}
-	
+
 	inline void setDegenerationDwown(const float& degeneration)
 	{
 		this->degenerationDown = degeneration;
@@ -236,6 +250,7 @@ public:
 	{
 		this->velocity.y = 0.f;
 	}
+
 	void stopVelocityX()
 	{
 		this->velocity.x = 0.f;
@@ -246,5 +261,4 @@ public:
 		//Slow the entity down
 		this->calculateDegeneration(dt);
 	}
-
 };

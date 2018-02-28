@@ -3,9 +3,9 @@
 #include"libs.h"
 
 //Enums
-enum texture_names //Keep this updated (hardcoded) with main list of textures
+enum texture_list //Keep this updated (hardcoded) with main list of textures
 { 
-	BLANK_TRANSPARENT = 0, PLAYER_TEXTURE
+	BLANK_TRANSPARENT = 0
 };
 
 class TextureHandler
@@ -69,16 +69,16 @@ public:
 	virtual ~TextureHandler() {}
 
 	//Accessors
-	inline const Texture* getTexture(const enum texture_names TEX_NAME) const
+	inline const Texture* getTexture(const enum texture_list TEXTURE) const
 	{
-		if (TEX_NAME >= this->textures.size()) //Error
+		if (TEXTURE >= this->textures.size()) //Error
 		{
 			std::cout << "ERROR::TEXTUREHANDLER::GETTEXTURE::ENUM_OUT_OF_BOUNDS" << "\n";
 			return nullptr;
 		}
 		else
 		{
-			return &this->textures[TEX_NAME];
+			return &this->textures[TEXTURE];
 		}
 	}
 
