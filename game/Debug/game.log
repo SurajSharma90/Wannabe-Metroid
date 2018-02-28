@@ -1,8 +1,7 @@
-﻿  Game.cpp
-<<<<<<< HEAD
-e:\wannabe metroid\wannabe-metroid\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-  game.vcxproj -> E:\Wannabe Metroid\Wannabe-Metroid\Debug\game.exe
-=======
+﻿  main.cpp
 f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+  Game.cpp
+f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+  Generating Code...
+  LINK : F:\Game Projects\game\Debug\game.exe not found or not built by the last incremental link; performing full link
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe
->>>>>>> origin/master
