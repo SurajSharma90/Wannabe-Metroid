@@ -137,6 +137,7 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="TextureHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
