@@ -4,6 +4,7 @@
 
 #include"TextureHandler.h"
 #include"PhysicsComponent.h"
+#include"InputComponent.h"
 
 class Game
 {
@@ -36,6 +37,7 @@ private:
 	//Player
 	RectangleShape shape;
 	PhysicsComponent* phys;
+	InputComponent* input;
 
 	//Initializers
 	void initVariables();

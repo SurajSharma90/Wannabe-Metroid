@@ -4,6 +4,7 @@
 class PhysicsComponent
 {
 private:
+	//Variables
 	Vector2f velocity;
 	Vector2f maxSpeed;
 	Vector2f acceleration;
@@ -12,6 +13,7 @@ private:
 	float degenerationUp;
 	float degenerationDown;
 
+	//Private functions
 	void calculateDegeneration(const float& dt)
 	{
 		//X degeneration
@@ -238,22 +240,8 @@ public:
 
 	void update(const float& dt)
 	{
-		//Move
-		// TO BE REMOVED ===================== TO BE REMOVED
-		if (Keyboard::isKeyPressed(Keyboard::D))
-			this->incrementVelocity(1.f, 0.f, dt);
-		if (Keyboard::isKeyPressed(Keyboard::A))
-			this->incrementVelocity(-1.f, 0.f, dt);
-		if (Keyboard::isKeyPressed(Keyboard::Space))
-			this->incrementVelocity(0.f, -1.f, dt);
-
 		//Slow the entity down
 		this->calculateDegeneration(dt);
-
-		// TO BE REMOVED ===================== TO BE REMOVED
-		system("CLS");
-		std::cout << "VelocityX: " << this->velocity.x << " " << "VelocityY: " << this->velocity.y << "\n";
-		std::cout << "DirectionX: " << this->getDirectionVector().x << " " << "DirectionY: " << this->getDirectionVector().y << "\n";
 	}
 
 };

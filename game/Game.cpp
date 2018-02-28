@@ -35,6 +35,8 @@ void Game::initVariables()
 		0.f	//Degen Down
 	);
 
+	this->input = new InputComponent();
+
 	// TO BE REMOVED ===================== TO BE REMOVED
 	shape.setFillColor(Color::Red);
 	shape.setSize(Vector2f(50.f, 50.f));
@@ -94,7 +96,9 @@ void Game::cleanup()
 	delete this->textureHandler;
 
 	//Player
+	//TO BE REMOVED ===================== TO BE REMOVED
 	delete this->phys;
+	delete this->input;
 }
 
 //Private functions
@@ -260,6 +264,15 @@ void Game::update()
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
 	}
 	
+	//Move
+	// TO BE REMOVED ===================== TO BE REMOVED
+	if (this->input->isKeyPressed(RIGHT_KEY))
+		phys->incrementVelocity(1.f, 0.f, dt);
+	if (this->input->isKeyPressed(LEFT_KEY))
+		phys->incrementVelocity(-1.f, 0.f, dt);
+	if (this->input->isKeyPressed(JUMP_KEY))
+		phys->incrementVelocity(0.f, -1.f, dt);
+
 	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity());
 }
