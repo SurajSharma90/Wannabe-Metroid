@@ -19,6 +19,19 @@ void Game::initVariables()
 	this->frameLimit = 144;
 
 	//Inputs
+
+	//Textures
+
+	//Player
+	this->phys = new PhysicsComponent(
+		Vector2f(0.f, 0.f),
+		20.f,
+		20.f,
+		Vector2f(10.f, 10.f)
+		);
+
+	shape.setFillColor(Color::Red);
+	shape.setSize(Vector2f(50.f, 50.f));
 }
 
 void Game::initWindow()
@@ -73,6 +86,9 @@ void Game::cleanup()
 
 	//Textures
 	delete this->textureHandler;
+
+	//Player
+	delete this->phys;
 }
 
 //Private functions
@@ -227,12 +243,18 @@ void Game::update()
 
 	//Mouse positions
 	this->updateMousePositions();
+
+	//Testing
+	this->phys->update(this->dt);
+	shape.move(this->phys->getVelocity());
 }
 
 //Render
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
+
+	this->window->draw(shape);
 
 	this->window->display();
 }

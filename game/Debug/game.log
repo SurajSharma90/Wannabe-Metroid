@@ -1,7 +1,7 @@
-﻿  main.cpp
-f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-  Game.cpp
+﻿  Game.cpp
 f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
   Generating Code...
-  LINK : F:\Game Projects\game\Debug\game.exe not found or not built by the last incremental link; performing full link
+f:\game projects\game\game\physicscomponent.h(103): warning C4172: returning address of local variable or temporary
+  Skipping... (no relevant changes detected)
+  main.cpp
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

@@ -3,6 +3,7 @@
 #include"libs.h"
 
 #include"TextureHandler.h"
+#include"PhysicsComponent.h"
 
 class Game
 {
@@ -31,6 +32,10 @@ private:
 	
 	//Textures
 	TextureHandler* textureHandler;
+
+	//Player
+	RectangleShape shape;
+	PhysicsComponent* phys;
 
 	//Initializers
 	void initVariables();
