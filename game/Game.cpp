@@ -54,7 +54,7 @@ void Game::initWindow()
 	this->window = new RenderWindow(
 		VideoMode(this->WINDOW_WIDTH, this->WINDOW_HEIGHT),
 		"WANNABE_METROID", 
-		Style::Default, 
+		Style::Titlebar | Style::Close,
 		this->window_context_settings
 	);
 

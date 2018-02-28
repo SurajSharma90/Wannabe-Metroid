@@ -106,14 +106,17 @@ public:
 	{
 		return this->degenerationLeft;
 	}
+	
 	inline const float& getDegenerationRight() const
 	{
 		return this->degenerationRight;
 	}
+	
 	inline const float& getDegenerationUp() const
 	{
 		return this->degenerationUp;
 	}
+	
 	inline const float& getDegenerationDown() const
 	{
 		return this->degenerationDown;
@@ -218,7 +221,7 @@ public:
 		this->degenerationUp= degeneration;
 	}
 	
-	inline void setDegenerationDown(const float& degeneration)
+	inline void setDegenerationDwown(const float& degeneration)
 	{
 		this->degenerationDown = degeneration;
 	}
