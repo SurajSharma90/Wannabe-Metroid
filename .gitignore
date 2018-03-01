@@ -7,3 +7,6 @@
 *.db
 *.log
 *.obj
+*.vcxproj
+*.vcxproj.filters
+*.opendb

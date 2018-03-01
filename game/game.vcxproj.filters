@@ -36,6 +36,12 @@
     <ClInclude Include="FontHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Component FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Component FIles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
