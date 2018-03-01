@@ -6,6 +6,7 @@
 #include"FontHandler.h"
 #include"PhysicsComponent.h"
 #include"InputComponent.h"
+#include"AnimationComponent.h"
 
 class Game
 {
@@ -40,12 +41,12 @@ private:
 	Text text; // TO BE REMOVED ===================== TO BE REMOVED
 
 	//Player
-	RectangleShape shape; // TO BE REMOVED ===================== TO BE REMOVED
+	bool moving;
+	bool jumping;
+	Sprite shape; // TO BE REMOVED ===================== TO BE REMOVED
 	PhysicsComponent* phys; // TO BE REMOVED ===================== TO BE REMOVED
 	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
-	float timer;
-	float x; // TO BE REMOVED ===================== TO BE REMOVED
-	float size; // TO BE REMOVED ===================== TO BE REMOVED
+	Animation* animation; //TO BE REMOVED ===================== TO BE REMOVED
 
 	//Initializers
 	void initVariables();

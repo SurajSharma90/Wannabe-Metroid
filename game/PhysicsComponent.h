@@ -256,6 +256,30 @@ public:
 		this->velocity.x = 0.f;
 	}
 
+	bool isMovingHorizontal()
+	{
+		if (this->velocity.x > 0.f || this->velocity.x < 0.f)
+			return true;
+		else
+			return false;
+	}
+	
+	bool isMovingLeft()
+	{
+		if (this->velocity.x < 0.f)
+			return true;
+		else
+			return false;
+	}
+	
+	bool isMovingRight()
+	{
+		if (this->velocity.x > 0.f)
+			return true;
+		else
+			return false;
+	}
+
 	void update(const float& dt)
 	{
 		//Slow the entity down

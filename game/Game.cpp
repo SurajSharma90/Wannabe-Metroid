@@ -89,13 +89,11 @@ void Game::initTesting()
 	this->input = new InputComponent();
 
 	// TO BE REMOVED ===================== TO BE REMOVED
-	x = 0.f;
-	size = 50.f;
-	timer = 0.f;
-	shape.setFillColor(Color::Red);
-	shape.setSize(Vector2f(50.f, 50.f));
-	shape.setTexture(this->textureHandler->getTexture(SPRITE_SHEET_BOX_01));
-	shape.setTextureRect(IntRect(150.f, 0, size, size));
+	moving = false;
+	jumping = false;
+	shape.setTexture(*this->textureHandler->getTexture(SPRITE_SHEET_BOX_01));
+	shape.setTextureRect(IntRect(0, 0, 50.f, 50.f));
+	this->animation = new Animation(&this->shape, IntRect(0, 0, 50, 50), 1.f, 0.f, 0.5f);
 }
 
 void Game::initialize()
@@ -314,32 +312,39 @@ void Game::updateTesting()
 	//Move
 	// TO BE REMOVED ===================== TO BE REMOVED
 	if (this->input->isKeyPressed(RIGHT_KEY))
+	{
 		phys->incrementVelocity(1.f, 0.f, dt);
+	}
+	
 	if (this->input->isKeyPressed(LEFT_KEY))
+	{
 		phys->incrementVelocity(-1.f, 0.f, dt);
+	}
+	
 	if (this->input->isKeyPressed(JUMP_KEY))
+	{
 		phys->incrementVelocity(0.f, -1.f, dt);
+	}
 
 	if (this->input->isKeyPressed(SPRINT_KEY))
 		this->phys->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
 	else
 		this->phys->setAccelerationMultiplier(Vector2f(1.f, 1.f));
 
+	if (phys->isMovingHorizontal())
+		moving = true;
+	else
+		moving = false;
+
+	if (moving)
+	{
+		animation->animate(this->dt);
+	}
+	else
+		animation->reset();
+
 	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity() * this->dt);
-
-	shape.setTextureRect(IntRect(x, 0, size, size));
-	
-	timer += 10 * dt;
-	
-	if (timer >= 0.5f)
-	{
-		x += 50.f;
-		timer = 0.f;
-	}
-
-	if (x >= shape.getTexture()->getSize().x)
-		x = 0.f;
 }
 
 void Game::update()
