@@ -10,3 +10,4 @@
 *.vcxproj
 *.vcxproj.filters
 *.opendb
+*.VC.db
