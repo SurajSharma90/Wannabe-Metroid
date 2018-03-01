@@ -43,12 +43,16 @@ private:
 	RectangleShape shape; // TO BE REMOVED ===================== TO BE REMOVED
 	PhysicsComponent* phys; // TO BE REMOVED ===================== TO BE REMOVED
 	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
+	float timer;
+	float x; // TO BE REMOVED ===================== TO BE REMOVED
+	float size; // TO BE REMOVED ===================== TO BE REMOVED
 
 	//Initializers
 	void initVariables();
 	void initWindow();
 	void initTextures();
 	void initFonts();
+	void initTesting();
 	void initialize();
 
 	//Cleanup
@@ -77,10 +81,13 @@ public:
 	void updateEvents();
 	void updateKeyboardInput();
 	void updateMousePositions();
+	void updateTesting();
 
 	void update();
 
 	//Render
+	void renderTesting();
+
 	void render();
 };
 

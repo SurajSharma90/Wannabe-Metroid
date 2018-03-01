@@ -28,24 +28,7 @@ void Game::initVariables()
 	this->fontHandler = nullptr;
 
 	//Player
-	// TO BE REMOVED ===================== TO BE REMOVED
-	this->phys = new PhysicsComponent
-	(
-		Vector2f(0.f, 0.f),		//Velocity
-		Vector2f(2000.f, 2000.f),	//Max speed
-		Vector2f(3000.f, 9000.f),	//Acceleration
-		Vector2f(1.f, 1.f), //AccelerationMultiplier
-		1500.f,	//Degen Left
-		1500.f,	//Degen Right
-		0.f,	//Degen Up
-		0.f	//Degen Down
-	);
 
-	this->input = new InputComponent();
-
-	// TO BE REMOVED ===================== TO BE REMOVED
-	shape.setFillColor(Color::Red);
-	shape.setSize(Vector2f(50.f, 50.f));
 }
 
 void Game::initWindow()
@@ -88,6 +71,33 @@ void Game::initFonts()
 	this->text.setString("TEST TEXT TO BE REMOVED!");
 }
 
+void Game::initTesting()
+{
+	// TO BE REMOVED ===================== TO BE REMOVED
+	this->phys = new PhysicsComponent
+	(
+		Vector2f(0.f, 0.f),		//Velocity
+		Vector2f(2000.f, 2000.f),	//Max speed
+		Vector2f(3000.f, 9000.f),	//Acceleration
+		Vector2f(1.f, 1.f), //AccelerationMultiplier
+		1500.f,	//Degen Left
+		1500.f,	//Degen Right
+		0.f,	//Degen Up
+		0.f	//Degen Down
+	);
+
+	this->input = new InputComponent();
+
+	// TO BE REMOVED ===================== TO BE REMOVED
+	x = 0.f;
+	size = 50.f;
+	timer = 0.f;
+	shape.setFillColor(Color::Red);
+	shape.setSize(Vector2f(50.f, 50.f));
+	shape.setTexture(this->textureHandler->getTexture(SPRITE_SHEET_BOX_01));
+	shape.setTextureRect(IntRect(150.f, 0, size, size));
+}
+
 void Game::initialize()
 {
 	//Variables
@@ -101,6 +111,9 @@ void Game::initialize()
 
 	//Fonts and Text
 	this->initFonts();
+
+	//Testing =================== TO BE REMOVED!
+	this->initTesting();
 
 	//Complete
 	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
@@ -260,23 +273,8 @@ void Game::updateMousePositions()
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 }
 
-void Game::update()
+void Game::updateTesting()
 {
-	//Debug
-	this->updateDebugPrint();
-
-	//Delta Time
-	this->updateDT();
-
-	//Events
-	this->updateEvents();
-
-	//Input
-	this->updateKeyboardInput();
-
-	//Mouse positions
-	this->updateMousePositions();
-
 	//Testing =========================== TO BE REMOVED
 	this->text.move(Vector2f(100.f * dt, 0.f));
 	if (this->text.getPosition().x >= this->window->getSize().x)
@@ -295,7 +293,7 @@ void Game::update()
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
 	}
 
-	if(shape.getPosition().y < 0.f) //Collision top of screen
+	if (shape.getPosition().y < 0.f) //Collision top of screen
 	{
 		this->phys->stopVelocityY();
 		shape.setPosition(Vector2f(shape.getPosition().x, 0.f));
@@ -304,15 +302,15 @@ void Game::update()
 	if (shape.getPosition().x < 0.f) //Collision left of screen
 	{
 		this->phys->stopVelocityX();
-		shape.setPosition(Vector2f(0.f, shape.getPosition().y));		
+		shape.setPosition(Vector2f(0.f, shape.getPosition().y));
 	}
-	
+
 	if (shape.getPosition().x + shape.getGlobalBounds().width > this->window->getSize().x) //Collision right of screen
 	{
 		this->phys->stopVelocityX();
 		shape.setPosition(Vector2f(this->window->getSize().x - shape.getGlobalBounds().width, shape.getPosition().y));
 	}
-	
+
 	//Move
 	// TO BE REMOVED ===================== TO BE REMOVED
 	if (this->input->isKeyPressed(RIGHT_KEY))
@@ -321,7 +319,7 @@ void Game::update()
 		phys->incrementVelocity(-1.f, 0.f, dt);
 	if (this->input->isKeyPressed(JUMP_KEY))
 		phys->incrementVelocity(0.f, -1.f, dt);
-	
+
 	if (this->input->isKeyPressed(SPRINT_KEY))
 		this->phys->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
 	else
@@ -329,16 +327,56 @@ void Game::update()
 
 	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity() * this->dt);
+
+	shape.setTextureRect(IntRect(x, 0, size, size));
+	
+	timer += 10 * dt;
+	
+	if (timer >= 0.5f)
+	{
+		x += 50.f;
+		timer = 0.f;
+	}
+
+	if (x >= shape.getTexture()->getSize().x)
+		x = 0.f;
+}
+
+void Game::update()
+{
+	//Debug
+	this->updateDebugPrint();
+
+	//Delta Time
+	this->updateDT();
+
+	//Events
+	this->updateEvents();
+
+	//Input
+	this->updateKeyboardInput();
+
+	//Mouse positions
+	this->updateMousePositions();
+
+	//Testing ================== TO BE REMOVED
+	this->updateTesting();
 }
 
 //Render
+void Game::renderTesting()
+{
+	this->window->draw(shape); // TO BE REMOVED ===================== TO BE REMOVED
+
+	this->window->draw(text); // TO BE REMOVED ===================== TO BE REMOVED
+}
+
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
 
-	this->window->draw(shape); // TO BE REMOVED ===================== TO BE REMOVED
-
-	this->window->draw(text); // TO BE REMOVED ===================== TO BE REMOVED
+	//TO BE REMOVED =========================== TO BE REMOVED
+	this->renderTesting();
 
 	this->window->display();
 }

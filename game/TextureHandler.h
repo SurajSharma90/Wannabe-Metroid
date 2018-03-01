@@ -5,7 +5,7 @@
 //Enums
 enum texture_list //Keep this updated (hardcoded) with main list of textures
 { 
-	BLANK_TRANSPARENT = 0
+	BLANK_TRANSPARENT = 0, SPRITE_SHEET_BOX_01
 };
 
 class TextureHandler

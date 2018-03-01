@@ -1,1 +1,6 @@
-﻿  game.vcxproj -> F:\Game Projects\game\Debug\game.exe
+﻿  Game.cpp
+f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\game.cpp(98): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\game.cpp(331): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  game.vcxproj -> F:\Game Projects\game\Debug\game.exe
