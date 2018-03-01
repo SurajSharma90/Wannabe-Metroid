@@ -66,8 +66,6 @@ public:
 
 				if (Joystick::getAxisPosition(0, Joystick::Axis::PovX) <= -100)
 					return true;
-				else
-					return false;	
 
 				break;
 			
@@ -75,8 +73,6 @@ public:
 
 				if (Joystick::getAxisPosition(0, Joystick::Axis::PovX) >= 100)
 					return true;
-				else
-					return false;
 
 				break;
 			
@@ -84,8 +80,6 @@ public:
 
 				if (Joystick::isButtonPressed(0, this->jumpJoy))
 					return true;
-				else
-					return false;
 
 				break;
 			
@@ -93,8 +87,6 @@ public:
 
 				if (Joystick::getAxisPosition(0, Joystick::Axis::PovY) <= -100)
 					return true;
-				else
-					return false;
 
 				break;
 
@@ -102,8 +94,6 @@ public:
 
 				if (Joystick::isButtonPressed(0, this->sprintJoy))
 					return true;
-				else
-					return false;
 
 				break;
 			
@@ -114,29 +104,28 @@ public:
 		}
 		
 		//Keyboard controls
-		else 
+		switch (KEY)
 		{
-			switch (KEY)
-			{
-			case LEFT_KEY:
-				return Keyboard::isKeyPressed(Keyboard::Key(this->leftKey));
-				break;
-			case RIGHT_KEY:
-				return Keyboard::isKeyPressed(Keyboard::Key(this->rightKey));
-				break;
-			case JUMP_KEY:
-				return Keyboard::isKeyPressed(Keyboard::Key(this->jumpKey));
-				break;
-			case CROUCH_KEY:
-				return Keyboard::isKeyPressed(Keyboard::Key(this->crouchKey));
-				break;
-			case SPRINT_KEY:
-				return Keyboard::isKeyPressed(Keyboard::Key(this->sprintKey));
-				break;
-			default:
-				return false;
-				break;
-			}
+		case LEFT_KEY:
+			return Keyboard::isKeyPressed(Keyboard::Key(this->leftKey));
+			break;
+		case RIGHT_KEY:
+			return Keyboard::isKeyPressed(Keyboard::Key(this->rightKey));
+			break;
+		case JUMP_KEY:
+			return Keyboard::isKeyPressed(Keyboard::Key(this->jumpKey));
+			break;
+		case CROUCH_KEY:
+			return Keyboard::isKeyPressed(Keyboard::Key(this->crouchKey));
+			break;
+		case SPRINT_KEY:
+			return Keyboard::isKeyPressed(Keyboard::Key(this->sprintKey));
+			break;
+		default:
+			return false;
+			break;
 		}
+		
+		return false;
 	}
 };
