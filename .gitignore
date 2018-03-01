@@ -1,0 +1,11 @@
+Debug/game.exe
+game/Debug/vc141.pdb
+game/Debug/vc141.pdb
+*.obj
+*.log
+Debug/game.pdb
+*.ilk
+Debug/game.exe
+*.ipch
+.vs/game/v15/Browse.VC.db
+.vs/game/v15/.suo

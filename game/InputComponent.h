@@ -16,6 +16,8 @@ private:
 	unsigned short sprintKey;
 
 	//Joystick
+	bool joystick_connected;
+
 	unsigned short jumpJoy;
 	unsigned short sprintJoy;
 
@@ -23,6 +25,20 @@ private:
 	void loadKeyMapFromFile()
 	{
 		std::string fileName = "";
+	}
+	void updateJoystickConnection()
+	{
+		if (Joystick::isConnected(0) && !this->joystick_connected)
+		{
+			this->joystick_connected = true;
+			std::cout << "INPUTCOMPONENT::JOYSTICK_0_CONNECTED" << "\n";
+		}
+		
+		if(!Joystick::isConnected(0) && this->joystick_connected)
+		{
+			this->joystick_connected = false;
+			std::cout << "INPUTCOMPONENT::JOYSTICK_0_DISCONNECTED" << "\n";
+		}
 	}
 
 public:
@@ -44,6 +60,8 @@ public:
 		this->sprintKey = sprintKey;
 
 		//Joystick
+		this->joystick_connected = false;
+
 		this->jumpJoy = jumpJoy;
 		this->sprintJoy = sprintJoy;
 	}
@@ -57,8 +75,11 @@ public:
 	//Functions
 	bool isKeyPressed(const enum key_binds KEY)
 	{
+		//Check if joystick is still connected
+		this->updateJoystickConnection();
+
 		//Joystick controls
-		if (Joystick::isConnected(0)) 
+		if (this->joystick_connected) 
 		{
 			switch (KEY)
 			{
@@ -126,6 +147,7 @@ public:
 			break;
 		}
 		
+		//No key was pressed
 		return false;
 	}
 };
