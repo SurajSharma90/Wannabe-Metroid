@@ -78,10 +78,10 @@ void Game::initTesting()
 	(
 		Vector2f(0.f, 0.f),		//Velocity
 		Vector2f(2000.f, 2000.f),	//Max speed
-		Vector2f(3000.f, 9000.f),	//Acceleration
+		Vector2f(8000.f, 10000.f),	//Acceleration
 		Vector2f(1.f, 1.f), //AccelerationMultiplier
-		1500.f,	//Degen Left
-		1500.f,	//Degen Right
+		4000.f,	//Degen Left
+		4000.f,	//Degen Right
 		0.f,	//Degen Up
 		0.f	//Degen Down
 	);
@@ -91,9 +91,11 @@ void Game::initTesting()
 	// TO BE REMOVED ===================== TO BE REMOVED
 	moving = false;
 	jumping = false;
-	shape.setTexture(*this->textureHandler->getTexture(SPRITE_SHEET_BOX_01));
-	shape.setTextureRect(IntRect(0, 0, 50.f, 50.f));
-	this->animation = new Animation(&this->shape, IntRect(0, 0, 50, 50), 1.f, 0.f, 0.5f);
+	shape.setTexture(*this->textureHandler->getTexture(PLAYER_SHEET));
+	shape.setTextureRect(IntRect(0, 0, 40.f, 50.f));
+	shape.setScale(Vector2f(4.f, 4.f));
+	this->animation_run = new Animation(&this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f);
+	this->animation_idle = new Animation(&this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f);
 }
 
 void Game::initialize()
@@ -133,6 +135,8 @@ void Game::cleanup()
 	//TO BE REMOVED ===================== TO BE REMOVED
 	delete this->phys;
 	delete this->input;
+	delete this->animation_run;
+	delete this->animation_idle;
 }
 
 //Private functions
@@ -331,6 +335,19 @@ void Game::updateTesting()
 	else
 		this->phys->setAccelerationMultiplier(Vector2f(1.f, 1.f));
 
+	this->phys->update(this->dt);
+
+	if (phys->isMovingLeft())
+	{
+		this->shape.setScale(-4.f, 4.f);
+		this->shape.setOrigin(Vector2f(shape.getTextureRect().width, 0.f));
+	}
+	else if (phys->isMovingRight())
+	{
+		this->shape.setScale(4.f, 4.f);
+		this->shape.setOrigin(Vector2f(0.f, 0.f));
+	}
+
 	if (phys->isMovingHorizontal())
 		moving = true;
 	else
@@ -338,12 +355,15 @@ void Game::updateTesting()
 
 	if (moving)
 	{
-		animation->animate(this->dt);
+		animation_idle->reset();
+		animation_run->animate(this->dt);
 	}
 	else
-		animation->reset();
+	{
+		animation_run->reset();
+		animation_idle->animate(this->dt);
+	}
 
-	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity() * this->dt);
 }
 

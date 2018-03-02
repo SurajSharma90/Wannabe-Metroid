@@ -7,12 +7,19 @@ class Animation
 private:
 	//Variables
 	Sprite* sprite;					//Sprite including a texture sheet
-	IntRect originalRect;			//Starting texture rect saved(frame)
-	IntRect textureRect;			//Starting texture rect (frame)
-	float rows;						//How many rows the animation spans
-	float spaceBetween;				//Space between frames
+	IntRect originalTextureRect;	//Starting texture rect saved(frame)
+	IntRect currentTextureRect;		//Starting texture rect (frame)
+	unsigned maxWidth;				//Max width of animation texture strip
+	unsigned maxHeight;				//As above but for height
+	float frameWidth;				//Width of one frame
+	float frameHeight;				//Height of one frame
+	float spaceBetweenFrames;		//Space between frames
 	float animationTime;			//The time it takes between frames
 	float timer;					//Timer to handle animation transistions
+	bool stopped;					//Used to stop animation mid-sequence
+	short nrOfFrames;				//The maximum number of frames
+	short currentFrame;				//The frame the animation is on
+	bool hasBeenReset;				//Keeps track of if the animation has been reset
 
 	//Private functions
 	void updateTimer(const float& dt)
@@ -25,19 +32,27 @@ public:
 	//Constructors/Destructors
 	Animation(
 		Sprite* sprite,
-		IntRect textureRect,
-		float rows,
-		float spaceBetween,
+		IntRect currentTextureRect,
+		unsigned maxWidth,
+		unsigned maxHeight,
+		float spaceBetweenFrames,
 		float animationTime
 		)
 	{
 		this->sprite = sprite;
-		this->originalRect = textureRect;
-		this->textureRect = textureRect;
-		this->rows = rows;
-		this->spaceBetween = spaceBetween;
+		this->originalTextureRect = currentTextureRect;
+		this->currentTextureRect = currentTextureRect;
+		this->maxWidth = maxWidth;
+		this->maxHeight = maxHeight;
+		this->frameWidth = currentTextureRect.width;
+		this->frameHeight = currentTextureRect.height;
+		this->spaceBetweenFrames = spaceBetweenFrames;
 		this->animationTime = animationTime;
 		this->timer = this->animationTime;
+		this->stopped = false;
+		this->nrOfFrames = this->maxWidth / this->originalTextureRect.width;
+		this->currentFrame = 0;
+		this->hasBeenReset = false;
 	}
 
 	virtual ~Animation()
@@ -52,30 +67,99 @@ public:
 	//Functions
 	void animate(const float& dt)
 	{
-		//Update animation timer
-		this->updateTimer(dt); 
-
-		//Animate ONE row
-		if (this->textureRect.left < this->sprite->getTexture()->getSize().x && this->timer >= this->animationTime)
+		//If the animation is not stopped
+		if (!this->stopped)
 		{
-			this->timer = 0.f;
-			this->textureRect.left += this->textureRect.width;
+			//Update animation timer
+			this->updateTimer(dt);
+
+			//Set Texture rect to display
+			this->sprite->setTextureRect(this->currentTextureRect);
+
+			//Animate ONE row
+			if (this->currentFrame < this->nrOfFrames && this->timer >= this->animationTime)
+			{
+				this->timer = 0.f;
+				this->currentTextureRect.left += this->frameWidth;
+				this->currentFrame++;
+			}
+
+			//After row is complete, reset position for looped animation
+			if (this->currentFrame >= this->nrOfFrames)
+			{
+				this->currentTextureRect = this->originalTextureRect;
+				this->currentFrame = 0;
+			}
+
+			this->hasBeenReset = false;
 		}
-		
-		//After row is complete, reset position for looped animation
-		if (this->textureRect.left >= this->sprite->getTexture()->getSize().x)
+	}
+
+	void animateOnce(const float& dt)
+	{
+		//If the animation is not stopped
+		if (!this->stopped)
 		{
-			this->textureRect.left = 0;
+			//Update animation timer
+			this->updateTimer(dt);
+
+			//Animate ONE row
+			if (this->currentFrame < this->nrOfFrames - 1 && this->timer >= this->animationTime)
+			{
+				this->timer = 0.f;
+				this->currentTextureRect.left += this->frameWidth;
+				this->currentFrame++;
+			}
+
+			//Set Texture rect to display
+			this->sprite->setTextureRect(this->currentTextureRect);
+
+			this->hasBeenReset = false;
+		}
+	}
+	
+
+	bool isDone()
+	{
+		if (this->currentFrame >= this->nrOfFrames)
+		{
+			return true;
 		}
 
-		//Set Texture rect to display
-		this->sprite->setTextureRect(this->textureRect);
+		return false;
+	}
+
+	void stop(short frame = -1)
+	{
+		if (!this->stopped)
+		{
+			if (frame > this->nrOfFrames)
+				std::cout << "ERROR::ANIMATION::STOP::FRAME_GREATER_THAN_NROFFRAMES" << "\n";
+			else if (this->currentFrame == frame || frame < 0)
+				
+				this->stopped = true;
+		}
+	}
+
+	void start()
+	{
+		if (this->stopped)
+		{
+			this->stopped = false;
+			this->hasBeenReset = false;
+		}
 	}
 
 	void reset()
 	{
-		this->textureRect = this->originalRect;
-		this->sprite->setTextureRect(this->originalRect);
-		this->timer = this->animationTime;
+		if (!this->hasBeenReset)
+		{
+			this->currentTextureRect = this->originalTextureRect;
+			this->timer = this->animationTime;
+			this->currentFrame = 0;
+			this->stopped = false;
+
+			this->hasBeenReset = true;
+		}
 	}
 };

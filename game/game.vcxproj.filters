@@ -15,9 +15,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextureHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputComponent.h">
       <Filter>Component FIles</Filter>
     </ClInclude>
@@ -40,6 +37,9 @@
       <Filter>Component FIles</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Component FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureHandler.h">
       <Filter>Component FIles</Filter>
     </ClInclude>
   </ItemGroup>
