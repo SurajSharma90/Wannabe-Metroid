@@ -280,6 +280,30 @@ public:
 			return false;
 	}
 
+	bool isMovingVertical()
+	{
+		if (this->velocity.y > 0.f || this->velocity.y < 0.f)
+			return true;
+		else
+			return false;
+	}
+
+	bool isMovingUp()
+	{
+		if (this->velocity.y < 0.f)
+			return true;
+		else
+			return false;
+	}
+
+	bool isMovingDown()
+	{
+		if (this->velocity.y > 0.f)
+			return true;
+		else
+			return false;
+	}
+
 	void update(const float& dt)
 	{
 		//Slow the entity down

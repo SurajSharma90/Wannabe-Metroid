@@ -48,6 +48,7 @@ private:
 	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
 	Animation* animation_idle; //TO BE REMOVED ===================== TO BE REMOVED
 	Animation* animation_run; //TO BE REMOVED ===================== TO BE REMOVED
+	Animation* animation_jump; //TO BE REMOVED ===================== TO BE REMOVED
 
 	//Initializers
 	void initVariables();

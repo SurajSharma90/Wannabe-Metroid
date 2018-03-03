@@ -96,6 +96,7 @@ void Game::initTesting()
 	shape.setScale(Vector2f(4.f, 4.f));
 	this->animation_run = new Animation(&this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f);
 	this->animation_idle = new Animation(&this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f);
+	this->animation_jump = new Animation(&this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 1.0f);
 }
 
 void Game::initialize()
@@ -137,6 +138,7 @@ void Game::cleanup()
 	delete this->input;
 	delete this->animation_run;
 	delete this->animation_idle;
+	delete this->animation_jump;
 }
 
 //Private functions
@@ -293,6 +295,7 @@ void Game::updateTesting()
 	{
 		this->phys->stopVelocityY();
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
+		this->animation_jump->reset();
 	}
 
 	if (shape.getPosition().y < 0.f) //Collision top of screen
@@ -335,8 +338,6 @@ void Game::updateTesting()
 	else
 		this->phys->setAccelerationMultiplier(Vector2f(1.f, 1.f));
 
-	this->phys->update(this->dt);
-
 	if (phys->isMovingLeft())
 	{
 		this->shape.setScale(-4.f, 4.f);
@@ -353,17 +354,37 @@ void Game::updateTesting()
 	else
 		moving = false;
 
-	if (moving)
+	if (phys->isMovingVertical())
+	{
+		jumping = true;
+	}
+	else
+		jumping = false;
+
+	if (moving && !jumping)
 	{
 		animation_idle->reset();
 		animation_run->animate(this->dt);
 	}
-	else
+	else if (!moving && !jumping)
 	{
 		animation_run->reset();
 		animation_idle->animate(this->dt);
 	}
 
+	if (phys->isMovingUp())
+	{
+		this->animation_jump->animateOnce(this->dt);
+		this->animation_jump->stop(4);
+	}
+	else if (phys->isMovingDown())
+	{
+		this->animation_jump->animateOnce(this->dt);
+		this->animation_jump->start();
+		this->animation_jump->stop(6);
+	}
+
+	this->phys->update(this->dt);
 	shape.move(this->phys->getVelocity() * this->dt);
 }
 

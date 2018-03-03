@@ -103,6 +103,9 @@ public:
 			//Update animation timer
 			this->updateTimer(dt);
 
+			//Set Texture rect to display
+			this->sprite->setTextureRect(this->currentTextureRect);
+
 			//Animate ONE row
 			if (this->currentFrame < this->nrOfFrames - 1 && this->timer >= this->animationTime)
 			{
@@ -111,14 +114,12 @@ public:
 				this->currentFrame++;
 			}
 
-			//Set Texture rect to display
-			this->sprite->setTextureRect(this->currentTextureRect);
+			//After row is complete, reset position for looped animation
 
 			this->hasBeenReset = false;
 		}
 	}
 	
-
 	bool isDone()
 	{
 		if (this->currentFrame >= this->nrOfFrames)
@@ -135,8 +136,7 @@ public:
 		{
 			if (frame > this->nrOfFrames)
 				std::cout << "ERROR::ANIMATION::STOP::FRAME_GREATER_THAN_NROFFRAMES" << "\n";
-			else if (this->currentFrame == frame || frame < 0)
-				
+			else if (this->currentFrame == frame || frame < 0)			
 				this->stopped = true;
 		}
 	}
