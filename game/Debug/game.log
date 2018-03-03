@@ -9,5 +9,5 @@ f:\game projects\game\game\game.cpp(97): warning C4244: 'argument': conversion f
 f:\game projects\game\game\game.cpp(99): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 f:\game projects\game\game\game.cpp(100): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 f:\game projects\game\game\game.cpp(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(344): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+f:\game projects\game\game\game.cpp(357): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

@@ -11,3 +11,7 @@
 *.vcxproj.filters
 *.opendb
 *.VC.db
+Debug/
+Release/
+x64/
+.vs/
