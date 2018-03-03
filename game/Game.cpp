@@ -89,14 +89,16 @@ void Game::initTesting()
 	this->input = new InputComponent();
 
 	// TO BE REMOVED ===================== TO BE REMOVED
+	this->anim = new AnimationComponent();
+
 	moving = false;
 	jumping = false;
 	shape.setTexture(*this->textureHandler->getTexture(PLAYER_SHEET));
 	shape.setTextureRect(IntRect(0, 0, 40.f, 50.f));
 	shape.setScale(Vector2f(4.f, 4.f));
-	this->animation_run = new Animation(&this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f);
-	this->animation_idle = new Animation(&this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f);
-	this->animation_jump = new Animation(&this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 1.0f);
+	this->anim->addAnimation(Animation("Running", &this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f));
+	this->anim->addAnimation(Animation("Idle", &this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f));
+	this->anim->addAnimation(Animation("Jumping", &this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.7f));
 }
 
 void Game::initialize()
@@ -136,9 +138,7 @@ void Game::cleanup()
 	//TO BE REMOVED ===================== TO BE REMOVED
 	delete this->phys;
 	delete this->input;
-	delete this->animation_run;
-	delete this->animation_idle;
-	delete this->animation_jump;
+	delete this->anim;
 }
 
 //Private functions
@@ -295,7 +295,7 @@ void Game::updateTesting()
 	{
 		this->phys->stopVelocityY();
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
-		this->animation_jump->reset();
+		this->anim->getAnimation(ANIMATION_JUMP)->reset();
 	}
 
 	if (shape.getPosition().y < 0.f) //Collision top of screen
@@ -363,25 +363,25 @@ void Game::updateTesting()
 
 	if (moving && !jumping)
 	{
-		animation_idle->reset();
-		animation_run->animate(this->dt);
+		this->anim->getAnimation(ANIMATION_IDLE)->reset();
+		this->anim->getAnimation(ANIMATION_RUNNING)->animate(this->dt);
 	}
 	else if (!moving && !jumping)
 	{
-		animation_run->reset();
-		animation_idle->animate(this->dt);
+		this->anim->getAnimation(ANIMATION_RUNNING)->reset();
+		this->anim->getAnimation(ANIMATION_IDLE)->animate(this->dt);
 	}
 
 	if (phys->isMovingUp())
 	{
-		this->animation_jump->animateOnce(this->dt);
-		this->animation_jump->stop(4);
+		this->anim->getAnimation(ANIMATION_JUMP)->animateOnce(this->dt);
+		this->anim->getAnimation(ANIMATION_JUMP)->stop(4);
 	}
 	else if (phys->isMovingDown())
 	{
-		this->animation_jump->animateOnce(this->dt);
-		this->animation_jump->start();
-		this->animation_jump->stop(6);
+		this->anim->getAnimation(ANIMATION_JUMP)->animateOnce(this->dt);
+		this->anim->getAnimation(ANIMATION_JUMP)->start();
+		this->anim->getAnimation(ANIMATION_JUMP)->stop(6);
 	}
 
 	this->phys->update(this->dt);

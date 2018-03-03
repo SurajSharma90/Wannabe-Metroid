@@ -46,9 +46,8 @@ private:
 	Sprite shape; // TO BE REMOVED ===================== TO BE REMOVED
 	PhysicsComponent* phys; // TO BE REMOVED ===================== TO BE REMOVED
 	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
-	Animation* animation_idle; //TO BE REMOVED ===================== TO BE REMOVED
-	Animation* animation_run; //TO BE REMOVED ===================== TO BE REMOVED
-	Animation* animation_jump; //TO BE REMOVED ===================== TO BE REMOVED
+	AnimationComponent* anim;
+	enum animations {ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP};
 
 	//Initializers
 	void initVariables();

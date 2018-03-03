@@ -6,6 +6,7 @@ class Animation
 {
 private:
 	//Variables
+	std::string name;
 	Sprite* sprite;					//Sprite including a texture sheet
 	IntRect originalTextureRect;	//Starting texture rect saved(frame)
 	IntRect currentTextureRect;		//Starting texture rect (frame)
@@ -31,6 +32,7 @@ private:
 public:
 	//Constructors/Destructors
 	Animation(
+		std::string name,
 		Sprite* sprite,
 		IntRect currentTextureRect,
 		unsigned maxWidth,
@@ -39,6 +41,7 @@ public:
 		float animationTime
 		)
 	{
+		this->name = name;
 		this->sprite = sprite;
 		this->originalTextureRect = currentTextureRect;
 		this->currentTextureRect = currentTextureRect;
