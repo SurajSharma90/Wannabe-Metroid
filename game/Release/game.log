@@ -9,17 +9,10 @@ Game.cpp(97): warning C4244: 'argument': conversion from 'float' to 'int', possi
 Game.cpp(99): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 Game.cpp(100): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 Game.cpp(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(344): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  main.cpp
-f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\FontHandler.h(63): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\Animation.h(50): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(86): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\Animation.h(116): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+Game.cpp(357): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   Generating code
-  188 of 423 functions (44.4%) were compiled, the rest were copied from previous compilation.
-    159 functions were new in current compilation
-    55 functions had inline decision re-evaluated but remain unchanged
+  2 of 424 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   game.vcxproj -> F:\Game Projects\game\Release\game.exe

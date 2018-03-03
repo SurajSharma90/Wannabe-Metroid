@@ -40,7 +40,7 @@ private:
 	FontHandler* fontHandler;
 	Text text; // TO BE REMOVED ===================== TO BE REMOVED
 
-	//Player
+	//Player§
 	bool moving;
 	bool jumping;
 	Sprite shape; // TO BE REMOVED ===================== TO BE REMOVED

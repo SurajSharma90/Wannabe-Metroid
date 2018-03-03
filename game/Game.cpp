@@ -98,7 +98,7 @@ void Game::initTesting()
 	shape.setScale(Vector2f(4.f, 4.f));
 	this->anim->addAnimation(Animation("Running", &this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f));
 	this->anim->addAnimation(Animation("Idle", &this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f));
-	this->anim->addAnimation(Animation("Jumping", &this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.7f));
+	this->anim->addAnimation(Animation("Jumping", &this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.9f));
 }
 
 void Game::initialize()
@@ -195,7 +195,7 @@ bool Game::checkKeyTime()
 
 //Constructors / Destructors
 Game::Game()
-	: WINDOW_WIDTH(800), WINDOW_HEIGHT(600)
+	: WINDOW_WIDTH(1600), WINDOW_HEIGHT(900)
 {
 	//Init game
 	this->initialize();
@@ -296,6 +296,7 @@ void Game::updateTesting()
 		this->phys->stopVelocityY();
 		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
 		this->anim->getAnimation(ANIMATION_JUMP)->reset();
+		jumping = false;
 	}
 
 	if (shape.getPosition().y < 0.f) //Collision top of screen
@@ -320,17 +321,29 @@ void Game::updateTesting()
 	// TO BE REMOVED ===================== TO BE REMOVED
 	if (this->input->isKeyPressed(RIGHT_KEY))
 	{
-		phys->incrementVelocity(1.f, 0.f, dt);
+		if (!jumping)
+			phys->incrementVelocity(1.f, 0.f, this->dt);
+		else
+		{
+			phys->incrementVelocity(1.f, 0.f, 0.6f, this->dt);
+		}
 	}
 	
 	if (this->input->isKeyPressed(LEFT_KEY))
 	{
-		phys->incrementVelocity(-1.f, 0.f, dt);
+		if (!jumping)
+			phys->incrementVelocity(-1.f, 0.f, this->dt);
+		else
+		{
+			phys->incrementVelocity(-1.f, 0.f, 0.6f, this->dt);
+		}
 	}
 	
-	if (this->input->isKeyPressed(JUMP_KEY))
+	if (this->input->isKeyPressed(JUMP_KEY) && !jumping)
 	{
-		phys->incrementVelocity(0.f, -1.f, dt);
+		phys->setVelocityY(-1200.f);
+		jumping = true;
+		//phys->incrementVelocity(0.f, -1.f, dt);
 	}
 
 	if (this->input->isKeyPressed(SPRINT_KEY))
@@ -353,13 +366,6 @@ void Game::updateTesting()
 		moving = true;
 	else
 		moving = false;
-
-	if (phys->isMovingVertical())
-	{
-		jumping = true;
-	}
-	else
-		jumping = false;
 
 	if (moving && !jumping)
 	{

@@ -103,6 +103,16 @@ public:
 		return this->maxSpeed;
 	}
 
+	inline const float& getMaxSpeedX() const
+	{
+		return this->maxSpeed.x;
+	}
+
+	inline const float& getMaxSpeedY() const
+	{
+		return this->maxSpeed.y;
+	}
+
 	inline const Vector2f& getAcceleration() const
 	{
 		return this->acceleration;
@@ -146,68 +156,19 @@ public:
 		this->velocity.y = y;
 	}
 
-	inline void incrementVelocity(
-		const float& dirX,
-		const float& dirY,
-		const float& dt)
+	inline void setVelocityX(const float& velocityX)
 	{
-		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
-
-		//Velocity X increment and clamp
-		this->velocity.x += this->acceleration.x * this->accelerationMultiplier.x * dirX * dt;
-
-		if (this->velocity.x > this->maxSpeed.x)
-		{
-			this->velocity.x = this->maxSpeed.x;
-		}
-		else if (this->velocity.x < -this->maxSpeed.x)
-		{
-			this->velocity.x = -this->maxSpeed.x;
-		}
-
-		//Velocity Y increment and clamp
-		this->velocity.y += this->acceleration.y * this->accelerationMultiplier.y * dirY * dt;
-
-		if (this->velocity.y > this->maxSpeed.y)
-		{
-			this->velocity.y = this->maxSpeed.y;
-		}
-		else if (this->velocity.y < -this->maxSpeed.y)
-		{
-			this->velocity.y = -this->maxSpeed.y;
-		}
+		this->velocity.x = velocityX;
 	}
 
-	inline void incrementVelocityOuterForce(
-		const float& outerAccelerationX,
-		const float& outerAccelerationY,
-		const float& dt)
+	inline void setVelocityY(const float& velocityY)
 	{
-		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+		this->velocity.y = velocityY;
+	}
 
-		//Velocity X increment and clamp
-		this->velocity.x += outerAccelerationX * dt;
-
-		if (this->velocity.x > this->maxSpeed.x)
-		{
-			this->velocity.x = this->maxSpeed.x;
-		}
-		else if (this->velocity.x < -this->maxSpeed.x)
-		{
-			this->velocity.x = -this->maxSpeed.x;
-		}
-
-		//Velocity Y increment and clamp
-		this->velocity.y += outerAccelerationY * dt;
-
-		if (this->velocity.y > this->maxSpeed.y)
-		{
-			this->velocity.y = this->maxSpeed.y;
-		}
-		else if (this->velocity.y < -this->maxSpeed.y)
-		{
-			this->velocity.y = -this->maxSpeed.y;
-		}
+	inline void setVelocity(const Vector2f& velocity)
+	{
+		this->velocity = velocity;
 	}
 
 	inline void setMaxSpeed(const Vector2f& maxSpeed)
@@ -254,6 +215,146 @@ public:
 	void stopVelocityX()
 	{
 		this->velocity.x = 0.f;
+	}
+
+	inline void incrementVelocity(
+		const float& dirX,
+		const float& dirY,
+		const float& dt)
+	{
+		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+
+		//Velocity X increment and clamp
+		this->velocity.x += this->acceleration.x * this->accelerationMultiplier.x * dirX * dt;
+
+		if (this->velocity.x > this->maxSpeed.x)
+		{
+			this->velocity.x = this->maxSpeed.x;
+		}
+		else if (this->velocity.x < -this->maxSpeed.x)
+		{
+			this->velocity.x = -this->maxSpeed.x;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += this->acceleration.y * this->accelerationMultiplier.y * dirY * dt;
+
+		if (this->velocity.y > this->maxSpeed.y)
+		{
+			this->velocity.y = this->maxSpeed.y;
+		}
+		else if (this->velocity.y < -this->maxSpeed.y)
+		{
+			this->velocity.y = -this->maxSpeed.y;
+		}
+	}
+
+	inline void incrementVelocity(
+		const float& dirX,
+		const float& dirY,
+		const float& scale,
+		const float& dt)
+	{
+		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+
+		//Velocity X increment and clamp
+		this->velocity.x += this->acceleration.x * this->accelerationMultiplier.x * scale * dirX * dt;
+
+		if (this->velocity.x > this->maxSpeed.x)
+		{
+			this->velocity.x = this->maxSpeed.x;
+		}
+		else if (this->velocity.x < -this->maxSpeed.x)
+		{
+			this->velocity.x = -this->maxSpeed.x;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += this->acceleration.y * this->accelerationMultiplier.y * scale * dirY * dt;
+
+		if (this->velocity.y > this->maxSpeed.y)
+		{
+			this->velocity.y = this->maxSpeed.y;
+		}
+		else if (this->velocity.y < -this->maxSpeed.y)
+		{
+			this->velocity.y = -this->maxSpeed.y;
+		}
+	}
+
+	inline void incrementVelocity(
+		const float& dirX,
+		const float& dirY,
+		const float& scale,
+		const float& maxSpeedX,
+		const float& maxSpeedY,
+		const float& dt)
+	{
+		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+
+		//Velocity X increment and clamp
+		this->velocity.x += this->acceleration.x * this->accelerationMultiplier.x * scale * dirX * dt;
+
+		if (this->velocity.x > maxSpeedX)
+		{
+			this->velocity.x = maxSpeedX;
+		}
+		else if (this->velocity.x < -maxSpeedX)
+		{
+			this->velocity.x = -maxSpeedX;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += this->acceleration.y * this->accelerationMultiplier.y * scale * dirY * dt;
+
+		if (this->velocity.y > maxSpeedY)
+		{
+			this->velocity.y = maxSpeedY;
+		}
+		else if (this->velocity.y < -maxSpeedY)
+		{
+			this->velocity.y = -maxSpeedY;
+		}
+	}
+
+	inline void incrementVelocityOuterForce(
+		const float& outerAccelerationX,
+		const float& outerAccelerationY,
+		const float& dt)
+	{
+		/* ASSUMES DIRECTION IS NORMALIZED!!!*/
+
+		//Velocity X increment and clamp
+		this->velocity.x += outerAccelerationX * dt;
+
+		if (this->velocity.x > this->maxSpeed.x)
+		{
+			this->velocity.x = this->maxSpeed.x;
+		}
+		else if (this->velocity.x < -this->maxSpeed.x)
+		{
+			this->velocity.x = -this->maxSpeed.x;
+		}
+
+		//Velocity Y increment and clamp
+		this->velocity.y += outerAccelerationY * dt;
+
+		if (this->velocity.y > this->maxSpeed.y)
+		{
+			this->velocity.y = this->maxSpeed.y;
+		}
+		else if (this->velocity.y < -this->maxSpeed.y)
+		{
+			this->velocity.y = -this->maxSpeed.y;
+		}
+	}
+
+	inline void keepVelocityX(const float& dt)
+	{
+		if(this->velocity.x > 0.f)
+			this->velocity.x += this->degenerationLeft * dt;
+		else if (this->velocity.x < 0.f)
+			this->velocity.x -= this->degenerationRight * dt;
 	}
 
 	bool isMovingHorizontal()
