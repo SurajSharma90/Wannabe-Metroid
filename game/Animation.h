@@ -17,6 +17,7 @@ private:
 	float spaceBetweenFrames;		//Space between frames
 	float animationTime;			//The time it takes between frames
 	float timer;					//Timer to handle animation transistions
+	float timerIncrement;
 	bool stopped;					//Used to stop animation mid-sequence
 	short nrOfFrames;				//The maximum number of frames
 	short currentFrame;				//The frame the animation is on
@@ -26,7 +27,13 @@ private:
 	void updateTimer(const float& dt)
 	{
 		if (this->timer <= this->animationTime)
-			this->timer += 10.f * dt;
+			this->timer += this->timerIncrement * dt;
+	}
+
+	void updateTimer(const float& dt, const float& customTimer)
+	{
+		if (this->timer <= customTimer)
+			this->timer += this->timerIncrement * dt;
 	}
 
 public:
@@ -52,6 +59,7 @@ public:
 		this->spaceBetweenFrames = spaceBetweenFrames;
 		this->animationTime = animationTime;
 		this->timer = this->animationTime;
+		this->timerIncrement = 10.f;
 		this->stopped = false;
 		this->nrOfFrames = this->maxWidth / this->originalTextureRect.width;
 		this->currentFrame = 0;

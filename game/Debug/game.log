@@ -1,13 +1,28 @@
-﻿  Game.cpp
+﻿  Player.cpp
+f:\game projects\game\game\animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\player.cpp(41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\player.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\player.cpp(43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\player.cpp(168): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Game.cpp
 f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
 f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\animation.h(50): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(86): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\animation.h(116): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(97): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(99): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(100): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(357): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\game.cpp(83): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  main.cpp
+f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe

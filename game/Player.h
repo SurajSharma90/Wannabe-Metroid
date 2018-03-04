@@ -6,12 +6,55 @@
 class Player : public Character
 {
 private:
+	//Variables
+	bool moving;
+	bool jumping;
 
+	//Components
+	InputComponent *input_c;
+	AnimationComponent *animation_c;
+	PhysicsComponent *physics_c;
+
+	//Enumerations
+	enum animations { ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP };
+
+	//Private functions
+	void initializeVariables();
+	void initializeComponents();
+	void initializeAnimations();
+	void initializeSprite();
+	void initialize();
+
+	//Cleanup
+	void cleanup();
 
 public:
-	Player(std::string name, int health, float xPos, float yPos, Texture* texture = nullptr) : Character(name, health, xPos, yPos, texture) {
+	//Constructors / Destructors
+	Player(
+		std::string name,
+		int maxHealth, 
+		float xPos,
+		float yPos,
+		float xScale, 
+		float yScale,
+		IntRect textureRect,
+		const Texture* texture = nullptr	
+	);
 
-	}
-	~Player() {}
+	virtual ~Player();
 
+	//Accessors
+
+	//Modifiers
+
+	//Functions
+	void updateCollision(const float& dt, const RenderWindow* window);
+
+	void updateInputAndPhysics(const float& dt, const RenderWindow* window);
+
+	void updateAnimation(const float& dt);
+
+	void update(const float& dt, const RenderWindow* window);
+
+	void render(RenderTarget* target);
 };

@@ -27,7 +27,11 @@ void Game::initVariables()
 	//Fonts and Text
 	this->fontHandler = nullptr;
 
+	//Physics
+		//Gravity Defined in libs
+
 	//Player
+	this->player = nullptr;
 
 }
 
@@ -63,42 +67,20 @@ void Game::initTextures()
 void Game::initFonts()
 {
 	this->fontHandler = new FontHandler();
-
-	//TO BE REMOVED ======================= TO BE REMOVED
-	this->text.setCharacterSize(20);
-	this->text.setFillColor(Color::White);
-	this->text.setFont(*this->fontHandler->getFont(font_list::PRIME_REGULAR));
-	this->text.setString("TEST TEXT TO BE REMOVED!");
 }
 
-void Game::initTesting()
+void Game::initPlayer()
 {
-	// TO BE REMOVED ===================== TO BE REMOVED
-	this->phys = new PhysicsComponent
-	(
-		Vector2f(0.f, 0.f),		//Velocity
-		Vector2f(2000.f, 2000.f),	//Max speed
-		Vector2f(8000.f, 10000.f),	//Acceleration
-		Vector2f(1.f, 1.f), //AccelerationMultiplier
-		4000.f,	//Degen Left
-		4000.f,	//Degen Right
-		0.f,	//Degen Up
-		0.f	//Degen Down
+	this->player = new Player(
+		"test",
+		10.f,
+		0.f,
+		0.f,
+		4.f,
+		4.f,
+		IntRect(0, 0, 40, 50),
+		this->textureHandler->getTexture(texture_list::PLAYER_SHEET)
 	);
-
-	this->input = new InputComponent();
-
-	// TO BE REMOVED ===================== TO BE REMOVED
-	this->anim = new AnimationComponent();
-
-	moving = false;
-	jumping = false;
-	shape.setTexture(*this->textureHandler->getTexture(PLAYER_SHEET));
-	shape.setTextureRect(IntRect(0, 0, 40.f, 50.f));
-	shape.setScale(Vector2f(4.f, 4.f));
-	this->anim->addAnimation(Animation("Running", &this->shape, IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f));
-	this->anim->addAnimation(Animation("Idle", &this->shape, IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f));
-	this->anim->addAnimation(Animation("Jumping", &this->shape, IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.9f));
 }
 
 void Game::initialize()
@@ -115,8 +97,8 @@ void Game::initialize()
 	//Fonts and Text
 	this->initFonts();
 
-	//Testing =================== TO BE REMOVED!
-	this->initTesting();
+	//Player
+	this->initPlayer();
 
 	//Complete
 	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
@@ -135,10 +117,7 @@ void Game::cleanup()
 	delete this->fontHandler;
 
 	//Player
-	//TO BE REMOVED ===================== TO BE REMOVED
-	delete this->phys;
-	delete this->input;
-	delete this->anim;
+	delete this->player;
 }
 
 //Private functions
@@ -277,123 +256,6 @@ void Game::updateMousePositions()
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 }
 
-void Game::updateTesting()
-{
-	//Testing =========================== TO BE REMOVED
-	this->text.move(Vector2f(100.f * dt, 0.f));
-	if (this->text.getPosition().x >= this->window->getSize().x)
-	{
-		this->text.setPosition(Vector2f(-this->text.getGlobalBounds().width, 0.f));
-	}
-
-	//Gravity testing
-	if (shape.getPosition().y + shape.getGlobalBounds().height < this->window->getSize().y)
-	{
-		this->phys->incrementVelocityOuterForce(0.f, 2500.f, this->dt);
-	}
-	else //Collision with bottom of screen
-	{
-		this->phys->stopVelocityY();
-		this->shape.setPosition(Vector2f(shape.getPosition().x, this->window->getSize().y - shape.getGlobalBounds().height));
-		this->anim->getAnimation(ANIMATION_JUMP)->reset();
-		jumping = false;
-	}
-
-	if (shape.getPosition().y < 0.f) //Collision top of screen
-	{
-		this->phys->stopVelocityY();
-		shape.setPosition(Vector2f(shape.getPosition().x, 0.f));
-	}
-
-	if (shape.getPosition().x < 0.f) //Collision left of screen
-	{
-		this->phys->stopVelocityX();
-		shape.setPosition(Vector2f(0.f, shape.getPosition().y));
-	}
-
-	if (shape.getPosition().x + shape.getGlobalBounds().width > this->window->getSize().x) //Collision right of screen
-	{
-		this->phys->stopVelocityX();
-		shape.setPosition(Vector2f(this->window->getSize().x - shape.getGlobalBounds().width, shape.getPosition().y));
-	}
-
-	//Move
-	// TO BE REMOVED ===================== TO BE REMOVED
-	if (this->input->isKeyPressed(RIGHT_KEY))
-	{
-		if (!jumping)
-			phys->incrementVelocity(1.f, 0.f, this->dt);
-		else
-		{
-			phys->incrementVelocity(1.f, 0.f, 0.6f, this->dt);
-		}
-	}
-	
-	if (this->input->isKeyPressed(LEFT_KEY))
-	{
-		if (!jumping)
-			phys->incrementVelocity(-1.f, 0.f, this->dt);
-		else
-		{
-			phys->incrementVelocity(-1.f, 0.f, 0.6f, this->dt);
-		}
-	}
-	
-	if (this->input->isKeyPressed(JUMP_KEY) && !jumping)
-	{
-		phys->setVelocityY(-1200.f);
-		jumping = true;
-		//phys->incrementVelocity(0.f, -1.f, dt);
-	}
-
-	if (this->input->isKeyPressed(SPRINT_KEY))
-		this->phys->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
-	else
-		this->phys->setAccelerationMultiplier(Vector2f(1.f, 1.f));
-
-	if (phys->isMovingLeft())
-	{
-		this->shape.setScale(-4.f, 4.f);
-		this->shape.setOrigin(Vector2f(shape.getTextureRect().width, 0.f));
-	}
-	else if (phys->isMovingRight())
-	{
-		this->shape.setScale(4.f, 4.f);
-		this->shape.setOrigin(Vector2f(0.f, 0.f));
-	}
-
-	if (phys->isMovingHorizontal())
-		moving = true;
-	else
-		moving = false;
-
-	if (moving && !jumping)
-	{
-		this->anim->getAnimation(ANIMATION_IDLE)->reset();
-		this->anim->getAnimation(ANIMATION_RUNNING)->animate(this->dt);
-	}
-	else if (!moving && !jumping)
-	{
-		this->anim->getAnimation(ANIMATION_RUNNING)->reset();
-		this->anim->getAnimation(ANIMATION_IDLE)->animate(this->dt);
-	}
-
-	if (phys->isMovingUp())
-	{
-		this->anim->getAnimation(ANIMATION_JUMP)->animateOnce(this->dt);
-		this->anim->getAnimation(ANIMATION_JUMP)->stop(4);
-	}
-	else if (phys->isMovingDown())
-	{
-		this->anim->getAnimation(ANIMATION_JUMP)->animateOnce(this->dt);
-		this->anim->getAnimation(ANIMATION_JUMP)->start();
-		this->anim->getAnimation(ANIMATION_JUMP)->stop(6);
-	}
-
-	this->phys->update(this->dt);
-	shape.move(this->phys->getVelocity() * this->dt);
-}
-
 void Game::update()
 {
 	//Debug
@@ -411,24 +273,17 @@ void Game::update()
 	//Mouse positions
 	this->updateMousePositions();
 
-	//Testing ================== TO BE REMOVED
-	this->updateTesting();
+	//Player
+	this->player->update(this->dt, this->window);
 }
 
 //Render
-void Game::renderTesting()
-{
-	this->window->draw(shape); // TO BE REMOVED ===================== TO BE REMOVED
-
-	this->window->draw(text); // TO BE REMOVED ===================== TO BE REMOVED
-}
-
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
 
-	//TO BE REMOVED =========================== TO BE REMOVED
-	this->renderTesting();
+	//Render player
+	this->player->render(this->window);
 
 	this->window->display();
 }

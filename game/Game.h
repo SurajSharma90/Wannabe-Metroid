@@ -4,9 +4,8 @@
 
 #include"TextureHandler.h"
 #include"FontHandler.h"
-#include"PhysicsComponent.h"
-#include"InputComponent.h"
-#include"AnimationComponent.h"
+
+#include"Player.h"
 
 class Game
 {
@@ -36,25 +35,21 @@ private:
 	//Textures
 	TextureHandler* textureHandler;
 
-	//Donts and Text
+	//Fonts and Text
 	FontHandler* fontHandler;
-	Text text; // TO BE REMOVED ===================== TO BE REMOVED
 
-	//Player§
-	bool moving;
-	bool jumping;
-	Sprite shape; // TO BE REMOVED ===================== TO BE REMOVED
-	PhysicsComponent* phys; // TO BE REMOVED ===================== TO BE REMOVED
-	InputComponent* input; // TO BE REMOVED ===================== TO BE REMOVED
-	AnimationComponent* anim;
-	enum animations {ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP};
+	//Physics
+		//Gravity Defined in libs
+
+	//Player
+	Player* player;
 
 	//Initializers
 	void initVariables();
 	void initWindow();
 	void initTextures();
 	void initFonts();
-	void initTesting();
+	void initPlayer();
 	void initialize();
 
 	//Cleanup
@@ -83,13 +78,10 @@ public:
 	void updateEvents();
 	void updateKeyboardInput();
 	void updateMousePositions();
-	void updateTesting();
 
 	void update();
 
 	//Render
-	void renderTesting();
-
 	void render();
 };
 
