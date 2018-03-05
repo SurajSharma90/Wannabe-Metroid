@@ -12,8 +12,8 @@ private:
 
 	//Components
 	InputComponent *input_c;
-	AnimationComponent *animation_c;
 	PhysicsComponent *physics_c;
+	AnimationComponent *animation_c;
 
 	//Enumerations
 	enum animations { ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP };
@@ -50,9 +50,9 @@ public:
 	//Functions
 	void updateCollision(const float& dt, const RenderWindow* window);
 
-	void updateInputAndPhysics(const float& dt, const RenderWindow* window);
-
 	void updateAnimation(const float& dt);
+
+	void updateInput(const float& dt);
 
 	void update(const float& dt, const RenderWindow* window);
 

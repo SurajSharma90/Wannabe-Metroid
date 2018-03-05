@@ -85,13 +85,7 @@ Player::~Player()
 //Accessors
 
 //Modifiers
-
 void Player::updateCollision(const float & dt, const RenderWindow * window)
-{
-
-}
-
-void Player::updateInputAndPhysics(const float& dt, const RenderWindow* window)
 {
 	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
 
@@ -105,7 +99,7 @@ void Player::updateInputAndPhysics(const float& dt, const RenderWindow* window)
 		this->physics_c->stopVelocityY();
 		this->setPosition(this->getPosition().x, window->getSize().y - this->getBounds().height);
 		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
-		
+
 		this->jumping = false; //Reset jumping
 	}
 
@@ -126,62 +120,6 @@ void Player::updateInputAndPhysics(const float& dt, const RenderWindow* window)
 		this->physics_c->stopVelocityX();
 		this->setPosition(window->getSize().x - this->getBounds().width, this->getPosition().y);
 	}
-
-	// INPUT ====================================== INPUT
-	if (this->input_c->isKeyPressed(RIGHT_KEY)) // MOVEMENT RIGHT
-	{
-		if (!this->jumping)
-			physics_c->incrementVelocity(1.f, 0.f, dt);
-		else
-		{
-			physics_c->incrementVelocity(1.f, 0.f, 0.6f, dt);
-		}
-	}
-
-	if (this->input_c->isKeyPressed(LEFT_KEY)) // MOVEMENT LEFT
-	{
-		if (!jumping)
-			physics_c->incrementVelocity(-1.f, 0.f, dt);
-		else
-		{
-			physics_c->incrementVelocity(-1.f, 0.f, 0.6f, dt);
-		}
-	}
-
-	if (this->input_c->isKeyPressed(JUMP_KEY) && !jumping) // MOVEMENT JUMP
-	{
-		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
-		
-		jumping = true; // Set jumping
-		//phys->incrementVelocity(0.f, -1.f, dt);
-	}
-
-	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
-		this->physics_c->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
-	else
-		this->physics_c->setAccelerationMultiplier(Vector2f(1.f, 1.f));
-	
-	//Change movement variables and sprite facing direction
-	if (physics_c->isMovingLeft())
-	{
-		this->setScale(-this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
-		this->setOrigin(this->getTextureRect().width, 0.f);
-		moving = true;
-	}
-	else if (physics_c->isMovingRight())
-	{
-		this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
-		this->setOrigin(0.f, 0.f);
-		moving = true;
-	}
-	else
-	{
-		moving = false;
-	}
-
-	//Final move and update
-	this->physics_c->update(dt);
-	this->move(this->physics_c->getVelocity() * dt);
 }
 
 void Player::updateAnimation(const float& dt)
@@ -210,14 +148,77 @@ void Player::updateAnimation(const float& dt)
 	}
 }
 
+void Player::updateInput(const float & dt)
+{
+	// INPUT ====================================== INPUT
+	if (this->input_c->isKeyPressed(RIGHT_KEY)) // MOVEMENT RIGHT
+	{
+		if (!this->jumping)
+			physics_c->incrementVelocity(1.f, 0.f, dt);
+		else
+		{
+			physics_c->incrementVelocity(1.f, 0.f, 0.6f, dt);
+		}
+	}
+
+	if (this->input_c->isKeyPressed(LEFT_KEY)) // MOVEMENT LEFT
+	{
+		if (!jumping)
+			physics_c->incrementVelocity(-1.f, 0.f, dt);
+		else
+		{
+			physics_c->incrementVelocity(-1.f, 0.f, 0.6f, dt);
+		}
+	}
+
+	if (this->input_c->isKeyPressed(JUMP_KEY) && !jumping) // MOVEMENT JUMP
+	{
+		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
+
+		jumping = true; // Set jumping
+						//phys->incrementVelocity(0.f, -1.f, dt);
+	}
+
+	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
+		this->physics_c->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
+	else
+		this->physics_c->setAccelerationMultiplier(Vector2f(1.f, 1.f));
+
+	//Change movement variables and sprite facing direction
+	if (physics_c->isMovingLeft())
+	{
+		this->setScale(-this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
+		this->setOrigin(this->getTextureRect().width, 0.f);
+		moving = true;
+	}
+	else if (physics_c->isMovingRight())
+	{
+		this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
+		this->setOrigin(0.f, 0.f);
+		moving = true;
+	}
+	else
+	{
+		moving = false;
+	}
+
+	//Final move and update
+	this->physics_c->update(dt);
+	this->move(this->physics_c->getVelocity() * dt);
+}
+
 //Functions
 void Player::update(const float & dt, const RenderWindow* window)
 {
-	this->updateInputAndPhysics(dt, window);
-
+	//Collision
 	this->updateCollision(dt, window);
-	
+
+	//Animation
 	this->updateAnimation(dt);
+
+	//Input
+	this->updateInput(dt);
+
 }
 
 void Player::render(RenderTarget * target)

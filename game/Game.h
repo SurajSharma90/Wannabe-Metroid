@@ -32,6 +32,9 @@ private:
 	Vector2i mousePosWindow;
 	Vector2f mousePosView;
 	
+	//Menus
+
+
 	//Textures
 	TextureHandler* textureHandler;
 

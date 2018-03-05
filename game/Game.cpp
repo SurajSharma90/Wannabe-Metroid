@@ -182,7 +182,7 @@ Game::Game()
 
 Game::~Game()
 {
-
+	this->cleanup();
 }
 
 //Accessors

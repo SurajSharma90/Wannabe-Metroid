@@ -6,23 +6,9 @@ f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion fro
 f:\game projects\game\game\player.cpp(41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 f:\game projects\game\game\player.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 f:\game projects\game\game\player.cpp(43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\player.cpp(168): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
-  Game.cpp
-f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(83): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\player.cpp(191): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
   Generating Code...
-  Compiling...
+  Skipping... (no relevant changes detected)
   main.cpp
-f:\game projects\game\game\texturehandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\fonthandler.h(63): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+  Game.cpp
   game.vcxproj -> F:\Game Projects\game\Debug\game.exe
