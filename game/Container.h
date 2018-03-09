@@ -102,7 +102,7 @@ void Container<T>::free_memory()
 template<typename T>
 Container<T>::Container(const unsigned initial_cap)
 {
-	this->capacity = internal_cap;
+	this->capacity = initial_cap;
 	this->nrOfElements = 0;
 
 	this->internal_arr = new T*[this->capacity];
@@ -160,7 +160,7 @@ T& Container<T>::operator [](const int index)
 		throw("CONTAINER::OUT_OF_BOUNDS");
 	}
 
-	return this->internal_arr[index];
+	return *this->internal_arr[index];
 
 }
 

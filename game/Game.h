@@ -34,7 +34,6 @@ private:
 	
 	//Menus
 
-
 	//Textures
 	TextureHandler* textureHandler;
 

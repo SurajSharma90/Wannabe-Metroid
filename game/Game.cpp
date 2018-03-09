@@ -100,6 +100,8 @@ void Game::initialize()
 	//Player
 	this->initPlayer();
 
+	//TEST =============== TO BE REMOVED!
+
 	//Complete
 	std::cout << "GAME::INITIALIZATION_COMPLETE" << "\n";
 }
