@@ -12,6 +12,8 @@
 #include"SFML\Audio.hpp"
 #include"SFML\Network.hpp"
 
+#include"Container.h"
+
 using namespace sf;
 
 #ifndef GLOBAL_PHYSICS_GRAVITY
