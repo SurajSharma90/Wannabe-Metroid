@@ -33,15 +33,15 @@ public:
 	TextTag(
 		const Font* font,
 		std::string str,
-		Color color,
-		unsigned int size,
-		float timeToLive,
 		Vector2f position,
-		float velocityX,
-		float velocityY,
-		float degenX,
-		float degenY,
-		float rotation
+		Color color = Color::White,
+		unsigned int size = 20,
+		float timeToLive = 10.f,
+		float velocityX = 0.f,
+		float velocityY = -1000.f,
+		float degenX = 0.f,
+		float degenY = 1800.f,
+		float rotation = 20.f
 		)
 	{
 		this->to_be_removed = false;

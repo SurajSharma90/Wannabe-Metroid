@@ -85,6 +85,9 @@ void Game::initPlayer()
 
 void Game::initialize()
 {
+	//Random
+	srand(time(static_cast<unsigned>(0)));
+
 	//Variables
 	this->initVariables();
 
@@ -247,19 +250,12 @@ void Game::updateKeyboardInput()
 		this->window->close();
 
 	if (Keyboard::isKeyPressed(Keyboard::T) && this->checkKeyTime())
-		this->textTags.push(
+		this->textTagHandler.add(
 			TextTag(
-				this->fontHandler->getFont(font_list::PRIME_LIGHT),
-				std::to_string(this->player->getLevelingComponent()->gainExperience(100)),
-				Color::Red,
-				12,
-				10,
-				this->player->getCenter(),
-				0.f,
-				-100.f,
-				0.f,
-				50.f,
-				0.f
+				this->fontHandler->getFont(font_list::PRIME_REGULAR),						//Font
+				std::to_string(this->player->getLevelingComponent()->gainExperience(100)),	//Text
+				this->player->getCenter(),													//Position
+				Color::Cyan																	//Color
 			)
 		);
 }
@@ -296,15 +292,7 @@ void Game::update()
 	this->updateMousePositions();
 
 	//Text Tags
-	for (size_t i = 0; i < this->textTags.size(); i++)
-	{
-		this->textTags[i].update(this->dt);
-
-		if (this->textTags[i].isToBeRmoved())
-		{
-			this->textTags.remove(i);
-		}
-	}
+	this->textTagHandler.update(this->dt);
 
 	//Player
 	this->player->update(this->dt, this->window);
@@ -319,10 +307,7 @@ void Game::render()
 	this->player->render(this->window);
 
 	//Text tags
-	for (size_t i = 0; i < this->textTags.size(); i++)
-	{
-		this->textTags[i].render(this->window);
-	}
+	this->textTagHandler.render(this->window);
 
 	this->window->display();
 }

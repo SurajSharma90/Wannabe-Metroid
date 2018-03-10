@@ -54,6 +54,9 @@
     <ClInclude Include="TextTag.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="TextTagHandler.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
