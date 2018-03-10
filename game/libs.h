@@ -27,3 +27,21 @@ ERROR::CLASSNAME::FUNCTION::ERROR_SPECIFICATION
 SUCCESS FORMAT:
 CLASSNAME::SUCCESS_SPECIFICATION
 */
+
+/*
+private:
+	//Variables
+
+	//Private functions
+
+public:
+	//Constructors/Destructors
+
+	//Operators
+
+	//Accessors
+
+	//Modifiers
+
+	//Functions
+*/

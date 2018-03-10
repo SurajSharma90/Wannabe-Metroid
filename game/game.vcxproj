@@ -140,9 +140,11 @@
     <ClInclude Include="FontHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="LevelingComponent.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TextTag.h" />
     <ClInclude Include="TextureHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

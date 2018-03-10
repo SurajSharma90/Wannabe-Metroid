@@ -14,6 +14,7 @@ private:
 	InputComponent *input_c;
 	PhysicsComponent *physics_c;
 	AnimationComponent *animation_c;
+	LevelingComponent *leveling_c;
 
 	//Enumerations
 	enum animations { ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP };
@@ -44,6 +45,15 @@ public:
 	virtual ~Player();
 
 	//Accessors
+	Vector2f getCenter()
+	{
+		return Vector2f (
+			this->getSprite()->getPosition().x + this->getBounds().width / 2.f,
+			this->getSprite()->getPosition().y + this->getBounds().height / 2.f
+		);
+	}
+
+	LevelingComponent* getLevelingComponent();
 
 	//Modifiers
 

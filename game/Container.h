@@ -40,8 +40,7 @@ public:
 	void push(const T& obj);
 	void pop_back();
 	void pop_front();
-	void remove_ordered(const unsigned& index);
-	void remove_unordered(const unsigned& index);
+	void remove(const unsigned& index, const bool& quick_remove = true);
 };
 
 //Definitions ======================================================
@@ -209,21 +208,22 @@ inline void Container<T>::pop_front()
 }
 
 template<typename T>
-inline void Container<T>::remove_ordered(const unsigned & index)
+inline void Container<T>::remove(const unsigned & index, const bool& quick_remove)
 {
-
-}
-
-template<typename T>
-inline void Container<T>::remove_unordered(const unsigned & index)
-{
-	if (index < 0 || index >= this->nrOfElements)
+	if (quick_remove) //Not ordered
 	{
-		std::cout << "CONTAINER::REMOVE_UNORDERED::INDEX_OUT_OF_BOUNDS" << "\n";
-		throw("CONTAINER::REMOVE_UNORDERED::INDEX_OUT_OF_BOUNDS");
+		if (index < 0 || index >= this->nrOfElements)
+		{
+			std::cout << "CONTAINER::REMOVE_UNORDERED::INDEX_OUT_OF_BOUNDS" << "\n";
+			throw("CONTAINER::REMOVE_UNORDERED::INDEX_OUT_OF_BOUNDS");
+		}
+		
+		delete this->internal_arr[index];
+		this->internal_arr[index] = this->internal_arr[this->nrOfElements - 1];
+		this->internal_arr[--this->nrOfElements] = nullptr;
 	}
+	else //Ordered
+	{
 
-	delete this->internal_arr[index];
-	this->internal_arr[index] = this->internal_arr[this->nrOfElements-1];
-	this->internal_arr[--this->nrOfElements] = nullptr;
+	}
 }

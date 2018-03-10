@@ -7,7 +7,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Scource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Scource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -31,9 +33,6 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FontHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationComponent.h">
       <Filter>Component FIles</Filter>
     </ClInclude>
@@ -46,6 +45,15 @@
     <ClInclude Include="Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LevelingComponent.h">
+      <Filter>Component FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="FontHandler.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextTag.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -56,6 +64,9 @@
     </Filter>
     <Filter Include="Component FIles">
       <UniqueIdentifier>{1e1df937-5796-4158-a501-8582998f4265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{88702bda-008a-46de-8645-2763059edd11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

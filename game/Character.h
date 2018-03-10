@@ -5,6 +5,7 @@
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
 #include "AnimationComponent.h"
+#include "LevelingComponent.h"
 
 class Character : public Entity
 {

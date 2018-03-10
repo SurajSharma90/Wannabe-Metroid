@@ -4,6 +4,7 @@
 
 #include"TextureHandler.h"
 #include"FontHandler.h"
+#include"TextTag.h"
 
 #include"Player.h"
 
@@ -39,6 +40,7 @@ private:
 
 	//Fonts and Text
 	FontHandler* fontHandler;
+	Container<TextTag> textTags;
 
 	//Physics
 		//Gravity Defined in libs

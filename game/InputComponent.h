@@ -26,6 +26,7 @@ private:
 	{
 		std::string fileName = "";
 	}
+
 	void updateJoystickConnection()
 	{
 		if (Joystick::isConnected(0) && !this->joystick_connected)

@@ -10,6 +10,7 @@ void Player::initializeVariables()
 
 void Player::initializeComponents()
 {
+	//INPUT COMPONENT
 	this->input_c = new InputComponent(
 		Keyboard::Key::A,				//LEFT KEYBOARD
 		Keyboard::Key::D,				//RIGHT KEYBOARD
@@ -20,8 +21,10 @@ void Player::initializeComponents()
 		JOY_B							//SPRINT JOYSTICK
 	);
 
+	//ANIMATION COMPONENT
 	this->animation_c = new AnimationComponent();
 
+	//PHYSICS COMPONENT
 	this->physics_c = new PhysicsComponent
 	(
 		Vector2f(0.f, 0.f),				//Velocity
@@ -34,6 +37,8 @@ void Player::initializeComponents()
 		0.f								//Degen Down
 	);
 
+	//LEVELING COMPONENT
+	this->leveling_c = new LevelingComponent(1);
 }
 
 void Player::initializeAnimations()
@@ -68,6 +73,7 @@ void Player::cleanup()
 	delete this->input_c;
 	delete this->animation_c;
 	delete this->physics_c;
+	delete this->leveling_c;
 }
 
 //Constructors / Destructors
@@ -83,6 +89,12 @@ Player::~Player()
 }
 
 //Accessors
+LevelingComponent * Player::getLevelingComponent()
+{
+	return this->leveling_c;
+}
+
+
 
 //Modifiers
 void Player::updateCollision(const float & dt, const RenderWindow * window)
@@ -218,7 +230,6 @@ void Player::update(const float & dt, const RenderWindow* window)
 
 	//Input
 	this->updateInput(dt);
-
 }
 
 void Player::render(RenderTarget * target)

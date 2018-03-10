@@ -11,7 +11,7 @@ void Game::initVariables()
 
 	//Key Time
 	this->keyTime = 0.f;
-	this->keyTimeMax = 0.f;
+	this->keyTimeMax = 1.f;
 	this->keyTimeIncrement = 10.f;
 
 	//Window
@@ -226,7 +226,7 @@ void Game::updateDT()
 
 void Game::updateKeyTime()
 {
-	if (this->keyTime < this->keyTimeMax)
+	if (this->keyTime <= this->keyTimeMax)
 		this->keyTime += this->keyTimeIncrement * dt;
 }
 
@@ -245,6 +245,23 @@ void Game::updateKeyboardInput()
 {
 	if (Keyboard::isKeyPressed(Keyboard::Escape) && this->checkKeyTime())
 		this->window->close();
+
+	if (Keyboard::isKeyPressed(Keyboard::T) && this->checkKeyTime())
+		this->textTags.push(
+			TextTag(
+				this->fontHandler->getFont(font_list::PRIME_LIGHT),
+				std::to_string(this->player->getLevelingComponent()->gainExperience(100)),
+				Color::Red,
+				12,
+				10,
+				this->player->getCenter(),
+				0.f,
+				-100.f,
+				0.f,
+				50.f,
+				0.f
+			)
+		);
 }
 
 void Game::updateMousePositions()
@@ -266,6 +283,9 @@ void Game::update()
 	//Delta Time
 	this->updateDT();
 
+	//Keytime
+	this->updateKeyTime();
+
 	//Events
 	this->updateEvents();
 
@@ -275,6 +295,17 @@ void Game::update()
 	//Mouse positions
 	this->updateMousePositions();
 
+	//Text Tags
+	for (size_t i = 0; i < this->textTags.size(); i++)
+	{
+		this->textTags[i].update(this->dt);
+
+		if (this->textTags[i].isToBeRmoved())
+		{
+			this->textTags.remove(i);
+		}
+	}
+
 	//Player
 	this->player->update(this->dt, this->window);
 }
@@ -283,9 +314,15 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
-
+	
 	//Render player
 	this->player->render(this->window);
+
+	//Text tags
+	for (size_t i = 0; i < this->textTags.size(); i++)
+	{
+		this->textTags[i].render(this->window);
+	}
 
 	this->window->display();
 }

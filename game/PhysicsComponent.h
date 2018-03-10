@@ -58,7 +58,6 @@ private:
 		}
 
 	}
-
 	Vector2f normalize(const Vector2f& vector)
 	{
 		float vectorLength = sqrt((pow(vector.x, 2) + pow(vector.y, 2)));
@@ -68,7 +67,7 @@ private:
 			return Vector2f(0.f, 0.f);
 		else
 			return normalizedVector;
-	}
+	};
 
 public:
 	//Constructors / Destructors
