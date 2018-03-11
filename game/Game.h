@@ -40,7 +40,7 @@ private:
 
 	//Fonts and Text
 	FontHandler* fontHandler;
-	TextTagHandler textTagHandler;
+	TextTagHandler* textTagHandler;
 
 	//Physics
 		//Gravity Defined in libs
@@ -53,6 +53,7 @@ private:
 	void initWindow();
 	void initTextures();
 	void initFonts();
+	void initTextTags();
 	void initPlayer();
 	void initialize();
 

@@ -9,6 +9,8 @@ private:
 	//Variables
 	bool moving;
 	bool jumping;
+	bool sprinting;
+	float sprintMultiplier;
 
 	//Components
 	InputComponent *input_c;

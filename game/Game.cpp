@@ -69,6 +69,11 @@ void Game::initFonts()
 	this->fontHandler = new FontHandler();
 }
 
+void Game::initTextTags()
+{
+	this->textTagHandler = new TextTagHandler(this->fontHandler->getFont(PRIME_REGULAR));
+}
+
 void Game::initPlayer()
 {
 	this->player = new Player(
@@ -100,6 +105,9 @@ void Game::initialize()
 	//Fonts and Text
 	this->initFonts();
 
+	//Text Tags premade
+	this->initTextTags();
+
 	//Player
 	this->initPlayer();
 
@@ -120,6 +128,9 @@ void Game::cleanup()
 
 	//Fonts and Text
 	delete this->fontHandler;
+	
+	//Text tags
+	delete this->textTagHandler;
 
 	//Player
 	delete this->player;
@@ -200,15 +211,16 @@ bool Game::windowIsOpen()
 	return this->window->isOpen();
 }
 
+//Update
 void Game::updateDebugPrint()
 {
 #ifdef DEBUG
-	
+
 	//Mouse Positions
 	std::cout << "Mouse Position Screen: " << this->mousePosScreen.x << " " << this->mousePosScreen.y << "\n";
 	std::cout << "Mouse Position Window: " << this->mousePosWindow.x << " " << this->mousePosWindow.y << "\n";
 	std::cout << "Mouse Position View: " << this->mousePosView.x << " " << this->mousePosView.y << "\n";
-	
+
 	std::cout << "---" << "\n";
 
 	//Delta Time
@@ -221,7 +233,6 @@ void Game::updateDebugPrint()
 #endif
 }
 
-//Update
 void Game::updateDT()
 {
 	this->dt = this->dtClock.restart().asSeconds();
@@ -250,14 +261,11 @@ void Game::updateKeyboardInput()
 		this->window->close();
 
 	if (Keyboard::isKeyPressed(Keyboard::T) && this->checkKeyTime())
-		this->textTagHandler.add(
-			TextTag(
-				this->fontHandler->getFont(font_list::PRIME_REGULAR),						//Font
-				std::to_string(this->player->getLevelingComponent()->gainExperience(100)),	//Text
-				this->player->getCenter(),													//Position
-				Color::Cyan																	//Color
-			)
-		);
+			this->textTagHandler->add(
+				TEXTTAG_HP_LOSS, 
+				this->player->getCenter(), 
+				-100
+			);
 }
 
 void Game::updateMousePositions()
@@ -292,7 +300,7 @@ void Game::update()
 	this->updateMousePositions();
 
 	//Text Tags
-	this->textTagHandler.update(this->dt);
+	this->textTagHandler->update(this->dt);
 
 	//Player
 	this->player->update(this->dt, this->window);
@@ -307,7 +315,7 @@ void Game::render()
 	this->player->render(this->window);
 
 	//Text tags
-	this->textTagHandler.render(this->window);
+	this->textTagHandler->render(this->window);
 
 	this->window->display();
 }

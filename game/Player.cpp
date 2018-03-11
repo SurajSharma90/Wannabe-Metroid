@@ -6,6 +6,8 @@ void Player::initializeVariables()
 {
 	this->moving = false;
 	this->jumping = false;
+	this->sprinting = false;
+	this->sprintMultiplier = 1.5f;
 }
 
 void Player::initializeComponents()
@@ -188,7 +190,7 @@ void Player::updateInput(const float & dt)
 		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
 
 		jumping = true; // Set jumping
-						//phys->incrementVelocity(0.f, -1.f, dt);
+		//phys->incrementVelocity(0.f, -1.f, dt);
 	}
 
 	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!

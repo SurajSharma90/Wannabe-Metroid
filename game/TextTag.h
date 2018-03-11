@@ -10,11 +10,13 @@ private:
 
 	const Font* font;
 	Text text;
+	float size;
 
 	float timeToLive;
 	Vector2f velocity;
 	Vector2f degeneration;
 	float rotation;
+	float sizeIncrement;
 
 	//Private functions
 	Vector2f normalize(const Vector2f& vector)
@@ -41,7 +43,8 @@ public:
 		float velocityY = -1000.f,
 		float degenX = 0.f,
 		float degenY = 1800.f,
-		float rotation = 20.f
+		float rotation = 20.f,
+		float sizeIncrement = 0
 		)
 	{
 		this->to_be_removed = false;
@@ -52,11 +55,13 @@ public:
 		this->text.setCharacterSize(size);
 		this->text.setString(str);
 		this->text.setPosition(position);
+		this->size = size;
 		
 		this->timeToLive = timeToLive;
 		this->velocity = Vector2f(velocityX, velocityY);
 		this->degeneration = Vector2f(degenX, degenY);
 		this->rotation = rotation;
+		this->sizeIncrement = sizeIncrement;
 	}
 
 	~TextTag() {}
@@ -70,12 +75,27 @@ public:
 	}
 
 	//Modifiers
+	void setPosition(const Vector2f position)
+	{
+		this->text.setPosition(position);
+	}
+
+	void setString(const std::string& str)
+	{
+		this->text.setString(str);
+	}
 
 	//Functions
 	void update(const float& dt)
 	{
 		this->text.move(this->velocity * dt);
 		this->text.rotate(this->rotation * dt);
+
+		if (this->sizeIncrement > 0.f)
+		{
+			this->size += this->sizeIncrement * dt;
+			this->text.setCharacterSize(static_cast<unsigned>(this->size));
+		}
 
 		if (this->velocity.x < 0)
 		{
