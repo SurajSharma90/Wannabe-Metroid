@@ -10,7 +10,7 @@ void Player::initializeVariables()
 	this->sprintMultiplier = 1.5f;
 }
 
-void Player::initializeComponents()
+void Player::initializeComponents(TextTagHandler* texttaghandler)
 {
 	//INPUT COMPONENT
 	this->input_c = new InputComponent(
@@ -41,6 +41,9 @@ void Player::initializeComponents()
 
 	//LEVELING COMPONENT
 	this->leveling_c = new LevelingComponent(1);
+
+	//TEXT TAG COMPONENT
+	this->texttag_c = new TextTagComponent(texttaghandler);
 }
 
 void Player::initializeAnimations()
@@ -55,11 +58,11 @@ void Player::initializeSprite()
 	this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
 }
 
-void Player::initialize()
+void Player::initialize(TextTagHandler* texttaghandler)
 {
 	this->initializeVariables();
 
-	this->initializeComponents();
+	this->initializeComponents(texttaghandler);
 
 	this->initializeAnimations();
 
@@ -76,13 +79,23 @@ void Player::cleanup()
 	delete this->animation_c;
 	delete this->physics_c;
 	delete this->leveling_c;
+	delete this->texttag_c;
 }
 
 //Constructors / Destructors
-Player::Player(std::string name, int maxHealth, float xPos, float yPos, float xScale, float yScale, IntRect textureRect, const Texture* texture)
+Player::Player(
+	std::string name, 
+	int maxHealth, 
+	float xPos, 
+	float yPos, 
+	float xScale, 
+	float yScale, 
+	IntRect textureRect,
+	TextTagHandler* texttaghandler,
+	const Texture* texture)
 	: Character(name, maxHealth, xPos, yPos, xScale, yScale, textureRect, texture)
 {
-	this->initialize();
+	this->initialize(texttaghandler);
 }
 
 Player::~Player()
@@ -96,9 +109,20 @@ LevelingComponent * Player::getLevelingComponent()
 	return this->leveling_c;
 }
 
-
+const Vector2i& Player::getGridPosition() const
+{
+	return this->gridPosition;
+}
 
 //Modifiers
+
+//Functions
+void Player::updateGridPosition()
+{
+	this->gridPosition.x = this->getPosition().x / GLOBAL_WORLD_GRIDSIZE;
+	this->gridPosition.y = this->getPosition().y / GLOBAL_WORLD_GRIDSIZE;
+}
+
 void Player::updateCollision(const float & dt, const RenderWindow * window)
 {
 	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
@@ -190,7 +214,7 @@ void Player::updateInput(const float & dt)
 		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
 
 		jumping = true; // Set jumping
-		//phys->incrementVelocity(0.f, -1.f, dt);
+						//phys->incrementVelocity(0.f, -1.f, dt);
 	}
 
 	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
@@ -221,9 +245,11 @@ void Player::updateInput(const float & dt)
 	this->move(this->physics_c->getVelocity() * dt);
 }
 
-//Functions
 void Player::update(const float & dt, const RenderWindow* window)
 {
+	//Grid position
+	this->updateGridPosition();
+
 	//Collision
 	this->updateCollision(dt, window);
 

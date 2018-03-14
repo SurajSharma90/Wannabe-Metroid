@@ -11,6 +11,13 @@
 class Game
 {
 private:
+	//Debug options
+	bool debug_showDebugText;
+	bool debug_showGrid;
+	bool debug_showCursor;
+	Font debugFont;
+	Text debugText;
+
 	//Delta time
 	Clock dtClock;
 	float dt;
@@ -32,6 +39,7 @@ private:
 	Vector2i mousePosScreen;
 	Vector2i mousePosWindow;
 	Vector2f mousePosView;
+	Vector2i mousePosGrid;
 	
 	//Menus
 
@@ -45,15 +53,20 @@ private:
 	//Physics
 		//Gravity Defined in libs
 
+	//World
+	RectangleShape gridBox; //Debug world
+
 	//Player
 	Player* player;
 
 	//Initializers
+	void initDebugOptions();
 	void initVariables();
 	void initWindow();
 	void initTextures();
 	void initFonts();
 	void initTextTags();
+	void initWorld();
 	void initPlayer();
 	void initialize();
 
@@ -77,16 +90,22 @@ public:
 	bool windowIsOpen();
 
 	//Uodate
-	void updateDebugPrint();
+	void updateDebugOptions();
 	void updateDT();
 	void updateKeyTime();
 	void updateEvents();
 	void updateKeyboardInput();
 	void updateMousePositions();
+	void updatePlayer();
+	void updateTextTags();
 
 	void update();
 
 	//Render
+	void renderDebugOptions();
+	void renderWorld();
+	void renderPlayer();
+	void renderTextTags();
 	void render();
 };
 

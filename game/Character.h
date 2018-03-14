@@ -6,6 +6,7 @@
 #include "InputComponent.h"
 #include "AnimationComponent.h"
 #include "LevelingComponent.h"
+#include "TextTagComponent.h"
 
 class Character : public Entity
 {

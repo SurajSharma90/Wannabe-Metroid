@@ -16,6 +16,10 @@
 
 using namespace sf;
 
+#ifndef GLOBAL_WORLD_GRIDSIZE
+#define GLOBAL_WORLD_GRIDSIZE 100
+#endif // !GRIDSIZE
+
 #ifndef GLOBAL_PHYSICS_GRAVITY
 #define GLOBAL_PHYSICS_GRAVITY 2500.f
 #endif // !GRAVITY

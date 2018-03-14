@@ -145,6 +145,7 @@
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextTag.h" />
+    <ClInclude Include="TextTagComponent.h" />
     <ClInclude Include="TextTagHandler.h" />
     <ClInclude Include="TextureHandler.h" />
   </ItemGroup>

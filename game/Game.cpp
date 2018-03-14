@@ -1,8 +1,37 @@
 #include "Game.h"
 
-//#define DEBUG
+#define DEBUG
+/*
+Debug keybinds
+C = Show cursor
+G = Show grid
+T = Show text
+*/
 
 //Initializers
+void Game::initDebugOptions()
+{
+	//Debug options
+	this->debug_showDebugText = true;
+	this->debug_showGrid = true;
+	this->debug_showCursor = true;
+
+	//Debug text
+	if (this->debugFont.loadFromFile("Fonts/Prime_Light.otf"))
+	{
+		this->debugText.setString("EMPTY");
+		this->debugText.setCharacterSize(22);
+		this->debugText.setFillColor(Color::White);
+		this->debugText.setFont(this->debugFont);
+		this->debugText.setPosition(10.f, 10.f);
+	}
+	else
+	{
+		std::cout << "ERROR::GAME::INITDEBUGOPTIONS::DEBUG_FONT_LOADING_FAILED" << "\n";
+		throw("ERROR::GAME::INITDEBUGOPTIONS::DEBUG_FONT_LOADING_FAILED");
+	}
+}
+
 void Game::initVariables()
 {
 	//Delta Time
@@ -18,17 +47,19 @@ void Game::initVariables()
 	this->window = nullptr;
 	this->frameLimit = 144;
 
-	//Inputs
-	
+	//Inputs	
 
 	//Textures
 	this->textureHandler = nullptr;
 
 	//Fonts and Text
 	this->fontHandler = nullptr;
+	this->textTagHandler = nullptr;
 
 	//Physics
 		//Gravity Defined in libs
+
+	//World
 
 	//Player
 	this->player = nullptr;
@@ -74,6 +105,15 @@ void Game::initTextTags()
 	this->textTagHandler = new TextTagHandler(this->fontHandler->getFont(PRIME_REGULAR));
 }
 
+void Game::initWorld()
+{
+	this->gridBox.setSize(Vector2f(GLOBAL_WORLD_GRIDSIZE, GLOBAL_WORLD_GRIDSIZE));
+	this->gridBox.setFillColor(Color::Transparent);
+	this->gridBox.setOutlineThickness(2.f);
+	this->gridBox.setOutlineColor(Color(255, 255, 255, 50));
+	this->gridBox.setPosition(0.f, 0.f);
+}
+
 void Game::initPlayer()
 {
 	this->player = new Player(
@@ -84,6 +124,7 @@ void Game::initPlayer()
 		4.f,
 		4.f,
 		IntRect(0, 0, 40, 50),
+		this->textTagHandler,
 		this->textureHandler->getTexture(texture_list::PLAYER_SHEET)
 	);
 }
@@ -92,6 +133,11 @@ void Game::initialize()
 {
 	//Random
 	srand(time(static_cast<unsigned>(0)));
+
+#ifdef DEBUG
+	//Debug options
+	this->initDebugOptions();
+#endif
 
 	//Variables
 	this->initVariables();
@@ -107,6 +153,9 @@ void Game::initialize()
 
 	//Text Tags premade
 	this->initTextTags();
+
+	//World
+	this->initWorld();
 
 	//Player
 	this->initPlayer();
@@ -212,25 +261,56 @@ bool Game::windowIsOpen()
 }
 
 //Update
-void Game::updateDebugPrint()
+void Game::updateDebugOptions()
 {
-#ifdef DEBUG
+	//Show cursor
+	if(this->debug_showCursor)
+		this->window->setMouseCursorVisible(true);
+	else
+		this->window->setMouseCursorVisible(false);
 
+	//Debug Text
 	//Mouse Positions
-	std::cout << "Mouse Position Screen: " << this->mousePosScreen.x << " " << this->mousePosScreen.y << "\n";
-	std::cout << "Mouse Position Window: " << this->mousePosWindow.x << " " << this->mousePosWindow.y << "\n";
-	std::cout << "Mouse Position View: " << this->mousePosView.x << " " << this->mousePosView.y << "\n";
+	this->debugText.setString
+	(
+		"Mouse Position Screen: " +
+		std::to_string(this->mousePosScreen.x) +
+		" " +
+		std::to_string(this->mousePosScreen.y) +
+		"\n" +
 
-	std::cout << "---" << "\n";
+		"Mouse Position Window: " +
+		std::to_string(this->mousePosWindow.x) +
+		" " +
+		std::to_string(this->mousePosWindow.y) +
+		"\n" +
 
-	//Delta Time
-	std::cout << "Delta Time: " << this->dt << "\n";
+		"Mouse Position View: " +
+		std::to_string(this->mousePosView.x) +
+		" " +
+		std::to_string(this->mousePosView.y) +
+		"\n" +
 
-	std::cout << "---" << "\n";
+		"Mouse Position Grid: " +
+		std::to_string(this->mousePosGrid.x) +
+		" " +
+		std::to_string(this->mousePosGrid.y) +
+		"\n" +
 
-	system("CLS");
+		"Grid Size: " +
+		std::to_string(GLOBAL_WORLD_GRIDSIZE) +
+		"\n"
 
-#endif
+		"Delta Time: " +
+		std::to_string(this->dt) +
+		"\n"
+
+		"Player Position Grid: " +
+		std::to_string(this->player->getGridPosition().x) +
+		" " +
+		std::to_string(this->player->getGridPosition().y) +
+		"\n"
+	);
 }
 
 void Game::updateDT()
@@ -257,15 +337,19 @@ void Game::updateEvents()
 
 void Game::updateKeyboardInput()
 {
-	if (Keyboard::isKeyPressed(Keyboard::Escape) && this->checkKeyTime())
-		this->window->close();
+	//Debug
+	if (Keyboard::isKeyPressed(Keyboard::G) && this->checkKeyTime())
+		this->debug_showGrid = this->debug_showGrid ? false : true; //If true then false else true
+
+	if (Keyboard::isKeyPressed(Keyboard::C) && this->checkKeyTime())
+		this->debug_showCursor = this->debug_showCursor ? false : true; //If true then false else true
 
 	if (Keyboard::isKeyPressed(Keyboard::T) && this->checkKeyTime())
-			this->textTagHandler->add(
-				TEXTTAG_HP_LOSS, 
-				this->player->getCenter(), 
-				-100
-			);
+		this->debug_showDebugText = this->debug_showDebugText ? false : true; //If true then false else true
+
+	//Window
+	if (Keyboard::isKeyPressed(Keyboard::Escape) && this->checkKeyTime())
+		this->window->close();
 }
 
 void Game::updateMousePositions()
@@ -277,13 +361,27 @@ void Game::updateMousePositions()
 	this->mousePosScreen = Mouse::getPosition();
 	this->mousePosWindow = Mouse::getPosition(*this->window);
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+	this->mousePosGrid.x = this->mousePosView.x / GLOBAL_WORLD_GRIDSIZE;
+	this->mousePosGrid.y = this->mousePosView.y / GLOBAL_WORLD_GRIDSIZE;
+}
+
+void Game::updatePlayer()
+{
+	//Player
+	this->player->update(this->dt, this->window);
+}
+
+void Game::updateTextTags()
+{
+	this->textTagHandler->update(this->dt);
 }
 
 void Game::update()
 {
-	//Debug
-	this->updateDebugPrint();
-
+#ifdef DEBUG
+	//Debug Options
+	this->updateDebugOptions();
+#endif
 	//Delta Time
 	this->updateDT();
 
@@ -299,23 +397,69 @@ void Game::update()
 	//Mouse positions
 	this->updateMousePositions();
 
-	//Text Tags
-	this->textTagHandler->update(this->dt);
-
 	//Player
-	this->player->update(this->dt, this->window);
+	this->updatePlayer();
+
+	//Text Tags
+	this->updateTextTags();
 }
 
 //Render
+void Game::renderDebugOptions()
+{
+	//Debug text
+	if(this->debug_showDebugText)
+		this->window->draw(this->debugText);
+
+	//Draw the grid
+	if (this->debug_showGrid)
+	{
+		unsigned nrOfCol = this->window->getSize().x / GLOBAL_WORLD_GRIDSIZE;
+		unsigned nrOfRow = this->window->getSize().y / GLOBAL_WORLD_GRIDSIZE;
+
+		for (size_t i = 0; i < nrOfCol; i++)
+		{
+			for (size_t k = 0; k < nrOfRow; k++)
+			{
+				this->gridBox.setPosition(i*GLOBAL_WORLD_GRIDSIZE, k*GLOBAL_WORLD_GRIDSIZE);
+				this->window->draw(this->gridBox);
+			}
+		}
+	}
+}
+
+void Game::renderWorld()
+{
+	
+}
+
+void Game::renderPlayer()
+{
+	this->player->render(this->window);
+}
+
+void Game::renderTextTags()
+{
+	this->textTagHandler->render(this->window);
+}
+
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
 	
+#ifdef DEBUG
+	//Render debug options
+	this->renderDebugOptions();
+#endif
+
+	//Render world
+	this->renderWorld();
+
 	//Render player
-	this->player->render(this->window);
+	this->renderPlayer();
 
 	//Text tags
-	this->textTagHandler->render(this->window);
+	this->renderTextTags();
 
 	this->window->display();
 }

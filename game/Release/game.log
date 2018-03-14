@@ -1,18 +1,60 @@
 ﻿  Game.cpp
 f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
 f:\game projects\game\game\FontHandler.h(63): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\Animation.h(50): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(86): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\Animation.h(116): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-Game.cpp(97): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(99): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(100): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(357): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+f:\game projects\game\game\TextTag.h(58): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+f:\game projects\game\game\TextTagHandler.h(113): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\TextTagHandler.h(127): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\Animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\Animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\LevelingComponent.h(31): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
+Game.cpp(129): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Game.cpp(135): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+Game.cpp(364): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Game.cpp(365): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Game.cpp(424): warning C4244: 'argument': conversion from '::size_t' to 'float', possible loss of data
+f:\game projects\game\game\Container.h(156): warning C4018: '>=': signed/unsigned mismatch
+  f:\game projects\game\game\Container.h(155): note: while compiling class template member function 'TextTag &Container<TextTag>::operator [](const int)'
+  f:\game projects\game\game\TextTagHandler.h(119): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled
+  f:\game projects\game\game\TextTagHandler.h(17): note: see reference to class template instantiation 'Container<TextTag>' being compiled
+  main.cpp
+f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\FontHandler.h(63): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\TextTag.h(58): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+f:\game projects\game\game\TextTagHandler.h(113): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\TextTagHandler.h(127): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\Animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\Animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\LevelingComponent.h(31): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
+f:\game projects\game\game\Container.h(156): warning C4018: '>=': signed/unsigned mismatch
+  f:\game projects\game\game\Container.h(155): note: while compiling class template member function 'TextTag &Container<TextTag>::operator [](const int)'
+  f:\game projects\game\game\TextTagHandler.h(119): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled
+  f:\game projects\game\game\TextTagHandler.h(17): note: see reference to class template instantiation 'Container<TextTag>' being compiled
+  Player.cpp
+f:\game projects\game\game\Animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\Animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\LevelingComponent.h(31): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
+f:\game projects\game\game\TextTag.h(58): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+f:\game projects\game\game\TextTagHandler.h(113): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\TextTagHandler.h(127): warning C4018: '>=': signed/unsigned mismatch
+Player.cpp(51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(52): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(122): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Player.cpp(123): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Player.cpp(229): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+f:\game projects\game\game\Container.h(156): warning C4018: '>=': signed/unsigned mismatch
+  f:\game projects\game\game\Container.h(155): note: while compiling class template member function 'TextTag &Container<TextTag>::operator [](const int)'
+  f:\game projects\game\game\TextTagHandler.h(119): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled
+  f:\game projects\game\game\TextTagHandler.h(17): note: see reference to class template instantiation 'Container<TextTag>' being compiled
   Generating code
-  2 of 424 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  8 of 538 functions ( 1.5%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   game.vcxproj -> F:\Game Projects\game\Release\game.exe

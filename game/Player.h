@@ -7,6 +7,7 @@ class Player : public Character
 {
 private:
 	//Variables
+	Vector2i gridPosition;
 	bool moving;
 	bool jumping;
 	bool sprinting;
@@ -17,16 +18,17 @@ private:
 	PhysicsComponent *physics_c;
 	AnimationComponent *animation_c;
 	LevelingComponent *leveling_c;
+	TextTagComponent *texttag_c;
 
 	//Enumerations
 	enum animations { ANIMATION_RUNNING, ANIMATION_IDLE, ANIMATION_JUMP };
 
 	//Private functions
 	void initializeVariables();
-	void initializeComponents();
+	void initializeComponents(TextTagHandler* handler);
 	void initializeAnimations();
 	void initializeSprite();
-	void initialize();
+	void initialize(TextTagHandler* texttaghandler);
 
 	//Cleanup
 	void cleanup();
@@ -41,6 +43,7 @@ public:
 		float xScale, 
 		float yScale,
 		IntRect textureRect,
+		TextTagHandler* texttaghandler,
 		const Texture* texture = nullptr	
 	);
 
@@ -57,9 +60,13 @@ public:
 
 	LevelingComponent* getLevelingComponent();
 
+	const Vector2i& getGridPosition() const;
+
 	//Modifiers
 
 	//Functions
+	void updateGridPosition();
+
 	void updateCollision(const float& dt, const RenderWindow* window);
 
 	void updateAnimation(const float& dt);
