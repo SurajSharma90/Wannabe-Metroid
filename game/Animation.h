@@ -27,7 +27,7 @@ private:
 	void updateTimer(const float& dt, const float& multiplier = 1.f)
 	{
 		if (this->timer <= this->animationTime)
-			this->timer += this->timerIncrement * (multiplier + 0.1f) * dt;
+			this->timer += this->timerIncrement * (multiplier + 0.3f) * dt;
 	}
 
 public:

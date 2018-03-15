@@ -36,7 +36,7 @@ void Player::initializeComponents(TextTagHandler* texttaghandler)
 	this->physics_c = new PhysicsComponent
 	(
 		Vector2f(0.f, 0.f),				//Velocity
-		Vector2f(1800.f, 2000.f),		//Max speed
+		Vector2f(2000.f, 2000.f),		//Max speed
 		Vector2f(8000.f, 10000.f),		//Acceleration
 		Vector2f(1.f, 1.f),				//AccelerationMultiplier
 		4000.f,							//Degen Left
@@ -54,7 +54,7 @@ void Player::initializeComponents(TextTagHandler* texttaghandler)
 
 void Player::initializeAnimations()
 {
-	this->animation_c->addAnimation(Animation("Running", this->getSprite(), IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.3f));
+	this->animation_c->addAnimation(Animation("Running", this->getSprite(), IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.45f));
 	this->animation_c->addAnimation(Animation("Idle", this->getSprite(), IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f));
 	this->animation_c->addAnimation(Animation("Jumping", this->getSprite(), IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.9f));
 }
@@ -62,6 +62,7 @@ void Player::initializeAnimations()
 void Player::initializeSprite()
 {
 	this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
+	this->getSprite()->setColor(Color(255,100,100,255));
 }
 
 void Player::initialize(TextTagHandler* texttaghandler)
