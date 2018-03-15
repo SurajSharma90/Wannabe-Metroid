@@ -1,26 +1,25 @@
-﻿  Game.cpp
-f:\game projects\game\game\TextureHandler.h(74): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\FontHandler.h(63): warning C4018: '>=': signed/unsigned mismatch
+﻿  Player.cpp
+f:\game projects\game\game\Animation.h(51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(52): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\Animation.h(88): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\Animation.h(118): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\LevelingComponent.h(35): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
 f:\game projects\game\game\TextTag.h(58): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-f:\game projects\game\game\TextTagHandler.h(113): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\TextTagHandler.h(127): warning C4018: '>=': signed/unsigned mismatch
-f:\game projects\game\game\Animation.h(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\Animation.h(94): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\Animation.h(124): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\LevelingComponent.h(31): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
-Game.cpp(129): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-Game.cpp(135): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-Game.cpp(364): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-Game.cpp(365): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-Game.cpp(424): warning C4244: 'argument': conversion from '::size_t' to 'float', possible loss of data
+f:\game projects\game\game\TextTagHandler.h(130): warning C4018: '>=': signed/unsigned mismatch
+f:\game projects\game\game\TextTagHandler.h(144): warning C4018: '>=': signed/unsigned mismatch
+Player.cpp(57): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(59): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+Player.cpp(173): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Player.cpp(174): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Player.cpp(214): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
 f:\game projects\game\game\Container.h(156): warning C4018: '>=': signed/unsigned mismatch
   f:\game projects\game\game\Container.h(155): note: while compiling class template member function 'TextTag &Container<TextTag>::operator [](const int)'
-  f:\game projects\game\game\TextTagHandler.h(119): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled
-  f:\game projects\game\game\TextTagHandler.h(17): note: see reference to class template instantiation 'Container<TextTag>' being compiled
+  f:\game projects\game\game\TextTagHandler.h(136): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled
+  f:\game projects\game\game\TextTagHandler.h(18): note: see reference to class template instantiation 'Container<TextTag>' being compiled
   Generating code
-  0 of 538 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  5 of 564 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    14 functions had inline decision re-evaluated but remain unchanged
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   game.vcxproj -> F:\Game Projects\game\Release\game.exe

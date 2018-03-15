@@ -312,7 +312,7 @@ void Player::updateAnimation(const float& dt)
 	else if (!this->moving && !this->jumping && !this->falling)
 	{
 		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
-		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt, this->getSpeedPercent().x);
+		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
 	}
 
 	if (this->jumping)
