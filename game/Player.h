@@ -10,8 +10,14 @@ private:
 	Vector2i gridPosition;
 	bool moving;
 	bool jumping;
+	bool falling;
 	bool sprinting;
 	float sprintMultiplier;
+
+	bool collision_top;
+	bool collision_bottom;
+	bool collision_left;
+	bool collision_right;
 
 	//Components
 	InputComponent *input_c;
@@ -50,7 +56,7 @@ public:
 	virtual ~Player();
 
 	//Accessors
-	Vector2f getCenter()
+	Vector2f getCenter() 
 	{
 		return Vector2f (
 			this->getSprite()->getPosition().x + this->getBounds().width / 2.f,
@@ -58,20 +64,43 @@ public:
 		);
 	}
 
+	Vector2f getBottomCenter() 
+	{
+		return Vector2f(
+			this->getSprite()->getPosition().x + this->getBounds().width / 2.f,
+			this->getSprite()->getPosition().y + this->getBounds().height
+		);
+	}
+
 	LevelingComponent* getLevelingComponent();
 
 	const Vector2i& getGridPosition() const;
 
+	std::string getCollisionStatus() const;
+
+	std::string getMovementStatus() const;
+
+	Vector2f getSpeedPercent()
+	{
+		return Vector2f(
+			abs(this->physics_c->getVelocity().x) / this->physics_c->getMaxSpeedX(),
+			abs(this->physics_c->getVelocity().y) / this->physics_c->getMaxSpeedY()
+		);
+	}
+
 	//Modifiers
+
+	//Component shortcuts
+	void gainExperience(const unsigned& experience);
 
 	//Functions
 	void updateGridPosition();
 
+	void updateInput(const float& dt);
+
 	void updateCollision(const float& dt, const RenderWindow* window);
 
 	void updateAnimation(const float& dt);
-
-	void updateInput(const float& dt);
 
 	void update(const float& dt, const RenderWindow* window);
 

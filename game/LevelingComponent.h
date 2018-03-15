@@ -11,7 +11,7 @@ private:
 	unsigned long experience_next;
 
 	//Private functions
-	void checkLevelUp()
+	bool checkLevelUp()
 	{
 		while (this->experience >= this->experience_next)
 		{
@@ -23,7 +23,11 @@ private:
 
 			if (this->experience < 0)
 				this->experience = 0;
+
+			return true;
 		}
+
+		return false;
 	}
 
 	void updateExperienceNext()
@@ -53,18 +57,28 @@ public:
 	{
 		return this->level;
 	}
+	inline const unsigned long& getExperience() const
+	{
+		return this->experience;
+	}
+	inline const unsigned long& getExperienceNext() const
+	{
+		return this->experience_next;
+	}
 
 	//Modifiers
 
 	//Functions
-	const unsigned long& gainExperience(const unsigned long& experience)
+	bool gainExperience(const unsigned long& experience)
 	{
 		this->experience += experience;
 
-		this->checkLevelUp();
+		if (this->checkLevelUp())
+			return true;
 
-		return experience;
+		return false;
 	}
+
 	const unsigned long& removeExperience(const unsigned long& experience)
 	{
 		this->experience -= experience;

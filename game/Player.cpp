@@ -6,8 +6,14 @@ void Player::initializeVariables()
 {
 	this->moving = false;
 	this->jumping = false;
+	this->falling = false;
 	this->sprinting = false;
 	this->sprintMultiplier = 1.5f;
+
+	bool collision_top = false;
+	bool collision_bottom = false;
+	bool collision_left = false;
+	bool collision_right = false;
 }
 
 void Player::initializeComponents(TextTagHandler* texttaghandler)
@@ -30,7 +36,7 @@ void Player::initializeComponents(TextTagHandler* texttaghandler)
 	this->physics_c = new PhysicsComponent
 	(
 		Vector2f(0.f, 0.f),				//Velocity
-		Vector2f(2000.f, 2000.f),		//Max speed
+		Vector2f(1800.f, 2000.f),		//Max speed
 		Vector2f(8000.f, 10000.f),		//Acceleration
 		Vector2f(1.f, 1.f),				//AccelerationMultiplier
 		4000.f,							//Degen Left
@@ -48,7 +54,7 @@ void Player::initializeComponents(TextTagHandler* texttaghandler)
 
 void Player::initializeAnimations()
 {
-	this->animation_c->addAnimation(Animation("Running", this->getSprite(), IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.5f));
+	this->animation_c->addAnimation(Animation("Running", this->getSprite(), IntRect(0, 0, 40.f, 50.f), 400, 50, 0.f, 0.3f));
 	this->animation_c->addAnimation(Animation("Idle", this->getSprite(), IntRect(0, 100, 40.f, 50.f), 200, 50, 0.f, 1.5f));
 	this->animation_c->addAnimation(Animation("Jumping", this->getSprite(), IntRect(0, 200, 40.f, 50.f), 360, 50, 0.f, 0.9f));
 }
@@ -114,76 +120,58 @@ const Vector2i& Player::getGridPosition() const
 	return this->gridPosition;
 }
 
+std::string Player::getCollisionStatus() const
+{
+	std::string collision_status = "";
+	if (collision_top)
+		collision_status += " top";
+	if (collision_bottom)
+		collision_status += " bottom";
+	if (collision_left)
+		collision_status += " left";
+	if (collision_right)
+		collision_status += " right";
+
+	return collision_status;
+}
+
+std::string Player::getMovementStatus() const
+{
+	std::string movement_status = "";
+	
+	if (this->moving)
+		movement_status += " moving";
+
+	if (this->jumping)
+		movement_status += " jumping";
+
+	if (this->falling)
+		movement_status += " falling";
+
+	if (this->sprinting)
+		movement_status += " sprinting";
+
+	return movement_status;
+}
+
 //Modifiers
+
+//Component shortcuts
+void Player::gainExperience(const unsigned& experience)
+{
+	this->texttag_c->add(TEXTTAG_EXP_GAIN, this->getCenter(), std::to_string(experience) + " EXP");
+
+	if (this->leveling_c->gainExperience(experience))
+	{
+		this->texttag_c->add(TEXTTAG_LEVEL_UP, this->getCenter(), "LEVEL UP");
+	}
+}
 
 //Functions
 void Player::updateGridPosition()
 {
-	this->gridPosition.x = this->getPosition().x / GLOBAL_WORLD_GRIDSIZE;
-	this->gridPosition.y = this->getPosition().y / GLOBAL_WORLD_GRIDSIZE;
-}
-
-void Player::updateCollision(const float & dt, const RenderWindow * window)
-{
-	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
-
-	//Gravity & Collision with screen
-	if (this->getPosition().y + this->getBounds().height < window->getSize().y) //Not touching bottom of screen
-	{
-		this->physics_c->incrementVelocityOuterForce(0.f, GLOBAL_PHYSICS_GRAVITY, dt);
-	}
-	else //Collision with bottom of screen
-	{
-		this->physics_c->stopVelocityY();
-		this->setPosition(this->getPosition().x, window->getSize().y - this->getBounds().height);
-		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
-
-		this->jumping = false; //Reset jumping
-	}
-
-	if (this->getPosition().y < 0.f) //Collision top of screen
-	{
-		this->physics_c->stopVelocityY();
-		this->setPosition(this->getPosition().x, 0.f);
-	}
-
-	if (this->getPosition().x < 0.f) //Collision left of screen
-	{
-		this->physics_c->stopVelocityX();
-		this->setPosition(0.f, this->getPosition().y);
-	}
-
-	if (this->getPosition().x + this->getBounds().width > window->getSize().x) //Collision right of screen
-	{
-		this->physics_c->stopVelocityX();
-		this->setPosition(window->getSize().x - this->getBounds().width, this->getPosition().y);
-	}
-}
-
-void Player::updateAnimation(const float& dt)
-{
-	if (moving && !jumping)
-	{
-		this->animation_c->getAnimation(ANIMATION_IDLE)->reset();
-		this->animation_c->getAnimation(ANIMATION_RUNNING)->animate(dt);
-	}
-	else if (!moving && !jumping)
-	{
-		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
-		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
-	}
-
-	if (physics_c->isMovingUp())
-	{
-		this->animation_c->getAnimation(ANIMATION_JUMP)->animateOnce(dt);
-		this->animation_c->getAnimation(ANIMATION_JUMP)->stop(4);
-	}
-	else if (physics_c->isMovingDown())
-	{
-		this->animation_c->getAnimation(ANIMATION_JUMP)->animateOnce(dt);
-		this->animation_c->getAnimation(ANIMATION_JUMP)->start();
-		this->animation_c->getAnimation(ANIMATION_JUMP)->stop(6);
-	}
+	this->gridPosition.x = this->getCenter().x / GLOBAL_WORLD_GRIDSIZE;
+	this->gridPosition.y = this->getCenter().y / GLOBAL_WORLD_GRIDSIZE;
 }
 
 void Player::updateInput(const float & dt)
@@ -191,7 +179,7 @@ void Player::updateInput(const float & dt)
 	// INPUT ====================================== INPUT
 	if (this->input_c->isKeyPressed(RIGHT_KEY)) // MOVEMENT RIGHT
 	{
-		if (!this->jumping)
+		if (!this->jumping && !this->falling)
 			physics_c->incrementVelocity(1.f, 0.f, dt);
 		else
 		{
@@ -201,7 +189,7 @@ void Player::updateInput(const float & dt)
 
 	if (this->input_c->isKeyPressed(LEFT_KEY)) // MOVEMENT LEFT
 	{
-		if (!jumping)
+		if (!jumping && !this->falling)
 			physics_c->incrementVelocity(-1.f, 0.f, dt);
 		else
 		{
@@ -209,12 +197,9 @@ void Player::updateInput(const float & dt)
 		}
 	}
 
-	if (this->input_c->isKeyPressed(JUMP_KEY) && !jumping) // MOVEMENT JUMP
+	if (this->input_c->isKeyPressed(JUMP_KEY) && !this->jumping && !this->falling) // MOVEMENT JUMP
 	{
 		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
-
-		jumping = true; // Set jumping
-						//phys->incrementVelocity(0.f, -1.f, dt);
 	}
 
 	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
@@ -240,9 +225,127 @@ void Player::updateInput(const float & dt)
 		moving = false;
 	}
 
+	if (this->physics_c->isMovingUp())
+	{
+		this->jumping = true;
+	}
+	else if (this->physics_c->isMovingDown())
+	{
+		this->jumping = false;
+		this->falling = true;
+	}
+	else
+	{
+		this->falling = false;
+	}
+
 	//Final move and update
 	this->physics_c->update(dt);
 	this->move(this->physics_c->getVelocity() * dt);
+}
+
+void Player::updateCollision(const float & dt, const RenderWindow * window)
+{
+	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
+
+	//Gravity & Collision with screen
+	if (this->getPosition().y + this->getBounds().height < window->getSize().y) //Not touching bottom of screen
+	{
+		this->physics_c->incrementVelocityOuterForce(0.f, GLOBAL_PHYSICS_GRAVITY, dt);
+		
+		this->collision_bottom = false;
+	}
+	else //Collision with bottom of screen
+	{
+		this->physics_c->stopVelocityY();
+		this->setPosition(this->getPosition().x, window->getSize().y - this->getBounds().height);
+
+		this->jumping = false; //Reset jumping
+
+		this->collision_bottom = true;
+	}
+
+	if (this->getPosition().y < 0.f) //Collision top of screen
+	{
+		this->physics_c->stopVelocityY();
+		this->setPosition(this->getPosition().x, 0.f);
+
+		this->collision_top = true;
+	}
+	else
+	{
+		this->collision_top = false;
+	}
+
+	if (this->getPosition().x < 0.f) //Collision left of screen
+	{
+		this->physics_c->stopVelocityX();
+		this->setPosition(0.f, this->getPosition().y);
+
+		this->collision_left = true;
+	}
+	else
+	{
+		this->collision_left = false;
+	}
+
+	if (this->getPosition().x + this->getBounds().width > window->getSize().x) //Collision right of screen
+	{
+		this->physics_c->stopVelocityX();
+		this->setPosition(window->getSize().x - this->getBounds().width, this->getPosition().y);
+
+		this->collision_right = true;
+	}
+	else
+	{
+		this->collision_right = false;
+	}
+}
+
+void Player::updateAnimation(const float& dt)
+{
+	if (this->moving && !this->jumping && !this->falling)
+	{
+		this->animation_c->getAnimation(ANIMATION_IDLE)->reset();
+		this->animation_c->getAnimation(ANIMATION_RUNNING)->animate(dt, this->getSpeedPercent().x);
+	}
+	else if (!this->moving && !this->jumping && !this->falling)
+	{
+		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
+		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt, this->getSpeedPercent().x);
+	}
+
+	if (this->jumping)
+	{
+		this->animation_c->getAnimation(ANIMATION_JUMP)->animateOnce(dt);
+		this->animation_c->getAnimation(ANIMATION_JUMP)->stop(4);
+	}
+	else if (this->falling)
+	{
+		this->animation_c->getAnimation(ANIMATION_JUMP)->animateOnce(dt);
+		this->animation_c->getAnimation(ANIMATION_JUMP)->start();
+		this->animation_c->getAnimation(ANIMATION_JUMP)->stop(6);
+	}
+
+	if (this->collision_bottom)
+	{
+		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
+	}
+	else if (this->collision_top)
+	{
+
+	}
+
+	if (this->collision_left && !this->jumping && !this->falling)
+	{
+		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
+		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
+	}
+	else if (this->collision_right && !this->jumping && !this->falling)
+	{
+		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
+		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
+	}
 }
 
 void Player::update(const float & dt, const RenderWindow* window)
@@ -250,14 +353,15 @@ void Player::update(const float & dt, const RenderWindow* window)
 	//Grid position
 	this->updateGridPosition();
 
+	//Input
+	this->updateInput(dt);
+
 	//Collision
 	this->updateCollision(dt, window);
 
 	//Animation
 	this->updateAnimation(dt);
 
-	//Input
-	this->updateInput(dt);
 }
 
 void Player::render(RenderTarget * target)

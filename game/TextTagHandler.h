@@ -6,6 +6,7 @@
 enum textTag_list { 
 	TEXTTAG_EXP_GAIN = 0, 
 	TEXTTAG_EXP_LOSS, 
+	TEXTTAG_LEVEL_UP,
 	TEXTTAG_HP_GAIN, 
 	TEXTTAG_HP_LOSS, 
 	TEXTTAG_DAMAGE_DONE };
@@ -26,14 +27,14 @@ private:
 			"EMPTY",
 			Vector2f(0.f, 0.f),	
 			Color::Cyan,
-			20,
-			8.f,
+			14,
+			10.f,
 			0.f,
 			-1000.f,
 			0.f,
-			2000.f,
+			2200.f,
 			0.f,
-			20.f
+			10.f
 		));
 
 		//EXP_LOSS
@@ -42,14 +43,30 @@ private:
 			"EMPTY",
 			Vector2f(0.f, 0.f),
 			Color::Magenta,
-			20,
-			8.f,
+			14,
+			10.f,
 			0.f,
 			-1000.f,
 			0.f,
+			2200.f,
+			0.f,
+			10.f
+		));
+
+		//LEVEL_UP
+		this->premade_textTags.push(TextTag(
+			font,
+			"EMPTY",
+			Vector2f(0.f, 0.f),
+			Color(190, 120, 0, 255),
+			24,
+			11.f,
+			0.f,
+			-1200.f,
+			0.f,
 			2000.f,
 			0.f,
-			20.f																	//Color
+			20.f
 		));
 
 		//HP_GAIN

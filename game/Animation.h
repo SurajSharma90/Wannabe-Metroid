@@ -24,16 +24,10 @@ private:
 	bool hasBeenReset;				//Keeps track of if the animation has been reset
 
 	//Private functions
-	void updateTimer(const float& dt)
+	void updateTimer(const float& dt, const float& multiplier = 1.f)
 	{
 		if (this->timer <= this->animationTime)
-			this->timer += this->timerIncrement * dt;
-	}
-
-	void updateTimer(const float& dt, const float& customTimer)
-	{
-		if (this->timer <= customTimer)
-			this->timer += this->timerIncrement * dt;
+			this->timer += this->timerIncrement * (multiplier + 0.1f) * dt;
 	}
 
 public:
@@ -76,13 +70,13 @@ public:
 	//Modifiers
 
 	//Functions
-	void animate(const float& dt)
+	void animate(const float& dt, const float& multiplier = 1.f)
 	{
 		//If the animation is not stopped
 		if (!this->stopped)
 		{
 			//Update animation timer
-			this->updateTimer(dt);
+			this->updateTimer(dt, multiplier);
 
 			//Set Texture rect to display
 			this->sprite->setTextureRect(this->currentTextureRect);

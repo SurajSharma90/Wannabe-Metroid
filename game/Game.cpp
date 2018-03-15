@@ -6,6 +6,7 @@ Debug keybinds
 C = Show cursor
 G = Show grid
 T = Show text
+L = Leveling test
 */
 
 //Initializers
@@ -30,6 +31,11 @@ void Game::initDebugOptions()
 		std::cout << "ERROR::GAME::INITDEBUGOPTIONS::DEBUG_FONT_LOADING_FAILED" << "\n";
 		throw("ERROR::GAME::INITDEBUGOPTIONS::DEBUG_FONT_LOADING_FAILED");
 	}
+
+	//Debug circle
+	this->debugPosCircle.setFillColor(Color::Red);
+	this->debugPosCircle.setRadius(5.f);
+	this->debugPosCircle.setOrigin(this->debugPosCircle.getRadius() / 2, this->debugPosCircle.getRadius() / 2);
 }
 
 void Game::initVariables()
@@ -273,6 +279,10 @@ void Game::updateDebugOptions()
 	//Mouse Positions
 	this->debugText.setString
 	(
+		"Delta Time: " +
+		std::to_string(this->dt) +
+		"\n" +
+
 		"Mouse Position Screen: " +
 		std::to_string(this->mousePosScreen.x) +
 		" " +
@@ -299,16 +309,45 @@ void Game::updateDebugOptions()
 
 		"Grid Size: " +
 		std::to_string(GLOBAL_WORLD_GRIDSIZE) +
-		"\n"
+		"\n" +
 
-		"Delta Time: " +
-		std::to_string(this->dt) +
-		"\n"
+		" ---- " +
+		"\n" +
+
+		"Player Position: " +
+		std::to_string(this->player->getPosition().x) +
+		" " +
+		std::to_string(this->player->getPosition().y) +
+		"\n" +
 
 		"Player Position Grid: " +
 		std::to_string(this->player->getGridPosition().x) +
 		" " +
 		std::to_string(this->player->getGridPosition().y) +
+		"\n" +
+
+		"Player Movement Status: " +
+		this->player->getMovementStatus() +
+		"\n" +
+
+		"Player Collision Status: " +
+		this->player->getCollisionStatus() +
+		"\n" +
+
+		"Player Speed Percent: " +
+		std::to_string(this->player->getSpeedPercent().x) +
+		" " +
+		std::to_string(this->player->getSpeedPercent().y) +
+		"\n" +
+
+		"Player Level: " +
+		std::to_string(this->player->getLevelingComponent()->getLevel()) +
+		"\n" +
+
+		"Player Experience: " +
+		std::to_string(this->player->getLevelingComponent()->getExperience()) +
+		" / " +
+		std::to_string(this->player->getLevelingComponent()->getExperienceNext()) +
 		"\n"
 	);
 }
@@ -346,6 +385,9 @@ void Game::updateKeyboardInput()
 
 	if (Keyboard::isKeyPressed(Keyboard::T) && this->checkKeyTime())
 		this->debug_showDebugText = this->debug_showDebugText ? false : true; //If true then false else true
+
+	if (Keyboard::isKeyPressed(Keyboard::L) && this->checkKeyTime())
+		this->player->gainExperience(rand() % 100);
 
 	//Window
 	if (Keyboard::isKeyPressed(Keyboard::Escape) && this->checkKeyTime())
@@ -426,6 +468,10 @@ void Game::renderDebugOptions()
 			}
 		}
 	}
+
+	//Debug pos circle
+	this->debugPosCircle.setPosition(this->player->getCenter());
+	this->window->draw(this->debugPosCircle);
 }
 
 void Game::renderWorld()
@@ -446,11 +492,6 @@ void Game::renderTextTags()
 void Game::render()
 {
 	this->window->clear(Color(0, 0, 0, 0));
-	
-#ifdef DEBUG
-	//Render debug options
-	this->renderDebugOptions();
-#endif
 
 	//Render world
 	this->renderWorld();
@@ -460,6 +501,11 @@ void Game::render()
 
 	//Text tags
 	this->renderTextTags();
+
+#ifdef DEBUG
+	//Render debug options
+	this->renderDebugOptions();
+#endif
 
 	this->window->display();
 }

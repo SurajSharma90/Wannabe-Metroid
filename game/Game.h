@@ -17,6 +17,7 @@ private:
 	bool debug_showCursor;
 	Font debugFont;
 	Text debugText;
+	CircleShape debugPosCircle;
 
 	//Delta time
 	Clock dtClock;
