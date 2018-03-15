@@ -62,7 +62,6 @@ void Player::initializeAnimations()
 void Player::initializeSprite()
 {
 	this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
-	this->getSprite()->setColor(Color(255,100,100,255));
 }
 
 void Player::initialize(TextTagHandler* texttaghandler)

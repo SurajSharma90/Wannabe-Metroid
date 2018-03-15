@@ -394,6 +394,42 @@ void Game::updateKeyboardInput()
 		this->window->close();
 }
 
+void Game::updateMouseInput()
+{
+	//Add wall
+	if (Mouse::isButtonPressed(Mouse::Left) && this->checkKeyTime())
+	{
+		RectangleShape temp;
+		temp.setPosition(this->mousePosGrid.x * GLOBAL_WORLD_GRIDSIZE, this->mousePosGrid.y * GLOBAL_WORLD_GRIDSIZE);
+		temp.setSize(Vector2f(GLOBAL_WORLD_GRIDSIZE, GLOBAL_WORLD_GRIDSIZE));
+		temp.setFillColor(Color::Red);
+
+		bool found = false;
+		for (size_t i = 0; i < this->walls.size() && !found; i++)
+		{
+			if (this->walls[i].getPosition() == temp.getPosition())
+				found = true;
+		}
+
+		if(!found)
+			this->walls.push(temp);
+	}
+
+	//Remove wall
+	if (Mouse::isButtonPressed(Mouse::Right) && this->checkKeyTime())
+	{
+		bool found = false;
+		for (size_t i = 0; i < this->walls.size() && !found; i++)
+		{
+			if (this->walls[i].getPosition() == Vector2f(this->mousePosGrid * GLOBAL_WORLD_GRIDSIZE))
+			{
+				this->walls.remove(i);
+				found = true;
+			}
+		}		
+	}
+}
+
 void Game::updateMousePositions()
 {
 	/*
@@ -436,6 +472,8 @@ void Game::update()
 	//Input
 	this->updateKeyboardInput();
 
+	this->updateMouseInput();
+
 	//Mouse positions
 	this->updateMousePositions();
 
@@ -476,7 +514,10 @@ void Game::renderDebugOptions()
 
 void Game::renderWorld()
 {
-	
+	for (size_t i = 0; i < this->walls.size(); i++)
+	{
+		this->window->draw(this->walls[i]);
+	}
 }
 
 void Game::renderPlayer()

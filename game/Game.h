@@ -56,6 +56,7 @@ private:
 
 	//World
 	RectangleShape gridBox; //Debug world
+	Container<RectangleShape> walls;
 
 	//Player
 	Player* player;
@@ -96,6 +97,7 @@ public:
 	void updateKeyTime();
 	void updateEvents();
 	void updateKeyboardInput();
+	void updateMouseInput();
 	void updateMousePositions();
 	void updatePlayer();
 	void updateTextTags();
