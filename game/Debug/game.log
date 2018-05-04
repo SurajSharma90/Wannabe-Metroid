@@ -11,10 +11,10 @@ f:\game projects\game\game\animation.h(118): warning C4244: '+=': conversion fro
 f:\game projects\game\game\levelingcomponent.h(35): warning C4244: '=': conversion from 'double' to 'unsigned long', possible loss of data
 f:\game projects\game\game\game.cpp(135): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 f:\game projects\game\game\game.cpp(141): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-f:\game projects\game\game\game.cpp(403): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-f:\game projects\game\game\game.cpp(443): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(444): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-f:\game projects\game\game\game.cpp(505): warning C4244: 'argument': conversion from '::size_t' to 'float', possible loss of data
+f:\game projects\game\game\game.cpp(409): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+f:\game projects\game\game\game.cpp(448): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\game.cpp(449): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+f:\game projects\game\game\game.cpp(538): warning C4244: 'argument': conversion from '::size_t' to 'float', possible loss of data
 f:\game projects\game\game\container.h(156): warning C4018: '>=': signed/unsigned mismatch
   f:\game projects\game\game\container.h(155): note: while compiling class template member function 'TextTag &Container<TextTag>::operator [](const int)'
   f:\game projects\game\game\texttaghandler.h(136): note: see reference to function template instantiation 'TextTag &Container<TextTag>::operator [](const int)' being compiled

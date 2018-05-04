@@ -125,8 +125,8 @@ void Game::initPlayer()
 	this->player = new Player(
 		"test",
 		10.f,
-		0.f,
-		0.f,
+		100.f,
+		500.f,
 		4.f,
 		4.f,
 		IntRect(0, 0, 40, 50),
@@ -389,6 +389,12 @@ void Game::updateKeyboardInput()
 	if (Keyboard::isKeyPressed(Keyboard::L) && this->checkKeyTime())
 		this->player->gainExperience(rand() % 100);
 
+	if (Keyboard::isKeyPressed(Keyboard::H) && this->checkKeyTime())
+		if(this->player->getShowHitbox())
+			this->player->setShowHitbox(false);
+		else
+			this->player->setShowHitbox(true);
+
 	//Window
 	if (Keyboard::isKeyPressed(Keyboard::Escape) && this->checkKeyTime())
 		this->window->close();
@@ -447,6 +453,60 @@ void Game::updatePlayer()
 {
 	//Player
 	this->player->update(this->dt, this->window);
+
+	for (size_t i = 0; i < this->walls.size(); i++)
+	{
+		float xOffset = 1.f;
+		FloatRect newPos = FloatRect
+		(
+			this->player->getLeft() + (this->player->getVelocity().x*this->dt),
+			this->player->getTop(),
+			this->player->getWidth() + this->player->getVelocity().x*this->dt,
+			this->player->getHeight()
+		);
+
+		//X collision
+		if (newPos.intersects(this->walls[i].getGlobalBounds()))
+		{
+			if (this->player->getVelocity().x > 0.f)
+			{
+				this->player->setCollisionRight(true);
+				this->player->setPositionX(this->walls[i].getPosition().x - this->player->getWidth());
+			}
+			else if (this->player->getVelocity().x < 0.f)
+			{
+				this->player->setCollisionLeft(true);
+				this->player->setPositionX(this->walls[i].getPosition().x + this->walls[i].getGlobalBounds().width);
+			}
+
+			this->player->getPhysicsComponent()->setVelocityX(0.f);
+		}
+
+		newPos = FloatRect
+		(
+			this->player->getLeft(),
+			this->player->getTop() + this->player->getVelocity().y*this->dt,
+			this->player->getWidth(),
+			this->player->getHeight() + this->player->getVelocity().y*this->dt
+		);
+
+		//Y collision
+		if (newPos.intersects(this->walls[i].getGlobalBounds()))
+		{
+			if (this->player->getVelocity().y > 0.f)
+			{
+				this->player->setCollisionBottom(true);
+				this->player->setPositionY(this->walls[i].getPosition().y - this->player->getHeight());
+			}
+			else if (this->player->getVelocity().y < 0.f)
+			{
+				this->player->setCollisionTop(true);
+				this->player->setPositionY(this->walls[i].getPosition().y + this->walls[i].getGlobalBounds().height);
+			}
+
+			this->player->getPhysicsComponent()->setVelocityY(0.f);
+		}
+	}
 }
 
 void Game::updateTextTags()

@@ -10,6 +10,8 @@ void Player::initializeVariables()
 	this->sprinting = false;
 	this->sprintMultiplier = 1.5f;
 
+	this->showHitbox = false;
+
 	bool collision_top = false;
 	bool collision_bottom = false;
 	bool collision_left = false;
@@ -64,6 +66,21 @@ void Player::initializeSprite()
 	this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
 }
 
+void Player::initializeHitbox()
+{
+	this->hitboxOffset.x = 45.f;
+	this->hitboxOffset.y = 30.f;
+
+	this->hitbox.setSize(Vector2f(80.f, this->getHeight() - this->hitboxOffset.y));
+	this->hitbox.setFillColor(Color::Transparent);
+	this->hitbox.setOutlineThickness(2.f);
+	this->hitbox.setOutlineColor(Color::Green);
+	this->hitbox.setPosition(
+		this->getPosition().x + this->hitboxOffset.x,
+		this->getPosition().y + this->hitboxOffset.y
+	);
+}
+
 void Player::initialize(TextTagHandler* texttaghandler)
 {
 	this->initializeVariables();
@@ -73,6 +90,8 @@ void Player::initialize(TextTagHandler* texttaghandler)
 	this->initializeAnimations();
 
 	this->initializeSprite();
+
+	this->initializeHitbox();
 }
 
 //Cleanup
@@ -176,36 +195,9 @@ void Player::updateGridPosition()
 
 void Player::updateInput(const float & dt)
 {
-	// INPUT ====================================== INPUT
-	if (this->input_c->isKeyPressed(RIGHT_KEY)) // MOVEMENT RIGHT
-	{
-		if (!this->jumping && !this->falling)
-			physics_c->incrementVelocity(1.f, 0.f, dt);
-		else
-		{
-			physics_c->incrementVelocity(1.f, 0.f, 0.6f, dt);
-		}
-	}
-
-	if (this->input_c->isKeyPressed(LEFT_KEY)) // MOVEMENT LEFT
-	{
-		if (!jumping && !this->falling)
-			physics_c->incrementVelocity(-1.f, 0.f, dt);
-		else
-		{
-			physics_c->incrementVelocity(-1.f, 0.f, 0.6f, dt);
-		}
-	}
-
-	if (this->input_c->isKeyPressed(JUMP_KEY) && !this->jumping && !this->falling) // MOVEMENT JUMP
-	{
-		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
-	}
-
-	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
-		this->physics_c->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
-	else
-		this->physics_c->setAccelerationMultiplier(Vector2f(1.f, 1.f));
+	this->jumping = false;
+	this->moving = false;
+	this->falling = false;
 
 	//Change movement variables and sprite facing direction
 	if (physics_c->isMovingLeft())
@@ -239,66 +231,95 @@ void Player::updateInput(const float & dt)
 		this->falling = false;
 	}
 
+	// INPUT ====================================== INPUT
+	if (this->input_c->isKeyPressed(RIGHT_KEY)) // MOVEMENT RIGHT
+	{
+		if (!this->jumping && !this->falling)
+			physics_c->incrementVelocity(1.f, 0.f, dt);
+		else
+		{
+			physics_c->incrementVelocity(1.f, 0.f, 0.6f, dt);
+		}
+	}
+
+	if (this->input_c->isKeyPressed(LEFT_KEY)) // MOVEMENT LEFT
+	{
+		if (!jumping && !this->falling)
+			physics_c->incrementVelocity(-1.f, 0.f, dt);
+		else
+		{
+			physics_c->incrementVelocity(-1.f, 0.f, 0.6f, dt);
+		}
+	}
+
+	if (this->input_c->isKeyPressed(JUMP_KEY) && !this->jumping && !this->falling) // MOVEMENT JUMP
+	{
+		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
+	}
+
+	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
+		this->physics_c->setAccelerationMultiplier(Vector2f(1.2f, 1.f));
+	else
+		this->physics_c->setAccelerationMultiplier(Vector2f(1.f, 1.f));
+
 	//Final move and update
 	this->physics_c->update(dt);
 	this->move(this->physics_c->getVelocity() * dt);
+}
+
+void Player::updateHitbox()
+{
+	this->hitbox.setPosition(
+		this->getPosition().x + this->hitboxOffset.x,
+		this->getPosition().y + this->hitboxOffset.y
+	);
 }
 
 void Player::updateCollision(const float & dt, const RenderWindow * window)
 {
 	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
 
+	this->collision_bottom = false;
+	this->collision_top = false;
+	this->collision_left = false;
+	this->collision_right = false;
+
 	//Gravity & Collision with screen
-	if (this->getPosition().y + this->getBounds().height < window->getSize().y) //Not touching bottom of screen
-	{
-		this->physics_c->incrementVelocityOuterForce(0.f, GLOBAL_PHYSICS_GRAVITY, dt);
-		
-		this->collision_bottom = false;
-	}
-	else //Collision with bottom of screen
+	if (this->getPosition().y + this->getBounds().height >= window->getSize().y) //Not touching bottom of screen
 	{
 		this->physics_c->stopVelocityY();
 		this->setPosition(this->getPosition().x, window->getSize().y - this->getBounds().height);
 
-		this->jumping = false; //Reset jumping
-
 		this->collision_bottom = true;
 	}
 
-	if (this->getPosition().y < 0.f) //Collision top of screen
+	if (this->getPosition().y <= 0.f) //Collision top of screen
 	{
 		this->physics_c->stopVelocityY();
 		this->setPosition(this->getPosition().x, 0.f);
 
 		this->collision_top = true;
 	}
-	else
-	{
-		this->collision_top = false;
-	}
 
-	if (this->getPosition().x < 0.f) //Collision left of screen
+	if (this->getPosition().x <= 0.f) //Collision left of screen
 	{
 		this->physics_c->stopVelocityX();
 		this->setPosition(0.f, this->getPosition().y);
 
 		this->collision_left = true;
 	}
-	else
-	{
-		this->collision_left = false;
-	}
 
-	if (this->getPosition().x + this->getBounds().width > window->getSize().x) //Collision right of screen
+	if (this->getPosition().x + this->getBounds().width >= window->getSize().x) //Collision right of screen
 	{
 		this->physics_c->stopVelocityX();
 		this->setPosition(window->getSize().x - this->getBounds().width, this->getPosition().y);
 
 		this->collision_right = true;
 	}
-	else
+
+	if (!this->collision_bottom)
 	{
-		this->collision_right = false;
+		this->physics_c->incrementVelocityOuterForce(0.f, GLOBAL_PHYSICS_GRAVITY, dt);
 	}
 }
 
@@ -326,6 +347,8 @@ void Player::updateAnimation(const float& dt)
 		this->animation_c->getAnimation(ANIMATION_JUMP)->start();
 		this->animation_c->getAnimation(ANIMATION_JUMP)->stop(6);
 	}
+	else
+		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
 
 	if (this->collision_bottom)
 	{
@@ -356,6 +379,9 @@ void Player::update(const float & dt, const RenderWindow* window)
 	//Input
 	this->updateInput(dt);
 
+	//Hitbox
+	this->updateHitbox();
+
 	//Collision
 	this->updateCollision(dt, window);
 
@@ -367,4 +393,7 @@ void Player::update(const float & dt, const RenderWindow* window)
 void Player::render(RenderTarget * target)
 {
 	target->draw(*this->getSprite());
+
+	if(this->showHitbox)
+		target->draw(this->hitbox);
 }

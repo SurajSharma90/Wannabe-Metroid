@@ -14,6 +14,10 @@ private:
 	bool sprinting;
 	float sprintMultiplier;
 
+	RectangleShape hitbox;
+	Vector2f hitboxOffset;
+	bool showHitbox;
+
 	bool collision_top;
 	bool collision_bottom;
 	bool collision_left;
@@ -34,6 +38,7 @@ private:
 	void initializeComponents(TextTagHandler* handler);
 	void initializeAnimations();
 	void initializeSprite();
+	void initializeHitbox();
 	void initialize(TextTagHandler* texttaghandler);
 
 	//Cleanup
@@ -56,22 +61,6 @@ public:
 	virtual ~Player();
 
 	//Accessors
-	Vector2f getCenter() 
-	{
-		return Vector2f (
-			this->getSprite()->getPosition().x + this->getBounds().width / 2.f,
-			this->getSprite()->getPosition().y + this->getBounds().height / 2.f
-		);
-	}
-
-	Vector2f getBottomCenter() 
-	{
-		return Vector2f(
-			this->getSprite()->getPosition().x + this->getBounds().width / 2.f,
-			this->getSprite()->getPosition().y + this->getBounds().height
-		);
-	}
-
 	LevelingComponent* getLevelingComponent();
 
 	const Vector2i& getGridPosition() const;
@@ -88,7 +77,53 @@ public:
 		);
 	}
 
+	PhysicsComponent* getPhysicsComponent()
+	{
+		return this->physics_c;
+	}
+
+	inline Vector2f getVelocity() { return this->physics_c->getVelocity(); }
+
+	const bool getShowHitbox() const
+	{
+		return this->showHitbox;
+	}
+
+	const bool getJumping() const
+	{
+		return this->jumping;
+	}
+
 	//Modifiers
+	void setJumping(const bool jumping)
+	{
+		this->jumping = jumping;
+	}
+
+	void setShowHitbox(const bool showHitbox)
+	{
+		this->showHitbox = showHitbox;
+	}
+
+	void setCollisionBottom(const bool collision_bottom)
+	{
+		this->collision_bottom = collision_bottom;
+	}
+
+	void setCollisionTop(const bool collision_top)
+	{
+		this->collision_top = collision_top;
+	}
+
+	void setCollisionRight(const bool collision_right)
+	{
+		this->collision_right = collision_right;
+	}
+
+	void setCollisionLeft(const bool collision_left)
+	{
+		this->collision_left = collision_left;
+	}
 
 	//Component shortcuts
 	void gainExperience(const unsigned& experience);
@@ -97,6 +132,8 @@ public:
 	void updateGridPosition();
 
 	void updateInput(const float& dt);
+
+	void updateHitbox();
 
 	void updateCollision(const float& dt, const RenderWindow* window);
 
