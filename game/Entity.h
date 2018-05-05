@@ -6,7 +6,31 @@ class Entity
 private:
 	Sprite sprite;
 	const Texture* texture;
-	
+	RectangleShape hitbox;
+	Vector2f hitboxOffset;
+
+	bool showHitbox;
+
+	bool collision_top;
+	bool collision_bottom;
+	bool collision_left;
+	bool collision_right;
+
+	//Private functions
+	void initializeHitbox()
+	{
+		this->hitboxOffset.x = 45.f;
+		this->hitboxOffset.y = 30.f;
+
+		this->hitbox.setSize(Vector2f(80.f, this->sprite.getGlobalBounds().height - this->hitboxOffset.y));
+		this->hitbox.setFillColor(Color::Transparent);
+		this->hitbox.setOutlineThickness(2.f);
+		this->hitbox.setOutlineColor(Color::Green);
+		this->hitbox.setPosition(
+			this->sprite.getPosition().x + this->hitboxOffset.x,
+			this->sprite.getPosition().y + this->hitboxOffset.y
+		);
+	}
 
 public:
 	//Constructor / Destructor
@@ -18,6 +42,15 @@ public:
 		this->sprite.setTexture(*this->texture);
 		this->sprite.setTextureRect(textureRect);
 		this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
+
+		this->showHitbox = false;
+
+		this->collision_top = false;
+		this->collision_bottom = false;
+		this->collision_left = false;
+		this->collision_right = false;
+
+		this->initializeHitbox();
 	}
 
 	virtual ~Entity() {}
@@ -42,6 +75,11 @@ public:
 		return &this->sprite;
 	}
 
+	virtual RectangleShape& getHitbox()
+	{
+		return this->hitbox;
+	}
+
 	virtual Vector2f getScale() const
 	{
 		return this->sprite.getScale();
@@ -54,7 +92,7 @@ public:
 
 	virtual Vector2f getPosition() const 
 	{
-		return this->sprite.getPosition();
+		return this->hitbox.getPosition();
 	}
 
 	virtual const float getPositionX() const
@@ -69,17 +107,17 @@ public:
 
 	virtual FloatRect getBounds() const
 	{
-		return this->sprite.getGlobalBounds();
+		return this->hitbox.getGlobalBounds();
 	}
 
 	virtual const float getHeight() const
 	{
-		return this->sprite.getGlobalBounds().height;
+		return this->getBounds().height;
 	}
 
 	virtual const float getWidth() const
 	{
-		return this->sprite.getGlobalBounds().width;
+		return this->getBounds().width;
 	}
 
 	Vector2f getCenter()
@@ -92,7 +130,7 @@ public:
 
 	const float getBottom() const
 	{
-		return this->sprite.getPosition().y + this->getHeight();
+		return this->getPosition().y + this->getHeight();
 	}
 
 	Vector2f getBottomCenter() 
@@ -147,6 +185,34 @@ public:
 		return this->getPosition().x + this->getWidth();
 	}
 
+	const bool& getCollisionTop() const { return this->collision_top; }
+
+	const bool& getCollisionBottom() const { return this->collision_bottom; }
+
+	const bool& getCollisionLeft() const { return this->collision_left; }
+
+	const bool& getCollisionRight() const { return this->collision_right; }
+
+	std::string getCollisionStatus() const
+	{
+		std::string collision_status = "";
+		if (this->getCollisionTop())
+			collision_status += " top";
+		if (this->getCollisionBottom())
+			collision_status += " bottom";
+		if (this->getCollisionLeft())
+			collision_status += " left";
+		if (this->getCollisionRight())
+			collision_status += " right";
+
+		return collision_status;
+	}
+
+	const bool getShowHitbox() const
+	{
+		return this->showHitbox;
+	}
+
 	//Modifiers
 	virtual void setTextureRect(const int& left, const int& top, const int& width, const int& height)
 	{
@@ -165,27 +231,53 @@ public:
 
 	virtual void setPosition(const float& xPos, const float& yPos) 
 	{
-		this->sprite.setPosition(xPos, yPos);
+		this->sprite.setPosition(xPos - this->hitboxOffset.x, yPos - this->hitboxOffset.y);
+		this->hitbox.setPosition(xPos, yPos);
 	}
 
 	virtual void setPositionX(const float& xPos)
 	{
-		this->sprite.setPosition(xPos, this->sprite.getPosition().y);
+		this->sprite.setPosition(xPos - this->hitboxOffset.x, this->sprite.getPosition().y);
+		this->hitbox.setPosition(xPos, this->hitbox.getPosition().y);
 	}
 
 	virtual void setPositionY(const float& yPos)
 	{
-		this->sprite.setPosition(this->sprite.getPosition().x, yPos);
+		this->sprite.setPosition(this->sprite.getPosition().x, yPos - this->hitboxOffset.y);
+		this->hitbox.setPosition(this->hitbox.getPosition().x, yPos);
+	}
+
+	void setCollisionTop(const bool& status) { this->collision_top = status; }
+
+	void setCollisionBottom(const bool& status) { this->collision_bottom = status; }
+
+	void setCollisionLeft(const bool& status) { this->collision_left = status; }
+
+	void setCollisionRight(const bool& status) { this->collision_right = status; }
+
+	void setShowHitbox(const bool showHitbox)
+	{
+		this->showHitbox = showHitbox;
 	}
 
 	//Functions
+	void updateHitbox()
+	{
+		this->hitbox.setPosition(
+			this->sprite.getPosition().x + this->hitboxOffset.x,
+			this->sprite.getPosition().y + this->hitboxOffset.y
+		);
+	}
+
 	virtual void move(const float&x, const float& y)
 	{
 		this->sprite.move(x, y);
+		this->hitbox.setPosition(this->sprite.getPosition() + this->hitboxOffset);
 	}
 	
 	virtual void move(const Vector2f& offset)
 	{
 		this->sprite.move(offset);
+		this->hitbox.setPosition(this->sprite.getPosition() + this->hitboxOffset);
 	}
 };

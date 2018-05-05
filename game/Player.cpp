@@ -9,13 +9,6 @@ void Player::initializeVariables()
 	this->falling = false;
 	this->sprinting = false;
 	this->sprintMultiplier = 1.5f;
-
-	this->showHitbox = false;
-
-	bool collision_top = false;
-	bool collision_bottom = false;
-	bool collision_left = false;
-	bool collision_right = false;
 }
 
 void Player::initializeComponents(TextTagHandler* texttaghandler)
@@ -66,21 +59,6 @@ void Player::initializeSprite()
 	this->setScale(this->ORIGINAL_SCALE_X, this->ORIGINAL_SCALE_Y);
 }
 
-void Player::initializeHitbox()
-{
-	this->hitboxOffset.x = 45.f;
-	this->hitboxOffset.y = 30.f;
-
-	this->hitbox.setSize(Vector2f(80.f, this->getHeight() - this->hitboxOffset.y));
-	this->hitbox.setFillColor(Color::Transparent);
-	this->hitbox.setOutlineThickness(2.f);
-	this->hitbox.setOutlineColor(Color::Green);
-	this->hitbox.setPosition(
-		this->getPosition().x + this->hitboxOffset.x,
-		this->getPosition().y + this->hitboxOffset.y
-	);
-}
-
 void Player::initialize(TextTagHandler* texttaghandler)
 {
 	this->initializeVariables();
@@ -90,8 +68,6 @@ void Player::initialize(TextTagHandler* texttaghandler)
 	this->initializeAnimations();
 
 	this->initializeSprite();
-
-	this->initializeHitbox();
 }
 
 //Cleanup
@@ -137,21 +113,6 @@ LevelingComponent * Player::getLevelingComponent()
 const Vector2i& Player::getGridPosition() const
 {
 	return this->gridPosition;
-}
-
-std::string Player::getCollisionStatus() const
-{
-	std::string collision_status = "";
-	if (collision_top)
-		collision_status += " top";
-	if (collision_bottom)
-		collision_status += " bottom";
-	if (collision_left)
-		collision_status += " left";
-	if (collision_right)
-		collision_status += " right";
-
-	return collision_status;
 }
 
 std::string Player::getMovementStatus() const
@@ -267,22 +228,14 @@ void Player::updateInput(const float & dt)
 	this->move(this->physics_c->getVelocity() * dt);
 }
 
-void Player::updateHitbox()
-{
-	this->hitbox.setPosition(
-		this->getPosition().x + this->hitboxOffset.x,
-		this->getPosition().y + this->hitboxOffset.y
-	);
-}
-
 void Player::updateCollision(const float & dt, const RenderWindow * window)
 {
 	//COLLISION WITH SCREEN TO BE REMOVED!!! =============================== !!!
 
-	this->collision_bottom = false;
-	this->collision_top = false;
-	this->collision_left = false;
-	this->collision_right = false;
+	this->setCollisionBottom(false);
+	this->setCollisionTop(false);
+	this->setCollisionLeft(false);
+	this->setCollisionRight(false);
 
 	//Gravity & Collision with screen
 	if (this->getPosition().y + this->getBounds().height >= window->getSize().y) //Not touching bottom of screen
@@ -290,7 +243,7 @@ void Player::updateCollision(const float & dt, const RenderWindow * window)
 		this->physics_c->stopVelocityY();
 		this->setPosition(this->getPosition().x, window->getSize().y - this->getBounds().height);
 
-		this->collision_bottom = true;
+		this->setCollisionBottom(true);
 	}
 
 	if (this->getPosition().y <= 0.f) //Collision top of screen
@@ -298,7 +251,7 @@ void Player::updateCollision(const float & dt, const RenderWindow * window)
 		this->physics_c->stopVelocityY();
 		this->setPosition(this->getPosition().x, 0.f);
 
-		this->collision_top = true;
+		this->setCollisionTop(true);
 	}
 
 	if (this->getPosition().x <= 0.f) //Collision left of screen
@@ -306,7 +259,7 @@ void Player::updateCollision(const float & dt, const RenderWindow * window)
 		this->physics_c->stopVelocityX();
 		this->setPosition(0.f, this->getPosition().y);
 
-		this->collision_left = true;
+		this->setCollisionLeft(true);
 	}
 
 	if (this->getPosition().x + this->getBounds().width >= window->getSize().x) //Collision right of screen
@@ -314,10 +267,10 @@ void Player::updateCollision(const float & dt, const RenderWindow * window)
 		this->physics_c->stopVelocityX();
 		this->setPosition(window->getSize().x - this->getBounds().width, this->getPosition().y);
 
-		this->collision_right = true;
+		this->setCollisionRight(true);
 	}
 
-	if (!this->collision_bottom)
+	if (!this->getCollisionBottom())
 	{
 		this->physics_c->incrementVelocityOuterForce(0.f, GLOBAL_PHYSICS_GRAVITY, dt);
 	}
@@ -350,21 +303,21 @@ void Player::updateAnimation(const float& dt)
 	else
 		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
 
-	if (this->collision_bottom)
+	if (this->getCollisionBottom())
 	{
 		this->animation_c->getAnimation(ANIMATION_JUMP)->reset();
 	}
-	else if (this->collision_top)
+	else if (this->getCollisionTop())
 	{
 
 	}
 
-	if (this->collision_left && !this->jumping && !this->falling)
+	if (this->getCollisionLeft() && !this->jumping && !this->falling)
 	{
 		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
 		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
 	}
-	else if (this->collision_right && !this->jumping && !this->falling)
+	else if (this->getCollisionRight() && !this->jumping && !this->falling)
 	{
 		this->animation_c->getAnimation(ANIMATION_RUNNING)->reset();
 		this->animation_c->getAnimation(ANIMATION_IDLE)->animate(dt);
@@ -394,6 +347,6 @@ void Player::render(RenderTarget * target)
 {
 	target->draw(*this->getSprite());
 
-	if(this->showHitbox)
-		target->draw(this->hitbox);
+	if(this->getShowHitbox())
+		target->draw(this->getHitbox());
 }

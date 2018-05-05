@@ -14,15 +14,6 @@ private:
 	bool sprinting;
 	float sprintMultiplier;
 
-	RectangleShape hitbox;
-	Vector2f hitboxOffset;
-	bool showHitbox;
-
-	bool collision_top;
-	bool collision_bottom;
-	bool collision_left;
-	bool collision_right;
-
 	//Components
 	InputComponent *input_c;
 	PhysicsComponent *physics_c;
@@ -65,8 +56,6 @@ public:
 
 	const Vector2i& getGridPosition() const;
 
-	std::string getCollisionStatus() const;
-
 	std::string getMovementStatus() const;
 
 	Vector2f getSpeedPercent()
@@ -84,11 +73,6 @@ public:
 
 	inline Vector2f getVelocity() { return this->physics_c->getVelocity(); }
 
-	const bool getShowHitbox() const
-	{
-		return this->showHitbox;
-	}
-
 	const bool getJumping() const
 	{
 		return this->jumping;
@@ -100,31 +84,6 @@ public:
 		this->jumping = jumping;
 	}
 
-	void setShowHitbox(const bool showHitbox)
-	{
-		this->showHitbox = showHitbox;
-	}
-
-	void setCollisionBottom(const bool collision_bottom)
-	{
-		this->collision_bottom = collision_bottom;
-	}
-
-	void setCollisionTop(const bool collision_top)
-	{
-		this->collision_top = collision_top;
-	}
-
-	void setCollisionRight(const bool collision_right)
-	{
-		this->collision_right = collision_right;
-	}
-
-	void setCollisionLeft(const bool collision_left)
-	{
-		this->collision_left = collision_left;
-	}
-
 	//Component shortcuts
 	void gainExperience(const unsigned& experience);
 
@@ -132,8 +91,6 @@ public:
 	void updateGridPosition();
 
 	void updateInput(const float& dt);
-
-	void updateHitbox();
 
 	void updateCollision(const float& dt, const RenderWindow* window);
 
