@@ -84,6 +84,8 @@ public:
 		return this->jumping;
 	}
 
+	const bool& getFalling() const { return this->falling; }
+
 	//Modifiers
 	void setJumping(const bool jumping)
 	{

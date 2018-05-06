@@ -471,12 +471,18 @@ void Game::updatePlayer()
 			if (this->player->getVelocity().x > 0.f)
 			{
 				this->player->setCollisionRight(true);
-				this->player->setPositionX(this->walls[i].getPosition().x - this->player->getWidth() - 1.f);
+				if(this->player->getJumping() || this->player->getFalling())
+					this->player->setPositionX(this->walls[i].getPosition().x - this->player->getWidth() - 1.f);
+				else
+					this->player->setPositionX(this->walls[i].getPosition().x - this->player->getWidth());
 			}
 			else if (this->player->getVelocity().x < 0.f)
 			{
 				this->player->setCollisionLeft(true);
-				this->player->setPositionX(this->walls[i].getPosition().x + this->walls[i].getGlobalBounds().width + 1.f);
+				if (this->player->getJumping() || this->player->getFalling())
+					this->player->setPositionX(this->walls[i].getPosition().x + this->walls[i].getGlobalBounds().width + 1.f);
+				else
+					this->player->setPositionX(this->walls[i].getPosition().x + this->walls[i].getGlobalBounds().width);
 			}
 
 			this->player->getPhysicsComponent()->setVelocityX(0.f);

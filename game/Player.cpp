@@ -237,7 +237,7 @@ void Player::updateInput(const float & dt)
 	}
 
 	//JUMP
-	if (jump_released && !jump_release_done)
+	if (jump_released && !jump_release_done && !this->jumping && !this->falling)
 	{
 		this->jump_release_done = true;
 		physics_c->setVelocityY(-1200.f * this->jumpStrength);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
