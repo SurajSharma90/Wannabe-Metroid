@@ -10,9 +10,16 @@ private:
 	Vector2i gridPosition;
 	bool moving;
 	bool jumping;
+	float jumpStrength;
+	float maxJumpStrength;
+	bool jump_released;
+	bool jump_release_done;
 	bool falling;
 	bool sprinting;
 	float sprintMultiplier;
+
+	//Testing
+
 
 	//Components
 	InputComponent *input_c;
@@ -29,7 +36,6 @@ private:
 	void initializeComponents(TextTagHandler* handler);
 	void initializeAnimations();
 	void initializeSprite();
-	void initializeHitbox();
 	void initialize(TextTagHandler* texttaghandler);
 
 	//Cleanup

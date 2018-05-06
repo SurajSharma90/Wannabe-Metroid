@@ -6,6 +6,10 @@ void Player::initializeVariables()
 {
 	this->moving = false;
 	this->jumping = false;
+	this->jumpStrength = 0.f;
+	this->maxJumpStrength = 1.f;
+	this->jump_released = false;
+	this->jump_release_done = false;
 	this->falling = false;
 	this->sprinting = false;
 	this->sprintMultiplier = 1.5f;
@@ -213,9 +217,31 @@ void Player::updateInput(const float & dt)
 		}
 	}
 
-	if (this->input_c->isKeyPressed(JUMP_KEY) && !this->jumping && !this->falling) // MOVEMENT JUMP
+	if (this->input_c->isKeyPressed(JUMP_KEY) && !this->jumping && !this->falling)
 	{
-		physics_c->setVelocityY(-1200.f);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
+		this->jump_released = false;
+		this->jump_release_done = false;
+		
+		if (this->jumpStrength < this->maxJumpStrength)
+			this->jumpStrength += 13.f * dt;
+
+		if (this->jumpStrength >= this->maxJumpStrength)
+		{
+			jump_released = true;
+			jump_release_done = false;
+		}
+	}
+	else
+	{
+		jump_released = true;
+	}
+
+	//JUMP
+	if (jump_released && !jump_release_done)
+	{
+		this->jump_release_done = true;
+		physics_c->setVelocityY(-1200.f * this->jumpStrength);// TO BE CHANGED!!!!! ======================= !!!!!!!!!
+		this->jumpStrength = 0.f;
 	}
 
 	if (this->input_c->isKeyPressed(SPRINT_KEY)) // TO BE CHANGED!!!!! ====================== !!!!!!!!
